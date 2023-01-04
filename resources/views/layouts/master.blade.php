@@ -6,7 +6,6 @@
 
         @yield('title')
 
-        
                
     </head>
     <body>
