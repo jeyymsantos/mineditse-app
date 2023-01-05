@@ -11,7 +11,7 @@ class SupplierController extends Controller
         return view('suppliers.view', ['suppliers' => $suppliers]);
     }
 
-    public function add(){
+    public function AddView(){
         return view('suppliers.add');
     }
 
