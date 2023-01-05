@@ -18,26 +18,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Admin Authentication
+Route::prefix('admin')->middleware('auth')->group(function () {
+    // Suppliers Route
+    Route::get('/suppliers', [SupplierController::class, 'index']);
+    Route::get('/suppliers/add', [SupplierController::class, 'AddView']);
+    Route::post('/suppliers/add', [SupplierController::class, 'AddSupplier']);
+    Route::get('/suppliers/delete/{id}', [SupplierController::class, 'DeleteSupplier']);
+    Route::get('/suppliers/edit/{id}', [SupplierController::class, 'ShowSupplier']);
+    Route::post('/suppliers/edit/{id}', [SupplierController::class, 'EditSupplier']);
 
+    // Bales Route
+    Route::get('/bales', [BaleController::class, 'index']);
+    Route::get('/bales/add', [BaleController::class, 'AddView']);
+    Route::post('/bales/add', [BaleController::class, 'AddBale']);
+});
+
+// Customer Authentication
+Route::prefix('customer')->middleware('auth')->group(function () {
+    // Customer View
+    Route::get('/', [CustomerController::class, 'index']);
+});
+
+Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-// Suppliers Route
-Route::get('/admin/suppliers', [SupplierController::class, 'index']);
-Route::get('/admin/suppliers/add', [SupplierController::class, 'AddView']);
-Route::post('/admin/suppliers/add', [SupplierController::class, 'AddSupplier']);
-Route::get('/admin/suppliers/delete/{id}', [SupplierController::class, 'DeleteSupplier']);
-Route::get('/admin/suppliers/edit/{id}', [SupplierController::class, 'ShowSupplier']);
-Route::post('/admin/suppliers/edit/{id}', [SupplierController::class, 'EditSupplier']);
 
-// Bales Route
-Route::get('/admin/bales', [BaleController::class, 'index']);
-Route::get('/admin/bales/add', [BaleController::class, 'AddView']);
-Route::post('/admin/bales/add', [BaleController::class, 'AddBale']);
 
-// Customer View
-Route::get('/customer', [CustomerController::class, 'index']);
