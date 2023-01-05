@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BaleController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/dashboard', [HomeController::class, 'index'])->name('dashboard');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 // Suppliers Route
 Route::get('/admin/suppliers', [SupplierController::class, 'index']);
@@ -38,6 +39,5 @@ Route::get('/admin/bales', [BaleController::class, 'index']);
 Route::get('/admin/bales/add', [BaleController::class, 'AddView']);
 Route::post('/admin/bales/add', [BaleController::class, 'AddBale']);
 
-
 // Customer View
-Route::get('/home', [BaleController::class, 'index']);
+Route::get('/customer', [CustomerController::class, 'index']);
