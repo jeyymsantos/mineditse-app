@@ -27,4 +27,7 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 // Suppliers Route
 Route::get('/admin/suppliers', [SupplierController::class, 'index']);
 Route::get('/admin/suppliers/add', [SupplierController::class, 'add']);
-Route::post('/admin/suppliers/add', [SupplierController::class, 'AddCustomer']);
+Route::post('/admin/suppliers/add', [SupplierController::class, 'AddSupplier']);
+Route::get('/admin/suppliers/delete/{id}', [SupplierController::class, 'DeleteSupplier']);
+Route::get('/admin/suppliers/edit/{id}', [SupplierController::class, 'ShowSupplier']);
+Route::post('/admin/suppliers/edit/{id}', [SupplierController::class, 'EditSupplier']);
