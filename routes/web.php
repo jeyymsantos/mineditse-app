@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BaleController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
@@ -23,9 +24,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Auth::routes();
+
 // Admin Authentication
-Route::prefix('admin')->middleware('auth')->group(function () {
+Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Suppliers Route
+    Route::get('/', [AdminController::class, 'index']);
     Route::get('/suppliers', [SupplierController::class, 'index']);
     Route::get('/suppliers/add', [SupplierController::class, 'AddView']);
     Route::post('/suppliers/add', [SupplierController::class, 'AddSupplier']);
@@ -40,12 +44,12 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 });
 
 // Customer Authentication
-Route::prefix('customer')->middleware('auth')->group(function () {
-    // Customer View
+Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
+    // Customers Route
     Route::get('/', [CustomerController::class, 'index']);
 });
 
-Auth::routes();
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 

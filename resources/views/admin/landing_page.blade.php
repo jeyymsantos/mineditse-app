@@ -11,7 +11,7 @@
 @section('content')
     <div class="container">
         
-            <h1>HI CUSTOMER BITCH {{ Auth::user()->name }}</h1>
+            <h1>HI ADMIN BITCH {{ Auth::user()->name }}</h1>
 
     </div>
 @endsection
