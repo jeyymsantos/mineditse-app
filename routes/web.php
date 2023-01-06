@@ -51,6 +51,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Products
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/add', [ProductController::class, 'AddView']);
+    Route::post('/products/add', [ProductController::class, 'AddProduct']);
 });
 
 // Customer Authentication
