@@ -63,4 +63,6 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 
-
+Route::get('/trial', function () {
+    return view('auth.login_trial');
+});
