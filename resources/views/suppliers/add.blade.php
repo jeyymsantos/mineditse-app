@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('title')
     <title> Suppliers </title>
@@ -25,7 +25,7 @@
             {{-- Supplier Name --}}
             <div class="mb-3">
                 <label for="name" class="form-label">Supplier Name</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="Juan Dela Cruz" required>
+                <input type="text" name="name" class="form-control" id="name" placeholder="Uniqlo" required>
             </div>
             
             {{-- Supplier Address --}}

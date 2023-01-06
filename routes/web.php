@@ -19,7 +19,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/', function () {
     return view('welcome');
 });
@@ -41,6 +40,9 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/bales', [BaleController::class, 'index']);
     Route::get('/bales/add', [BaleController::class, 'AddView']);
     Route::post('/bales/add', [BaleController::class, 'AddBale']);
+
+    // Products Route
+    Route::get('/bales', [BaleController::class, 'index']);
 });
 
 // Customer Authentication
@@ -48,7 +50,6 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
     // Customers Route
     Route::get('/', [CustomerController::class, 'index']);
 });
-
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
