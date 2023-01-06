@@ -25,33 +25,38 @@
             {{-- Bale ID --}}
             <div class="mb-3">
                 <label for="id" class="form-label">Bale ID</label>
-                <input type="text" name="id" class="form-control" id="id" placeholder="B01, B02, B03" maxlength="3"
-                    required>
+                <input type="text" name="id" class="form-control" id="id" value="{{ $lastBale == null ? '1' : $lastBale['bale_id']+1 }}" maxlength="3"
+                    disabled>
             </div>
 
-            {{-- Bale Name --}}
-            <div class="mb-3">
-                <label for="name" class="form-label">Bale Name</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="Juan Dela Cruz"
-                    required>
+             {{-- Bale Category --}}
+             <div class="mb-3">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" name="category" required aria-label="Default select example">
+                    @if (count($categories) > 0)
+                        @foreach ($categories as $category)
+                            <option value="{{ $category['category_id'] }}">
+                                {{ $category['category_name'] }}</option>
+                        @endforeach
+                    @else
+                        <option value="" disabled selected> NO CATEGORY FOUND </option>
+                    @endif
+                </select>
             </div>
 
             {{-- Bale Supplier --}}
             <div class="mb-3">
                 <label for="supplier" class="form-label">Supplier</label>
                 <select class="form-select" id="supplier" name="supplier" required aria-label="Default select example">
-
                     @if (count($suppliers) > 0)
                         @foreach ($suppliers as $supplier)
                             <option value="{{ $supplier['supplier_id'] }}">
                                 {{ $supplier['supplier_id'] . ' : ' . $supplier['supplier_name'] }}</option>
                         @endforeach
                     @else
-                        <option value="" disabled selected> NO SUPPLIERS FOUND </option>
+                        <option value="" disabled selected> NO SUPPLIER FOUND </option>
                     @endif
-
                 </select>
-
             </div>
 
             {{-- Bale Address --}}

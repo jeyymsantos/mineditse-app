@@ -24,18 +24,18 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Name</th>
+                    <th scope="col">Category</th>
                     <th scope="col">Supplier</th>
                     <th scope="col">Description</th>
-                    <th scope="col">Order Date</th>
+                    <th scope="col">Bale Date</th>
                     <th scope="col" style="text-align: center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($bales as $bale)
                     <tr>
-                        <th scope="row">{{ $bale->bale_id }}</th>
-                        <td>{{ $bale['bale_name'] }}</td>
+                        <th scope="row">  {{ 'B' . $bale['bale_id'] }} </th>
+                        <td>{{ $bale['category_id'] }}</td>
                         <td>{{ $bale['supplier_id'] }}</td>
                         <td>{{ $bale['bale_description'] == null ? 'N/A' : $bale['bale_description'] }}</td>
                         <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $bale['bale_order_date'])->format('F d, Y') }}</td>

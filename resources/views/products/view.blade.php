@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Bales </title>
+    <title> Suppliers </title>
 @endsection
 
 @section('custom_css')
@@ -10,64 +10,49 @@
 
 @section('content')
     <div class="container">
-        <form action="/admin/bales/add" method="POST">
-            @csrf
-            <div class="row">
-                <div class="col-6">
-                    <h1> Add Bale</h1>
-                </div>
-                <div class="col-6 d-flex justify-content-end">
-                    <a class="mx-1"><button class="btn btn-primary" type="submit">Save</button></a>
-                    <a href="/admin/bales/"><span class="btn btn-warning">Cancel</span></a>
-                </div>
+    
+        <div class="row">
+            <div class="col-6">
+                <h1> Products </h1>
             </div>
-
-            {{-- Bale ID --}}
-            <div class="mb-3">
-                <label for="id" class="form-label">Bale ID</label>
-                <input type="text" name="id" class="form-control" id="id" placeholder="B01, B02, B03" maxlength="3"
-                    required>
+            <div class="col-6 d-flex justify-content-end">
+                <a href="/admin/products/add"><button class="btn btn-primary">Add Product</button></a>
             </div>
+        </div>
 
-            {{-- Bale Name --}}
-            <div class="mb-3">
-                <label for="name" class="form-label">Bale Name</label>
-                <input type="text" name="name" class="form-control" id="name" placeholder="Juan Dela Cruz"
-                    required>
-            </div>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Bale</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last Updated</th>
+                    <th scope="col" style="text-align: center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($products as $product)
+                    <tr>
+                        <th scope="row">{{ 'P' . $product->prod_id }}</th>
+                        <td>{{ $product['prod_name'] }}</td>
+                        <td>{{ $product['bale_id'] }}</td>
+                        <td>{{ $product['prod_unit'] }}</td>
+                        <td>{{ $product['prod_price'] }}</td>
+                        <td>{{ $product['prod_quantity'] }}</td>
+                        <td>{{ $product['prod_status'] }}</td>
+                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product['prod_last_updated'])->format('F d, Y') }}</td>
 
-            {{-- Bale Supplier --}}
-            <div class="mb-3">
-                <label for="supplier" class="form-label">Supplier</label>
-                <select class="form-select" id="supplier" name="supplier" required aria-label="Default select example">
-
-                    @if (count($suppliers) > 0)
-                        @foreach ($suppliers as $supplier)
-                            <option value="{{ $supplier['supplier_id'] }}">
-                                {{ $supplier['supplier_id'] . ' : ' . $supplier['supplier_name'] }}</option>
-                        @endforeach
-                    @else
-                        <option value="" disabled selected> NO SUPPLIERS FOUND </option>
-                    @endif
-
-                </select>
-
-            </div>
-
-            {{-- Bale Address --}}
-            <div class="mb-3">
-                <label for="description" class="form-label">Bale Description</label>
-                <textarea class="form-control" name="description" id="address" rows="3"
-                    placeholder="Something about the bale"></textarea>
-            </div>
-
-            {{-- Bale Order Date --}}
-            <div class="mb-3">
-                <label for="date" class="form-label">Bale Order Date</label>
-                <input class="form-control" name="date" id="date" type="date" required></input>
-            </div>
-
-        </form>
-
+                        <td style="text-align: center">
+                            <a href="/admin/suppliers/edit/{{ $product['prod_id'] }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
+                            <a href="/admin/suppliers/delete/{{ $product['prod_id'] }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection

@@ -36,7 +36,7 @@
             <tbody>
                 @foreach ($suppliers as $supplier)
                     <tr>
-                        <th scope="row">{{ $supplier->supplier_id }}</th>
+                        <th scope="row">{{ 'S' .$supplier->supplier_id }}</th>
                         <td>{{ $supplier['supplier_name'] }}</td>
                         <td>{{ $supplier['supplier_address'] == null ? 'N/A' : $supplier['supplier_address'] }}</td>
                         <td>{{ $supplier['supplier_phone'] }}</td>

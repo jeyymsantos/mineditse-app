@@ -42,6 +42,22 @@
         </div>
     </li>
 
+    <!-- Nav Item - Categories Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFive"
+            aria-expanded="true" aria-controls="collapseFive">
+            <i class="fa-solid fa-fw fa-book-open-reader"></i>
+            <span>Categories</span>
+        </a>
+        <div id="collapseFive" class="collapse" aria-labelledby="collapseFive" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage Categories</h6>
+                <a class="collapse-item" href="/admin/category">View Categories</a>
+                <a class="collapse-item" href="/admin/category/add">Add Category</a>
+            </div>
+        </div>
+    </li>
+
     <!-- Nav Item - Bales Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree"

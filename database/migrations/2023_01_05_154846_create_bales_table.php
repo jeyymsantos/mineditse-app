@@ -14,12 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('bales', function (Blueprint $table) {
-            $table->char('bale_id', 3)->unique()->primary();
-            $table->string('bale_name', 30);
+            $table->increments('bale_id');
+            $table->integer('category_id')->unsigned();
+            $table->integer('supplier_id')->unsigned();
             $table->string('bale_description', 255)->nullable();
             $table->timestamp('bale_order_date')->useCurrent();
-            $table->integer('supplier_id')->unsigned();
             $table->foreign('supplier_id')->references('supplier_id')->on('suppliers');
+            $table->foreign('category_id')->references('category_id')->on('categories');
         });
     }
 
