@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container table-responsive">
     
         <div class="row">
             <div class="col-6">

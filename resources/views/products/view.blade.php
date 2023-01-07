@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container table-responsive">
     
         <div class="row">
             <div class="col-6">
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover ">
             <thead>
                 <tr>
                     <th scope="col">ID</th>

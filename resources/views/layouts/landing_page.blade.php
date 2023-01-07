@@ -50,14 +50,27 @@
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="#about">About</a></li>
                     <li><a class="nav-link scrollto" href="/products">Products</a></li>
-                    <li><a class="nav-link scrollto" href="/register">Register</a></li>
-                    <li><a class="getstarted scrollto" href="/login">Login</a></li>
+
+                    @guest
+                        @if (Route::has('register'))
+                            <li><a class="nav-link scrollto" href="/register">Register</a></li>
+                        @endif
+                        @if (Route::has('login'))
+                            <li><a class="getstarted scrollto" href="/login">Login</a></li>
+                        @endif
+                    @else
+                        <li><a class="getstarted scrollto" href="/login">Profile</a></li>
+                    @endguest
+
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>
             </nav><!-- .navbar -->
 
         </div>
     </header><!-- End Header -->
+
+
+
 
     @yield('content')
 
