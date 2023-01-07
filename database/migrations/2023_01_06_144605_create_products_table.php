@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->id('prod_id');
+            $table->increments('prod_id');
             $table->integer('bale_id')->unsigned();
             $table->string('prod_name', 30);
             $table->string('prod_img_path', 255)->default('/storage/images/product.png');
