@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('staff', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('staff_id');
+            $table->string('staff_address', 255)->nullable();
+            $table->char('staff_phoneNumber', 11)->nullable();
+            $table->timestamp('staff_hired_date')->useCurrent();
         });
     }
 
