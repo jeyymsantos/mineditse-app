@@ -6,7 +6,7 @@
 
 @section('custom_css')
     <link rel="stylesheet" href="{{ asset('css/products.css') }}">
-@endsection
+    @endsection
 
 @section('content')
     <div class="container table-responsive">
@@ -24,6 +24,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Photo</th>
                     <th scope="col">Name</th>
                     <th scope="col">Bale</th>
                     <th scope="col">Unit</th>
@@ -37,16 +38,21 @@
             <tbody>
                 @foreach ($products as $product)
                     <tr>
-                        <th scope="row">{{ 'P' . $product->prod_id }}</th>
-                        <td>{{ $product['prod_name'] }}</td>
-                        <td>{{ $product['bale_id'] }}</td>
-                        <td>{{ $product['prod_unit'] }}</td>
-                        <td>{{ $product['prod_price'] }}</td>
-                        <td>{{ $product['prod_quantity'] }}</td>
-                        <td>{{ $product['prod_status'] }}</td>
-                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product['prod_last_updated'])->format('F d, Y') }}</td>
+                        <th class="align-middle" scope="row">{{ 'P' . $product->prod_id }}</th>
+                        <td class="align-middle">
+                            <img src="{{ asset('img/Logo.png') }}" width="100px" alt="">
+                            {{ $product['prod_img_path'] }}
+                            <img src="{{ $product['prod_img_path'] }}" width="100px" alt="">
+                        </td>
+                        <td class="align-middle">{{ $product['prod_name'] }}</td>
+                        <td class="align-middle">{{ $product['bale_id'] }}</td>
+                        <td class="align-middle">{{ $product['prod_unit'] }}</td>
+                        <td class="align-middle">{{ $product['prod_price'] }}</td>
+                        <td class="align-middle">{{ $product['prod_quantity'] }}</td>
+                        <td class="align-middle">{{ $product['prod_status'] }}</td>
+                        <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product['prod_last_updated'])->format('F d, Y') }}</td>
 
-                        <td style="text-align: center">
+                        <td class="align-middle" style="text-align: center">
                             <a href="/admin/suppliers/edit/{{ $product['prod_id'] }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
                             <a href="/admin/suppliers/delete/{{ $product['prod_id'] }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>

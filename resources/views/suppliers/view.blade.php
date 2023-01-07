@@ -36,15 +36,15 @@
             <tbody>
                 @foreach ($suppliers as $supplier)
                     <tr>
-                        <th scope="row">{{ 'S' .$supplier->supplier_id }}</th>
-                        <td>{{ $supplier['supplier_name'] }}</td>
-                        <td>{{ $supplier['supplier_address'] == null ? 'N/A' : $supplier['supplier_address'] }}</td>
-                        <td>{{ $supplier['supplier_phone'] }}</td>
-                        <td>{{ $supplier['supplier_email'] == null ? 'N/A' : $supplier['supplier_email'] }}</td>
-                        <td>{{ $supplier['supplier_other_details'] == null ? 'N/A' : $supplier['supplier_other_details'] }}</td>
-                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $supplier['supplier_registered_date'])->format('F d, Y') }}</td>
+                        <th class="align-middle" scope="row">{{ 'S' .$supplier->supplier_id }}</th>
+                        <td class="align-middle">{{ $supplier['supplier_name'] }}</td>
+                        <td class="align-middle">{{ $supplier['supplier_address'] == null ? 'N/A' : $supplier['supplier_address'] }}</td>
+                        <td class="align-middle">{{ $supplier['supplier_phone'] }}</td>
+                        <td class="align-middle">{{ $supplier['supplier_email'] == null ? 'N/A' : $supplier['supplier_email'] }}</td>
+                        <td class="align-middle">{{ $supplier['supplier_other_details'] == null ? 'N/A' : $supplier['supplier_other_details'] }}</td>
+                        <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $supplier['supplier_registered_date'])->format('F d, Y') }}</td>
 
-                        <td style="text-align: center">
+                        <td class="align-middle" style="text-align: center">
                             <a href="/admin/suppliers/edit/{{ $supplier['supplier_id'] }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
                             <a href="/admin/suppliers/delete/{{ $supplier['supplier_id'] }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>

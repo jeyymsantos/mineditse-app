@@ -34,13 +34,13 @@
             <tbody>
                 @foreach ($bales as $bale)
                     <tr>
-                        <th scope="row">  {{ 'B' . $bale['bale_id'] }} </th>
-                        <td>{{ $bale['category_id'] }}</td>
-                        <td>{{ $bale['supplier_id'] }}</td>
-                        <td>{{ $bale['bale_description'] == null ? 'N/A' : $bale['bale_description'] }}</td>
-                        <td>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $bale['bale_order_date'])->format('F d, Y') }}</td>
+                        <th class="align-middle" scope="row">  {{ 'B' . $bale['bale_id'] }} </th>
+                        <td class="align-middle">{{ $bale['category_id'] }}</td>
+                        <td class="align-middle">{{ $bale['supplier_id'] }}</td>
+                        <td class="align-middle">{{ $bale['bale_description'] == null ? 'N/A' : $bale['bale_description'] }}</td>
+                        <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $bale['bale_order_date'])->format('F d, Y') }}</td>
 
-                        <td style="text-align: center">
+                        <td class="align-middle" style="text-align: center">
                             <a href="/admin/suppliers/edit/{{ $bale['supplier_id'] }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
                             <a href="/admin/suppliers/delete/{{ $bale['supplier_id'] }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>

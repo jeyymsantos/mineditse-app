@@ -33,12 +33,12 @@
             <tbody>
                 @foreach ($categories as $category)
                     <tr>
-                        <th scope="row">{{ 'C' .$category['category_id'] }}</th>
-                        <td>{{ $category['category_name'] }}</td>
-                        <td>{{ $category['category_description'] == null ? 'N/A' : $category['category_description'] }}</td>
-                        <td>{{ $category['category_other_details'] == null ? 'N/A' : $category['category_description'] }}</td>
+                        <th  class="align-middle"scope="row">{{ 'C' .$category['category_id'] }}</th>
+                        <td class="align-middle">{{ $category['category_name'] }}</td>
+                        <td class="align-middle">{{ $category['category_description'] == null ? 'N/A' : $category['category_description'] }}</td>
+                        <td class="align-middle">{{ $category['category_other_details'] == null ? 'N/A' : $category['category_description'] }}</td>
                         
-                        <td style="text-align: center">
+                        <td class="align-middle" style="text-align: center">
                             <a href="/admin/category/edit/{{ $category['supplier_id'] }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
                             <a href="/admin/category/delete/{{ $category['supplier_id'] }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>
