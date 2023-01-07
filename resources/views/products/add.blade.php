@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container">
-        <form action="/admin/products/add" method="POST">
+        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-6">
@@ -43,7 +43,13 @@
                 </select>
             </div>
 
-            {{-- Category Description --}}
+            {{-- Product Image --}}
+            <div class="mb-3">
+                <label for="formFile" class="form-label">Product Image</label>
+                <input class="form-control" name="photo" type="file" accept="image/*" id="formFile">
+            </div>
+
+            {{-- Product Description --}}
             <div class="mb-3">
                 <label for="description" class="form-label">Product Description</label>
                 <textarea class="form-control" name="description" id="description" rows="3"

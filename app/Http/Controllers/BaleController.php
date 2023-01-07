@@ -12,7 +12,12 @@ class BaleController extends Controller
 {
     public function index()
     {
-        $bales = Bale::all();
+        // $bales = Bale::all();
+        $bales = DB::table('bales')
+        ->select('bale_id', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
+        ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+        ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+        ->get();
         return view('bales.view', ['bales' => $bales]);
     }
 
@@ -43,5 +48,15 @@ class BaleController extends Controller
         $bale->save();
 
         return redirect('admin/bales');
+    }
+
+    public function innerJoin(){
+        $result = DB::table('bales')
+        ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+        ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+        ->select('bale_id', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
+        ->get();
+
+        return $result;
     }
 }

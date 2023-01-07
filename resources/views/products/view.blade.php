@@ -40,12 +40,10 @@
                     <tr>
                         <th class="align-middle" scope="row">{{ 'P' . $product->prod_id }}</th>
                         <td class="align-middle">
-                            <img src="{{ asset('img/Logo.png') }}" width="100px" alt="">
-                            {{ $product['prod_img_path'] }}
-                            <img src="{{ $product['prod_img_path'] }}" width="100px" alt="">
+                            <img src="{{ asset($product['prod_img_path']) }}" width="100px" alt="">
                         </td>
                         <td class="align-middle">{{ $product['prod_name'] }}</td>
-                        <td class="align-middle">{{ $product['bale_id'] }}</td>
+                        <td class="align-middle">B{{ $product['bale_id'] }}</td>
                         <td class="align-middle">{{ $product['prod_unit'] }}</td>
                         <td class="align-middle">{{ $product['prod_price'] }}</td>
                         <td class="align-middle">{{ $product['prod_quantity'] }}</td>

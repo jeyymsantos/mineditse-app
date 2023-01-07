@@ -31,6 +31,18 @@ class ProductController extends Controller
         $product->prod_quantity = $req->quantity;
         $product->prod_status = $req->status;
         $product->prod_other_details = $req->other;
+
+        if($req->hasFile('photo')){
+            $destination_path = 'public/images/products';
+            $image = $req->file('photo');
+            $image_name = $req->name.'_'.$image->getClientOriginalName();
+            
+            $req->file('photo')->storeAs($destination_path, $image_name);
+            $product->prod_img_path = $destination_path."/".$image_name;
+        }else {
+            $product->prod_img_path = '/storage/images/product.png';
+        }
+
         $product->save();
 
         return redirect('/admin/products');

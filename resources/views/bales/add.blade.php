@@ -25,7 +25,7 @@
             {{-- Bale ID --}}
             <div class="mb-3">
                 <label for="id" class="form-label">Bale ID</label>
-                <input type="text" name="id" class="form-control" id="id" value="{{ $lastBale == null ? '1' : $lastBale['bale_id']+1 }}" maxlength="3"
+                <input type="text" name="id" class="form-control" id="id" value="{{ $lastBale == null ? '0' : $lastBale['bale_id']+1 }}" maxlength="3"
                     disabled>
             </div>
 
