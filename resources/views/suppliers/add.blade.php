@@ -40,12 +40,6 @@
                 <input class="form-control" name="phone" id="phone" type="text" placeholder="09123456789" maxLength="11" required></input>
             </div>
 
-            {{-- Supplier Email --}}
-            <div class="mb-3">
-                <label for="email" class="form-label">Supplier Email</label>
-                <input class="form-control" name="email" id="email" type="email" placeholder="sample@gmail.com"></input>
-            </div>
-
             {{-- Supplier Other Details --}}
             <div class="mb-3">
                 <label for="remarks" class="form-label">Supplier Other Details</label>

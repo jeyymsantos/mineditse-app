@@ -29,8 +29,6 @@
                     <th scope="col">Bale</th>
                     <th scope="col">Unit</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Status</th>
                     <th scope="col">Last Updated</th>
                     <th scope="col" style="text-align: center">Actions</th>
                 </tr>
@@ -45,9 +43,7 @@
                         <td class="align-middle">{{ $product['prod_name'] }}</td>
                         <td class="align-middle">B{{ $product['bale_id'] }}</td>
                         <td class="align-middle">{{ $product['prod_unit'] }}</td>
-                        <td class="align-middle">{{ $product['prod_price'] }}</td>
-                        <td class="align-middle">{{ $product['prod_quantity'] }}</td>
-                        <td class="align-middle">{{ $product['prod_status'] }}</td>
+                        <td class="align-middle">₱{{ number_format($product['prod_price'], 2) }}</td>
                         <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product['prod_last_updated'])->format('F d, Y') }}</td>
 
                         <td class="align-middle" style="text-align: center">

@@ -59,7 +59,19 @@
                 </select>
             </div>
 
-            {{-- Bale Address --}}
+            {{-- Bale Price --}}
+            <div class="mb-3">
+                <label for="price" class="form-label">Bale Price</label>
+                <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##" required>
+            </div>
+
+            {{-- Bale Quantity --}}
+            <div class="mb-3">
+                <label for="quantity" class="form-label">Bale Quantity</label>
+                <input type="number" name="quantity" class="form-control" id="quantity" placeholder="#" required>
+            </div>
+
+            {{-- Bale Description --}}
             <div class="mb-3">
                 <label for="description" class="form-label">Bale Description</label>
                 <textarea class="form-control" name="description" id="address" rows="3"

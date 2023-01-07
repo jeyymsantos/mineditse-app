@@ -27,7 +27,6 @@
                     <th scope="col">Name</th>
                     <th scope="col">Address</th>
                     <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
                     <th scope="col">Remarks</th>
                     <th scope="col">Registered Date</th>
                     <th scope="col" style="text-align: center">Actions</th>
@@ -40,7 +39,6 @@
                         <td class="align-middle">{{ $supplier['supplier_name'] }}</td>
                         <td class="align-middle">{{ $supplier['supplier_address'] == null ? 'N/A' : $supplier['supplier_address'] }}</td>
                         <td class="align-middle">{{ $supplier['supplier_phone'] }}</td>
-                        <td class="align-middle">{{ $supplier['supplier_email'] == null ? 'N/A' : $supplier['supplier_email'] }}</td>
                         <td class="align-middle">{{ $supplier['supplier_other_details'] == null ? 'N/A' : $supplier['supplier_other_details'] }}</td>
                         <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $supplier['supplier_registered_date'])->format('F d, Y') }}</td>
 

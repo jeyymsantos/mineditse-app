@@ -56,31 +56,19 @@
                     placeholder="Some description about the category"></textarea>
             </div>
 
+            {{-- Product Unit --}}
+            <div class="mb-3">
+                <label for="unit" class="form-label">Product Unit</label>
+                <select class="form-select" id="unit" name="unit" required aria-label="Default select example">     
+                        <option value="pc" selected> pc </option>
+                        <option value="pc"> box </option>
+                </select>
+            </div>
+
             {{-- Product Price --}}
             <div class="mb-3">
                 <label for="price" class="form-label">Product Price</label>
                 <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##" required>
-            </div>
-
-            {{-- Product Quantity --}}
-            <div class="mb-3">
-                <label for="quantity" class="form-label">Product Quantity</label>
-                <input type="number" name="quantity" class="form-control" id="quantity" placeholder="#" required>
-            </div>
-
-            {{-- Product Unit --}}
-            <div class="mb-3">
-                <label for="unit" class="form-label">Product Unit</label>
-                <input type="text" name="unit" class="form-control" id="unit" placeholder="pc, box, etc" required>
-            </div>
-
-            {{-- Product Status --}}
-            <div class="mb-3">
-                <label for="status" class="form-label">Product Status</label>
-                <select class="form-select" id="status" name="status" required aria-label="Default select example">
-                    <option value="IN-STOCK" selected> IN-STOCK </option>
-                    <option value="OUT-OF-STOCK"> OUT-OF-STOCK </option>
-                </select>
             </div>
 
             {{-- Product Other Details --}}

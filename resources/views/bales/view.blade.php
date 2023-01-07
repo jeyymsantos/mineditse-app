@@ -20,12 +20,14 @@
             </div>
         </div>
 
-        <table class="table table-striped table-hover " >
+        <table class="table table-striped table-hover" >
             <thead>
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Category</th>
                     <th scope="col">Supplier</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
                     <th scope="col">Description</th>
                     <th scope="col">Bale Date</th>
                     <th scope="col" style="text-align: center">Actions</th>
@@ -37,6 +39,8 @@
                         <th class="align-middle" scope="row">  {{ 'B' . $bale->bale_id }} </th>
                         <td class="align-middle">{{ $bale->category_name }}</td>
                         <td class="align-middle">{{ $bale->supplier_name }}</td>
+                        <td class="align-middle">₱{{ number_format($bale->bale_price, 2) }}</td>
+                        <td class="align-middle">{{ $bale->bale_quantity }}</td>
                         <td class="align-middle">{{ $bale->bale_description == null ? 'N/A' : $bale->bale_description }}</td>
                         <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $bale->bale_order_date)->format('F d, Y') }}</td>
 

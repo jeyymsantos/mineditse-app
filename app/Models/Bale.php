@@ -13,6 +13,8 @@ class Bale extends Model
     protected $fillable = [
         'bale_id',
         'supplier_id',
-        'category_id'
+        'category_id',
+        'bale_price',
+        'bale_quantity'
     ];
 }

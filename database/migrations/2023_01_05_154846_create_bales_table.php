@@ -17,6 +17,8 @@ return new class extends Migration
             $table->increments('bale_id');
             $table->integer('category_id')->unsigned();
             $table->integer('supplier_id')->unsigned();
+            $table->unsignedInteger('bale_quantity');
+            $table->decimal('bale_price', 10, 2);
             $table->string('bale_description', 255)->nullable();
             $table->timestamp('bale_order_date')->useCurrent();
             $table->foreign('supplier_id')->references('supplier_id')->on('suppliers');

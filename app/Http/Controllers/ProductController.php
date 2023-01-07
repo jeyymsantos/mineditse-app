@@ -30,11 +30,8 @@ class ProductController extends Controller
         $product = new Product();
         $product->prod_name = $req->name;
         $product->bale_id = $req->bale;
-        $product->prod_description = $req->description;
         $product->prod_price = $req->price;
         $product->prod_unit = $req->unit;
-        $product->prod_quantity = $req->quantity;
-        $product->prod_status = $req->status;
         $product->prod_other_details = $req->other;
 
         if($req->hasFile('photo')){

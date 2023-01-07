@@ -14,8 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->id('cust_id');
+            $table->string('cust_street', 100)->nullable();
+            $table->string('cust_barangay', 100)->nullable();
+            $table->string('cust_city', 100)->nullable();
+            $table->string('cust_province', 100)->nullable();
+            $table->string('cust_type', 10)->default('NEW');
+            $table->timestamp('cust_registered_date')->useCurrent();
         });
     }
 

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('supplier_name', 30);
             $table->string('supplier_address', 100)->nullable();
             $table->char('supplier_phone', 11);
-            $table->string('supplier_email', 50)->nullable();
             $table->string('supplier_other_details', 255)->nullable();
             $table->timestamp('supplier_registered_date')->useCurrent();
         });

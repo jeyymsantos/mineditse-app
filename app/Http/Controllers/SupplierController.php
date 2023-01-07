@@ -19,7 +19,6 @@ class SupplierController extends Controller
         $supplier = new Supplier();
         $supplier->supplier_name = $req->name;
         $supplier->supplier_address = $req->address;
-        $supplier->supplier_email = $req->email;
         $supplier->supplier_phone = $req->phone;
         $supplier->supplier_other_details = $req->remarks;
         $supplier->supplier_registered_date = $req->date;
