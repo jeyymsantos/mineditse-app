@@ -34,11 +34,11 @@
                 <select class="form-select" id="bale" name="bale" required aria-label="Default select example">
                     @if (count($bales) > 0)
                         @foreach ($bales as $bale)
-                            <option value="{{ $bale['bale_id'] }}">
-                                {{ 'B' . $bale['bale_id'] }}</option>
+                            <option value="{{ $bale->bale_id }}">
+                                {{ 'B' . $bale->bale_id . ' (' . $bale->category_name.')'}}</option>
                         @endforeach
                     @else
-                        <option value="" disabled selected> NO CATEGORY FOUND </option>
+                        <option value="" disabled selected> NO BALE FOUND </option>
                     @endif
                 </select>
             </div>

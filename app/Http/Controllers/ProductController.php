@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bale;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,11 @@ class ProductController extends Controller
 
     public function AddView()
     {
-        $bales = Bale::all();
+        $bales = DB::table('bales')
+        ->select('bale_id', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
+        ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+        ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+        ->get();
         return view('products.add', [
             'bales' => $bales
         ]);
@@ -38,9 +43,9 @@ class ProductController extends Controller
             $image_name = $req->name.'_'.$image->getClientOriginalName();
             
             $req->file('photo')->storeAs($destination_path, $image_name);
-            $product->prod_img_path = $destination_path."/".$image_name;
+            $product->prod_img_path = 'storage/images/products/'.$image_name;
         }else {
-            $product->prod_img_path = '/storage/images/product.png';
+            $product->prod_img_path = 'storage/images/product.png';
         }
 
         $product->save();
