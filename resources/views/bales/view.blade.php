@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Bales </title>
+    <title> View Bales </title>
 @endsection
 
 @section('custom_css')
