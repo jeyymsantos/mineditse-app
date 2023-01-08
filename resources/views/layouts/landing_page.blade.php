@@ -48,7 +48,7 @@
                 <ul>
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="#about">About</a></li>
-                    <li><a class="nav-link scrollto" href="/products">Products</a></li>
+                    <li><a class="nav-link scrollto" href="#portfolio">Products</a></li>
 
                     @guest
                         @if (Route::has('register'))
@@ -67,9 +67,6 @@
 
         </div>
     </header><!-- End Header -->
-
-
-
 
     @yield('content')
 

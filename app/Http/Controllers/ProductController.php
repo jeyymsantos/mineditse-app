@@ -10,7 +10,14 @@ use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     public function index(){
-        $products = Product::all();
+        
+        $products = DB::table('products')
+        ->select('*', 'categories.category_id')
+        ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
+        ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+        ->orderBy('prod_id')
+        ->get();
+
         return view('products.view', ['products' => $products]);
     }
 

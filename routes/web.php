@@ -58,11 +58,9 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
     // Customers Route
     Route::get('/', [CustomerController::class, 'index']);
+    Route::get('/trial', function () {
+        return view('customers.trial');
+    });
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-
-
-Route::get('/trial', function () {
-    return view('auth.login_trial');
-});

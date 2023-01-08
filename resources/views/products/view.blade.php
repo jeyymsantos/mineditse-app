@@ -38,17 +38,17 @@
                     <tr>
                         <th class="align-middle" scope="row">{{ 'P' . $product->prod_id }}</th>
                         <td class="align-middle">
-                            <img src="{{ asset($product['prod_img_path']) }}" width="100px" alt="">
+                            <img src="{{ asset($product->prod_img_path) }}" width="100px" alt="">
                         </td>
-                        <td class="align-middle">{{ $product['prod_name'] }}</td>
-                        <td class="align-middle">B{{ $product['bale_id'] }}</td>
-                        <td class="align-middle">{{ $product['prod_unit'] }}</td>
-                        <td class="align-middle">₱{{ number_format($product['prod_price'], 2) }}</td>
-                        <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product['prod_last_updated'])->format('F d, Y') }}</td>
+                        <td class="align-middle">{{ $product->prod_name }}</td>
+                        <td class="align-middle">B{{ $product->bale_id }}</td>
+                        <td class="align-middle">{{ $product->prod_unit }}</td>
+                        <td class="align-middle">₱{{ number_format($product->prod_price, 2) }}</td>
+                        <td class="align-middle">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product->prod_last_updated)->format('F d, Y') }}</td>
 
                         <td class="align-middle" style="text-align: center">
-                            <a href="/admin/suppliers/edit/{{ $product['prod_id'] }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
-                            <a href="/admin/suppliers/delete/{{ $product['prod_id'] }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
+                            <a href="/admin/suppliers/edit/{{ $product->prod_id }}"><button class="btn btn-warning"><i class="bi-pencil"></i></button></a>
+                            <a href="/admin/suppliers/delete/{{ $product->prod_id }}"><button class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>
                     </tr>
                 @endforeach
