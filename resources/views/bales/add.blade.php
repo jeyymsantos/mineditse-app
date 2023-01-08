@@ -51,7 +51,7 @@
                     @if (count($suppliers) > 0)
                         @foreach ($suppliers as $supplier)
                             <option value="{{ $supplier['supplier_id'] }}">
-                                {{ $supplier['supplier_id'] . ' : ' . $supplier['supplier_name'] }}</option>
+                                {{ $supplier['supplier_name'] }}</option>
                         @endforeach
                     @else
                         <option value="" disabled selected> NO SUPPLIER FOUND </option>

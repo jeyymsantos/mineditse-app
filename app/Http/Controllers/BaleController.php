@@ -24,9 +24,8 @@ class BaleController extends Controller
     public function AddView()
     {
         $lastBale = Bale::orderBy('bale_id', 'desc')->first();
-        $suppliers = Supplier::all();
-        $categories = Category::all();
-
+        $suppliers = Supplier::orderBy('supplier_name')->get();
+        $categories = Category::orderBy('category_name')->get();
         $bales = Bale::all();
 
         return view('bales.add', [

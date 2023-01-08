@@ -10,9 +10,14 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customer = new Customer();
-        $customer->cust_id = Auth::user()->id;
-        $customer->save();
+
+        $find = Customer::where('cust_id', '=', Auth::user()->id)->first();
+        if($find == null){
+            $customer = new Customer();
+            $customer->cust_id = Auth::user()->id;
+            $customer->save();
+        }
+
         return view('customers.landing_page');
     }
 }

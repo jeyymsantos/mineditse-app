@@ -13,8 +13,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
     <!-- Favicons -->
-    <link href="{{ asset('img/logo.png') }}" rel="icon">
-    <link href="{{ asset('landing/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <link rel="shortcut icon" href="{{ asset('img/Logo.png') }}" type="image/x-icon">
 
     <!-- Google Fonts -->
     <link
