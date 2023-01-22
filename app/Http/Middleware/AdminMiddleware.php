@@ -22,6 +22,8 @@ class AdminMiddleware
             // Checks Role if Admin or Not
             if(Auth::user()->role == 'admin'){
                 return $next($request);
+            }else if(Auth::user()->role == 'staff') {
+                return redirect('/staff')->with('message', 'Access Denied as your are not an Admin!');
             }else{
                 return redirect('/customer')->with('message', 'Access Denied as your are not an Admin!');
             }

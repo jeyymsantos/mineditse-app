@@ -7,6 +7,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,12 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
     Route::get('/trial', function () {
         return view('customers.trial');
     });
+});
+
+// Staff Authentication
+Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function () {
+    // Customers Route
+    Route::get('/', [StaffController::class, 'index']);
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
