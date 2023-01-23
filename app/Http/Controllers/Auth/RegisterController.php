@@ -3,17 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
-use App\Providers\RouteServiceProvider;
-use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
-=======
 use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
->>>>>>> 118cfe519665c6df7e4deb7256a8e9abbaca4b66
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -71,11 +65,7 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-<<<<<<< HEAD
-    {
-=======
     {       
->>>>>>> 118cfe519665c6df7e4deb7256a8e9abbaca4b66
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
