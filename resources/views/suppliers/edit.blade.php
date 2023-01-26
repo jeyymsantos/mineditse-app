@@ -17,7 +17,7 @@
                     <h1> Edit  Supplier</h1>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
-                    <a class="mx-1"><button class="btn btn-primary" type="submit">Save</button></a>
+                    <a class="mx-1"><button class="btn btn-primary" type="submit">Update</button></a>
                     <a href="/admin/suppliers/"><span class="btn btn-warning">Cancel</span></a>
                 </div>
             </div>
