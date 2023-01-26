@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Bale;
 use App\Models\Category;
 use App\Models\Supplier;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -48,7 +49,7 @@ class BaleController extends Controller
         $bale->bale_order_date = $req->date;
         $bale->save();
 
-        return redirect('admin/bales');
+        return redirect('admin/bales')->with('successfull', 'Bale '. $bale->bale_id . ' has been successfully added!');
     }
 
     public function innerJoin(){
@@ -59,5 +60,49 @@ class BaleController extends Controller
         ->get();
 
         return $result;
+    }
+
+    public function DeleteBale($id)
+    {
+        $bale = Bale::find($id);
+
+        try {
+            $bale->delete();
+            return redirect('admin/bales')
+                ->with('successfull', 'Bale ' . $bale['bale_id'] . ' has been successfully deleted!');
+        } catch (Exception $ex) {
+            return redirect('admin/bales')
+                ->with('error_title', 'Cannot Delete Bale ' . $bale['bale_id'])
+                ->with('error_msg', 'Bale cannot be deleted. There are connected data on this value.');
+        }
+    }
+
+    public function ShowBale($id)
+    {
+        $bale = Bale::find($id);
+        $suppliers = Supplier::orderBy('supplier_name')->get();
+        $categories = Category::orderBy('category_name')->get();
+
+        return view('bales.edit', [
+            'suppliers' => $suppliers,
+            'categories' => $categories,
+            'bale' => $bale
+        ]);
+    }
+
+    public function EditBale(Request $req, $id)
+    {
+        $bale = Bale::find($id);
+        $bale->category_id =            $req->category;
+        $bale->supplier_id =            $req->supplier;
+        $bale->bale_price =             $req->price;
+        $bale->bale_quantity =          $req->quantity;
+        $bale->bale_description =       $req->description;
+        $bale->bale_order_date =        $req->date;
+        $bale->save();
+
+        // return redirect('admin/suppliers');
+        return redirect('admin/bales')
+            ->with('successfull', 'Bale ' . $bale['bale_id'] . ' has been successfully edited!');
     }
 }

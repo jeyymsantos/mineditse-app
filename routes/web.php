@@ -43,6 +43,9 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/bales', [BaleController::class, 'index']);
     Route::get('/bales/add', [BaleController::class, 'AddView']);
     Route::post('/bales/add', [BaleController::class, 'AddBale']);
+    Route::get('/bales/delete/{id}', [BaleController::class, 'DeleteBale']);
+    Route::get('/bales/edit/{id}', [BaleController::class, 'ShowBale']);
+    Route::post('/bales/edit/{id}', [BaleController::class, 'EditBale']);
 
     // Category Route
     Route::get('/category', [CategoryController::class, 'index']);
