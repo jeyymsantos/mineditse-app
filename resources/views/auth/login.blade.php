@@ -53,7 +53,7 @@
                             <div class="card mb-3">
                                 <div class="card-body">
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">ANOTHER UPDATE KIKI KA</h5>
+                                        <h5 class="card-title text-center pb-0 fs-4">Sign in to Mine Ditse</h5>
                                         <p class="text-center small">Enter your username & password to login</p>
                                     </div>
 

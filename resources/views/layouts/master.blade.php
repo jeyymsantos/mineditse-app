@@ -46,6 +46,7 @@
     </div>
 
     @include('admin.components.footer')
+    
 </body>
 
 </html>

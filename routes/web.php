@@ -43,16 +43,23 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/bales', [BaleController::class, 'index']);
     Route::get('/bales/add', [BaleController::class, 'AddView']);
     Route::post('/bales/add', [BaleController::class, 'AddBale']);
+    Route::get('/bales/delete/{id}', [BaleController::class, 'DeleteBale']);
+    Route::get('/bales/edit/{id}', [BaleController::class, 'ShowBale']);
+    Route::post('/bales/edit/{id}', [BaleController::class, 'EditBale']);
 
     // Category Route
     Route::get('/category', [CategoryController::class, 'index']);
     Route::get('/category/add', [CategoryController::class, 'AddView']);
     Route::post('/category/add', [CategoryController::class, 'AddCategory']);
+    Route::get('/category/edit/{id}', [CategoryController::class, 'ShowCategory']);
+    Route::post('/category/edit/{id}', [CategoryController::class, 'EditCategory']);
+    Route::get('/category/delete/{id}', [CategoryController::class, 'DeleteCategory']);
 
     // Products
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/add', [ProductController::class, 'AddView']);
     Route::post('/products/add', [ProductController::class, 'AddProduct']);
+    Route::get('/generate-barcode', [ProductController::class, 'ViewBarcode'])->name('generate.barcode');
 });
 
 // Customer Authentication
