@@ -11,6 +11,12 @@ class ProductController extends Controller
 {
     public function index()
     {
+        $products = DB::table('products')
+            ->select('*', 'categories.category_id')
+            ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
+            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->orderBy('prod_id')
+            ->get();
 
         $products = DB::table('products')
             ->select('*', 'categories.category_id')
@@ -32,7 +38,6 @@ class ProductController extends Controller
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
             ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
             ->get();
-
         return view('products.add', [
             'bales' => $bales,
             'unique' => $this->unique_code(9),
@@ -83,4 +88,5 @@ class ProductController extends Controller
     {
         return substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $limit);
     }
+
 }
