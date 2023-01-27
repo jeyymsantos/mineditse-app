@@ -59,6 +59,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/add', [ProductController::class, 'AddView']);
     Route::post('/products/add', [ProductController::class, 'AddProduct']);
+    Route::get('/generate-barcode', [ProductController::class, 'ViewBarcode'])->name('generate.barcode');
 });
 
 // Customer Authentication
