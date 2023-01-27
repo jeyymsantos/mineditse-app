@@ -40,7 +40,6 @@ class ProductController extends Controller
             ->get();
         return view('products.add', [
             'bales' => $bales,
-            'unique' => $this->unique_code(9),
         ]);
     }
 
