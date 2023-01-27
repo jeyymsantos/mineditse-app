@@ -14,7 +14,9 @@ class Product extends Model
         'prod_name',
         'prod_qr_code',
         'prod_img_path',
-        'prod_unit',    
+        'prod_unit', 
+        'prod_deleted', 
+        'prod_status',    
         'prod_price',
         'prod_status'
     ];

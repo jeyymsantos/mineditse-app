@@ -58,7 +58,7 @@
                     <th scope="col">Bale</th>
                     <th scope="col">Unit</th>
                     <th scope="col">Price</th>
-                    <th scope="col">Last Updated</th>
+                    <th scope="col">Status</th>
                     <th scope="col" style="text-align: center">Actions</th>
                 </tr>
             </thead>
@@ -79,7 +79,14 @@
                         <td class="align-middle">{{ $product->prod_unit }}</td>
                         <td class="align-middle">₱{{ number_format($product->prod_price, 2) }}</td>
                         <td class="align-middle">
-                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $product->prod_last_updated)->format('F d, Y') }}
+
+                            @if ($product->prod_status == 'Pending')
+                                <span class="bg-secondary text-light p-2 px-2 rounded"> Pending </span>
+                            @elseif ($product->prod_status == 'Available')
+                                <span class="bg-success text-light p-2 rounded"> Available </span>
+                            @else
+                            <span class="bg-primary text-light p-2 px-4 rounded"> Sold </span>
+                            @endif
                         </td>
 
                         <td class="align-middle" style="text-align: center">
