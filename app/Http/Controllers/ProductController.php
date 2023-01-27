@@ -41,6 +41,20 @@ class ProductController extends Controller
         ]);
     }
 
+    public function ShowProduct($id){
+        $product = Product::find($id);
+        $bales = DB::table('bales')
+            ->select('bale_id', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
+            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+            ->get();
+
+        return view('products.edit', [
+            'product' => $product,
+            'bales' => $bales
+        ]);
+    }
+
     public function DeleteProduct($id)
     {
         $product = Product::find($id);
