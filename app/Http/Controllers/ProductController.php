@@ -19,7 +19,10 @@ class ProductController extends Controller
             ->orderBy('prod_id')
             ->get();
 
-        return view('products.view', ['products' => $products]);
+        return view('products.view', [
+            'products' => $products,
+            'prod_total' => $products->count()
+        ]);
     }
 
     public function AddView()
@@ -29,8 +32,10 @@ class ProductController extends Controller
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
             ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
             ->get();
+
         return view('products.add', [
-            'bales' => $bales
+            'bales' => $bales,
+            'unique' => $this->unique_code(9),
         ]);
     }
 
@@ -38,6 +43,7 @@ class ProductController extends Controller
     {
         $product = new Product();
         $product->prod_name = $req->name;
+        $product->prod_qr_code = $req->id;
         $product->bale_id = $req->bale;
         $product->prod_price = $req->price;
         $product->prod_unit = $req->unit;
@@ -46,7 +52,7 @@ class ProductController extends Controller
         if ($req->hasFile('photo')) {
             $destination_path = 'public/images/products';
             $image = $req->file('photo');
-            $image_name = $req->name . '_' . $image->getClientOriginalName();
+            $image_name = $req->id . '_' . $req->name;
 
             $req->file('photo')->storeAs($destination_path, $image_name);
             $product->prod_img_path = 'storage/images/products/' . $image_name;
@@ -56,7 +62,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect('/admin/products');
+        return redirect('/admin/products')->with('successfull', $product->prod_name . ' has been successfully added!');
     }
 
     public function ViewBarcode()

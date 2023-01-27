@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Bales </title>
+    <title> Products </title>
 @endsection
 
 @section('custom_css')
@@ -22,6 +22,15 @@
                 </div>
             </div>
 
+            <div class="mb-3">
+                <div class="mb-3">
+                    <label for="qrcode" class="form-label">Product QR Code</label>
+                    <input type="text" name="id" hidden value="{{ $unique }}" class="form-control mb-3" id="qrcode" placeholder="Mine Ditse" required>
+                    {!! DNS2D::getBarcodeHTML( $unique , 'QRCODE', 5, 5) !!}
+                </div>
+
+            </div>
+
             {{-- Product Name --}}
             <div class="mb-3">
                 <label for="name" class="form-label">Product Name</label>
@@ -35,7 +44,7 @@
                     @if (count($bales) > 0)
                         @foreach ($bales as $bale)
                             <option value="{{ $bale->bale_id }}">
-                                {{ 'B' . $bale->bale_id . ' (' . $bale->category_name.')'}}</option>
+                                {{ 'B' . $bale->bale_id . ' (' . $bale->category_name . ')' }}</option>
                         @endforeach
                     @else
                         <option value="" disabled selected> NO BALE FOUND </option>
@@ -59,16 +68,17 @@
             {{-- Product Unit --}}
             <div class="mb-3">
                 <label for="unit" class="form-label">Product Unit</label>
-                <select class="form-select" id="unit" name="unit" required aria-label="Default select example">     
-                        <option value="pc" selected> pc </option>
-                        <option value="pc"> box </option>
+                <select class="form-select" id="unit" name="unit" required aria-label="Default select example">
+                    <option value="pc" selected> pc </option>
+                    <option value="pc"> box </option>
                 </select>
             </div>
 
             {{-- Product Price --}}
             <div class="mb-3">
                 <label for="price" class="form-label">Product Price</label>
-                <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##" required>
+                <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##"
+                    required>
             </div>
 
             {{-- Product Other Details --}}

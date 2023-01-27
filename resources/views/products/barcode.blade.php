@@ -14,7 +14,7 @@
             @csrf
             <div class="row">
                 <div class="col-6">
-                    <h1> Add Productdsadas</h1>
+                    <h1> Add dfsdfsd</h1>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
                     <a class="mx-1"><button class="btn btn-primary" type="submit">Save</button></a>
