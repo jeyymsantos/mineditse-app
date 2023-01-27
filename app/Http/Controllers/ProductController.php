@@ -16,19 +16,49 @@ class ProductController extends Controller
             ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
             ->orderBy('prod_id')
-            ->get();
-
-        $products = DB::table('products')
-            ->select('*', 'categories.category_id')
-            ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
-            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
-            ->orderBy('prod_id')
+            ->where('prod_deleted', '=', '0')
             ->get();
 
         return view('products.view', [
             'products' => $products,
             'prod_total' => $products->count()
         ]);
+    }
+
+    public function archieve()
+    {
+        $products = DB::table('products')
+            ->select('*', 'categories.category_id')
+            ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
+            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->orderBy('prod_id')
+            ->where('prod_deleted', '=', '1')
+            ->get();
+
+        return view('products.archieve', [
+            'products' => $products,
+            'prod_total' => $products->count()
+        ]);
+    }
+
+    public function DeleteProduct($id)
+    {
+        $product = Product::find($id);
+        $product->prod_deleted = 1;
+        $product->save();
+
+        return redirect('admin/products')
+            ->with('successfull', $product['prod_name'] . ' has been successfully deleted!');
+    }
+
+    public function RestoreProduct($id)
+    {
+        $product = Product::find($id);
+        $product->prod_deleted = 0;
+        $product->save();
+
+        return redirect('admin/products')
+            ->with('successfull', $product['prod_name'] . ' has been successfully restored!');
     }
 
     public function AddView()
@@ -40,6 +70,7 @@ class ProductController extends Controller
             ->get();
         return view('products.add', [
             'bales' => $bales,
+            'unique' => $this->unique_code(9)
         ]);
     }
 

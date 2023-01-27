@@ -41,11 +41,10 @@
 
         <div class="row">
             <div class="col-6">
-                <h1> Products </h1>
+                <h1> Archieve Products </h1>
             </div>
             <div class="col-6 d-flex justify-content-end">
-                <a href="/admin/products/archieve"><button class="btn btn-secondary me-2">Archive</button></a>
-                <a href="/admin/products/add"><button class="btn btn-primary">Add Product</button></a>
+                <a href="/admin/products/"><button class="btn btn-primary">Back</button></a>
             </div>
         </div>
 
@@ -91,13 +90,11 @@
                         </td>
 
                         <td class="align-middle" style="text-align: center">
-                            <a href="/admin/products/edit/{{ $product->prod_id }}"><button class="btn btn-warning"><i
-                                        class="bi-pencil"></i></button></a>
 
                             <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-warning" data-bs-toggle="modal"
                                 data-bs-target="#deleteModal{{ $product->prod_id }}">
-                                <i class="bi-trash"></i>
+                                <i class="bi-arrow-clockwise text-dark"></i>
                             </button>
                         </td>
 
@@ -108,18 +105,18 @@
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you want to
-                                            delete product?</h1>
+                                            restore product?</h1>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        You are about to delete "{{ $product->prod_name }}". Are you sure you wish to proceed?
+                                        You are about to restore "{{ $product->prod_name }}". Are you sure you wish to proceed?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Cancel</button>
-                                        <a href="/admin/products/delete/{{ $product->prod_id }}"><button
-                                                class="btn btn-danger">Delete</button></a>
+                                        <a href="/admin/products/restore/{{ $product->prod_id }}"><button
+                                                class="btn btn-warning text-dark">Restore</button></a>
                                     </div>
                                 </div>
                             </div>
