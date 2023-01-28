@@ -1,27 +1,33 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\Bale;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
-    public function index()
+    public function index(Request $req)
     {
+        $search = $req->search;
         $products = DB::table('products')
             ->select('*', 'categories.category_id')
             ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
             ->orderBy('prod_id')
-            ->where('prod_deleted', '=', '0')
-            ->get();
+            ->where('prod_name', 'LIKE', '%'.$search.'%', 'or')
+            ->where('prod_price', 'LIKE', '%'.$search.'%', 'or')
+            ->where('prod_qr_code', 'LIKE', '%'.$search.'%', 'or')
+            ->where('products.bale_id', 'LIKE', '%'.$search.'%', 'or')
+            ->where('prod_status', 'LIKE', '%'.$search.'%', 'or')
+            ->where('prod_deleted', '=', '0', 'and')
+            ->paginate(10)->withQueryString();
 
         return view('products.view', [
             'products' => $products,
-            'prod_total' => $products->count()
+            'search' => $search,
+            'i' => 1,
+            // 'prod_total' => $products->count(),
         ]);
     }
 
