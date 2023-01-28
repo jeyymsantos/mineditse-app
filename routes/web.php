@@ -63,6 +63,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/products/add', [ProductController::class, 'AddView']);
     Route::post('/products/add', [ProductController::class, 'AddProduct']);
     Route::get('/products/edit/{id}', [ProductController::class, 'ShowProduct']);
+    Route::post('/products/edit/{id}', [ProductController::class, 'EditProduct']);
     Route::get('/generate-barcode', [ProductController::class, 'ViewBarcode'])->name('generate.barcode');
     Route::get('/products/delete/{id}', [ProductController::class, 'DeleteProduct']);
 });

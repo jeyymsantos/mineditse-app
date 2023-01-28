@@ -46,8 +46,24 @@
 
             {{-- Product Activation --}}
             <div class="mb-3">
-                <label for="activation" class="form-label">Product Activation</label>
-                <button> </button>
+                <label for="activation" class="form-label">Product Activation
+
+                    <span> (Current:       
+                        <span class="{{ $product->prod_status == 'Available' ? 'text-success' : 'text-warning'}}">{{$product->prod_status}}</span>)</span>
+
+                </label>
+                @if ($product->prod_status == 'Sold')
+                    <span for="qrcode" class="form-control bg-primary text-light"> Sold </span>
+                @else
+                    <select class="form-select" id="activation" name="activation" required
+                        aria-label="Default select example">
+                        <option value="Available" {{ $product->prod_status == 'Available' ? 'selected' : '' }}> Available
+                        </option>
+                        <option value="Pending" {{ $product->prod_status == 'Pending' ? 'selected' : '' }}> Pending
+                        </option>
+                    </select>
+                @endif
+                </select>
             </div>
 
             {{-- Product Name --}}
