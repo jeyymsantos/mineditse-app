@@ -104,9 +104,9 @@ class ProductController extends Controller
             $image_name = $req->id . '_' . $req->name;
 
             $req->file('photo')->storeAs($destination_path, $image_name);
-            $product->prod_img_path = 'storage/images/products/' . $image_name;
+            $product->prod_img_path = '/storage/images/products/' . $image_name;
         } else {
-            $product->prod_img_path = 'storage/images/product.png';
+            $product->prod_img_path = '/storage/images/product.png';
         }
 
         $product->save();

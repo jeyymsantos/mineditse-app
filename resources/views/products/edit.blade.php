@@ -10,7 +10,7 @@
 
 @section('content')
     <div class="container">
-        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
+        <form action="/admin/products/edit/{{ $product->prod_id }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="row">
                 <div class="col-6">
@@ -27,7 +27,7 @@
                 <div class="col-sm-6 mb-3">
                     <label for="formFile" class="form-label">Product Image</label>
                     <div class="col-md-4 col-sm-6 mb-3">
-                        <img id="prod_img_tag" class="img-responsive" src="/{{ $product->prod_img_path }}" width="215px" />
+                        <img id="prod_img_tag" class="img-responsive" src="{{ $product->prod_img_path }}" width="215px" />
                     </div>
                     <div class="col-md-8 col-sm-6">
                         <input id="prod_img" class="form-control" name="photo" type="file" accept="image/*"
@@ -37,11 +37,17 @@
 
                 <div class="col-sm-6 mb-3">
                     <label for="qrcode" class="form-label">Product QR Code</label>
-                    <input type="text" name="id" hidden value="{{ $product->prod_qr_code }}" class="form-control mb-3"
-                        id="qrcode" placeholder="Mine Ditse" required>
+                    <input type="text" name="id" hidden value="{{ $product->prod_qr_code }}"
+                        class="form-control mb-3" id="qrcode" placeholder="Mine Ditse" required>
                     {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 10, 10) !!}
                     <span for="qrcode" class="form-control mt-3">{{ $product->prod_qr_code }}</span>
                 </div>
+            </div>
+
+            {{-- Product Activation --}}
+            <div class="mb-3">
+                <label for="activation" class="form-label">Product Activation</label>
+                <button> </button>
             </div>
 
             {{-- Product Name --}}
@@ -57,7 +63,8 @@
                 <select class="form-select" id="bale" name="bale" required aria-label="Default select example">
                     @if (count($bales) > 0)
                         @foreach ($bales as $bale)
-                            <option value="{{ $bale->bale_id }}" {{ $bale->bale_id = $product->bale_id ? 'selected' : ''}}>
+                            <option {{ $product->bale_id == $bale->bale_id ? 'selected' : '' }}
+                                value="{{ $bale->bale_id }}">
                                 {{ 'B' . $bale->bale_id . ' (' . $bale->category_name . ')' }}</option>
                         @endforeach
                     @else
@@ -77,23 +84,23 @@
             <div class="mb-3">
                 <label for="unit" class="form-label">Product Unit</label>
                 <select class="form-select" id="unit" name="unit" required aria-label="Default select example">
-                    <option value="pc" {{ $product->prod_unit = 'pc' ? 'selected' : ''}}> pc </option>
-                    <option value="box"{{ $product->prod_unit = 'box' ? 'selected' : ''}}> box </option>
+                    <option value="pc" {{ $product->prod_unit = 'pc' ? 'selected' : '' }}> pc </option>
+                    <option value="box"{{ $product->prod_unit = 'box' ? 'selected' : '' }}> box </option>
                 </select>
             </div>
 
             {{-- Product Price --}}
             <div class="mb-3">
                 <label for="price" class="form-label">Product Price</label>
-                <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##" value="{{ $product->prod_price }}"
-                    required>
+                <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##"
+                    value="{{ $product->prod_price }}" required>
             </div>
 
             {{-- Product Other Details --}}
             <div class="mb-3">
                 <label for="other" class="form-label">Other Details</label>
                 <textarea class="form-control" name="other" id="other" rows="3"
-                    placeholder="Additional details about the category">value="{{ $product->prod_other_details }}"</textarea>
+                    placeholder="Additional details about the category">{{ $product->prod_other_details }}</textarea>
             </div>
 
         </form>
