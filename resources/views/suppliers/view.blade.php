@@ -63,27 +63,33 @@
                 @foreach ($suppliers as $supplier)
                     <tr>
                         <th class="align-middle" scope="row">{{ 'S' . $supplier->supplier_id }}</th>
-                        <td class="align-middle">{{ $supplier['supplier_name'] }}</td>
+                        <td class="align-middle">{{ $supplier->supplier_name }}</td>
                         <td class="align-middle">
-                            {{ $supplier['supplier_address'] == null ? 'N/A' : $supplier['supplier_address'] }}</td>
-                        <td class="align-middle">{{ $supplier['supplier_phone'] }}</td>
+                            {{ $supplier->supplier_address == null ? 'N/A' : $supplier->supplier_address }}</td>
+                        <td class="align-middle">{{ $supplier->supplier_phone }}</td>
                         <td class="align-middle">
-                            {{ $supplier['supplier_other_details'] == null ? 'N/A' : $supplier['supplier_other_details'] }}
+                            {{ $supplier->supplier_other_details == null ? 'N/A' : $supplier->upplier_other_details }}
                         </td>
                         <td class="align-middle">
-                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $supplier['supplier_registered_date'])->format('F d, Y') }}
+                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $supplier->supplier_registered_date)->format('F d, Y') }}
                         </td>
 
                         <td class="align-middle" style="text-align: center">
-                            <a href="/admin/suppliers/edit/{{ $supplier['supplier_id'] }}"><button
+                            <a href="/admin/suppliers/edit/{{ $supplier->supplier_id }}"><button
                                     class="btn btn-warning"><i class="bi-pencil"></i></button></a>
-                            <a href="/admin/suppliers/delete/{{ $supplier['supplier_id'] }}"><button
+                            <a href="/admin/suppliers/delete/{{ $supplier->supplier_id }}"><button
                                     class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <div class="row">
+            {{ $suppliers->links() }}
+        </div>
+
+
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"

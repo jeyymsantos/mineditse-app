@@ -18,8 +18,11 @@ class BaleController extends Controller
         ->select('bale_id', 'bale_price', 'bale_quantity', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
         ->join('categories', 'bales.category_id', '=', 'categories.category_id')
         ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
-        ->get();
-        return view('bales.view', ['bales' => $bales]);
+        ->paginate(10)->withQueryString();
+
+        return view('bales.view', [
+            'bales' => $bales,
+        ]);
     }
 
     public function AddView()

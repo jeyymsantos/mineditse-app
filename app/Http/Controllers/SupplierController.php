@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
     public function index()
     {
-        $suppliers = Supplier::all();
+        $suppliers = DB::table('suppliers')->paginate(10)->withQueryString();
         return view('suppliers.view', ['suppliers' => $suppliers]);
     }
 

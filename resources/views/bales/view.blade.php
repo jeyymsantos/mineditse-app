@@ -83,6 +83,10 @@
                 @endforeach
             </tbody>
         </table>
+
+        <div class="row">
+            {{ $bales->links() }}
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"

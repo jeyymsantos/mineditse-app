@@ -59,24 +59,28 @@
             <tbody>
                 @foreach ($categories as $category)
                     <tr>
-                        <th class="align-middle"scope="row">{{ 'C' . $category['category_id'] }}</th>
-                        <td class="align-middle">{{ $category['category_name'] }}</td>
+                        <th class="align-middle"scope="row">{{ 'C' . $category->category_id }}</th>
+                        <td class="align-middle">{{ $category->category_name }}</td>
                         <td class="align-middle">
-                            {{ $category['category_description'] == null ? 'N/A' : $category['category_description'] }}</td>
+                            {{ $category->category_description == null ? 'N/A' : $category->category_description }}</td>
                         <td class="align-middle">
-                            {{ $category['category_other_details'] == null ? 'N/A' : $category['category_other_details'] }}
+                            {{ $category->category_other_details == null ? 'N/A' : $category->category_other_details }}
                         </td>
 
                         <td class="align-middle" style="text-align: center">
-                            <a href="/admin/category/edit/{{ $category['category_id'] }}"><button class="btn btn-warning"><i
+                            <a href="/admin/category/edit/{{ $category->category_id }}"><button class="btn btn-warning"><i
                                         class="bi-pencil"></i></button></a>
-                            <a href="/admin/category/delete/{{ $category['category_id'] }}"><button
+                            <a href="/admin/category/delete/{{ $category->category_id }}"><button
                                     class="btn btn-danger"><i class="bi-trash"></i></button></a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <div class="row">
+            {{ $categories->links() }}
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
