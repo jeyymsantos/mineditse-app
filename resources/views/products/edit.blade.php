@@ -92,7 +92,7 @@
             {{-- Product Description --}}
             <div class="mb-3">
                 <label for="description" class="form-label">Product Description</label>
-                <textarea class="form-control" name="description" id="description" rows="3"
+                <textarea class="form-control" name="description" id="description" rows="3" maxlength="1000"
                     placeholder="Some description about the category">{{ $product->prod_desc }}</textarea>
             </div>
 

@@ -36,7 +36,7 @@
             </div>
         @endif        
 
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4 border-left-primary">
             <div class="card-header py-3">
                 <h3 class="m-0 font-weight-bold text-primary">View All Products</h6>
             </div>
@@ -114,7 +114,7 @@
                                         <a href="/admin/products/view/{{ $product->prod_id }}"><button
                                                 class="btn btn-success"><i class="bi-search"></i></button></a>
                                         <a href="/admin/products/edit/{{ $product->prod_id }}"><button
-                                                class="btn btn-warning"><i class="bi-pencil"></i></button></a>
+                                                class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
 
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"

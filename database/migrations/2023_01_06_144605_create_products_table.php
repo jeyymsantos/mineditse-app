@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('bale_id')->unsigned();
             $table->string('prod_name', 30);
             $table->string('prod_img_path', 255)->default('/storage/images/product.png');
-            $table->string('prod_desc', 100)->nullable();
+            $table->string('prod_desc', 1000)->nullable();
             $table->string('prod_unit', 10);
             $table->decimal('prod_price', 10, 2);
             $table->string('prod_other_details', 255)->nullable();
