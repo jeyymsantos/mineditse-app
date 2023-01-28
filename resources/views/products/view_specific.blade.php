@@ -30,13 +30,13 @@
 
             <div class="card-body row">
 
-                <div class="col-md-12 col-lg-3">
+                <div class="col-lg-3 col-md-12 ">
                     <img id="prod_img_tag" class="img-fluid" src="{{ $product->prod_img_path }}" />
                 </div>
 
                 <div class="col-md-12 col-lg-9 mt-1">
                     <div class="row">
-                        <div class="col-lg-10 col-md-12">
+                        <div class="col-lg-9 col-md-12">
                             <h1 class="font-weight-bold text-primary text-uppercase my-0">{{ $product->prod_name }}</h1>
                             @if ($product->prod_status == 'Available')
                                 <h4 class="text-success font-weight-bold"> {{ $product->prod_status }} </h4>
@@ -54,8 +54,8 @@
 
                         </div>
 
-                        <div class="col-lg-2 col-md-12">
-                            {!! DNS2D::getBarcodeSVG($product->prod_qr_code, 'QRCODE', 8, 8) !!} --}}
+                        <div class="col-lg-3 col-md-12">
+                               {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 8, 8) !!}
                         </div>
 
                     </div>
@@ -69,11 +69,7 @@
                         @endif
 
                     </div>
-
                 </div>
-
-
-
             </div>
         </div>
 
