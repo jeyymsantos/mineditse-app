@@ -28,8 +28,8 @@ class ProductController extends Controller
             ->select('*', 'categories.category_id')
             ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
-            ->orderBy('prod_id')            
-            ->orWhere(function($query) use ($search){
+            ->orderBy('prod_id')
+            ->orWhere(function ($query) use ($search) {
                 $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
                 $query->where('prod_price', 'LIKE', '%' . $search . '%', 'or');
                 $query->where('prod_qr_code', 'LIKE', '%' . $search . '%', 'or');
@@ -47,19 +47,63 @@ class ProductController extends Controller
         ]);
     }
 
-    public function archieve()
+    public function archieve(Request $req)
     {
+        $search = $req->search;
+
+        // $products = DB::table('products')
+        //     ->select('*', 'categories.category_id')
+        //     ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
+        //     ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+        //     ->orderBy('prod_id')
+        //     ->where('prod_deleted', '=', '1')
+        //     ->get();
+
         $products = DB::table('products')
             ->select('*', 'categories.category_id')
             ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
             ->orderBy('prod_id')
-            ->where('prod_deleted', '=', '1')
-            ->get();
+            ->orWhere(function ($query) use ($search) {
+                $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
+                $query->where('prod_price', 'LIKE', '%' . $search . '%', 'or');
+                $query->where('prod_qr_code', 'LIKE', '%' . $search . '%', 'or');
+                $query->where('products.bale_id', 'LIKE', '%' . $search . '%', 'or');
+                $query->where('prod_status', 'LIKE', '%' . $search . '%', 'or');
+            })
+            ->where('prod_deleted', '=', '1', 'and')
+            ->paginate(10)->withQueryString();
 
         return view('products.archieve', [
             'products' => $products,
-            'prod_total' => $products->count()
+            'search' => $search,
+            'i' => 1,
+        ]);
+    }
+
+    public function RestoreAllProduct(){
+        $products = Product::all();
+
+        foreach($products as $product){
+            $product->prod_deleted = 0;
+            $product->save();
+        }
+        
+        return redirect('admin/products')
+            ->with('successfull', 'All products have been successfully restored!');
+    }
+
+    public function ViewProduct($id){
+        $product = Product::find($id);
+        $bales = DB::table('bales')
+            ->select('bale_id', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
+            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+            ->get();
+
+        return view('products.view_specific', [
+            'product' => $product,
+            'bales' => $bales
         ]);
     }
 

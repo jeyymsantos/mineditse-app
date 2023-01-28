@@ -40,18 +40,63 @@
         @endif
 
         <div class="row">
-            <div class="col-6">
-                <h1> Archieve Products </h1>
+            <h1> Archieve Products </h1>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-3 ">
+                <form>
+                    <div class="row">
+
+                        <div class="col-md-6 col-sm-12 mb-2">
+                            <input type="text" class="form-control" name="search" value="{{ $search }}"
+                                placeholder="Search here">
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                            <button class="btn btn-success">Seach</button>
+                        </div>
+
+                    </div>
+                </form>
             </div>
-            <div class="col-6 d-flex justify-content-end">
-                <a href="/admin/products/"><button class="btn btn-primary">Back</button></a>
+            <div class="col-md-6 col-sm-12 d-flex justify-content-end">
+                <a href="/admin/products/"><button class="btn btn-secondary me-2">Back</button></a>
+                   <a><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#RestoreAllModal">
+                        Restore All
+                    </button></a>
+
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="RestoreAllModal" tabindex="-1" aria-labelledby="labelForRestore"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="labelForRestore">Are you sure you want to
+                                        restore all products?</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    You are about to restore all products. Are you sure you wish to
+                                    proceed?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <a href="/admin/products/restore-all">
+                                        <button class="btn btn-warning text-dark">Restore All</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
         </div>
 
         <table class="table table-striped table-hover ">
             <thead>
                 <tr>
-                    <th scope="col">Prod #</th>
+                    <th scope="col">#</th>
                     <th scope="col">QR Code</th>
                     <th scope="col">Photo</th>
                     <th scope="col">Name</th>
@@ -66,7 +111,7 @@
                 @foreach ($products as $product)
                     <tr>
                         <td class="align-middle" scope="row">
-                            {{ 'P' . $product->prod_id }}
+                            {{ $i++ }}
                         </td>
                         <td class="align-middle" scope="row">
                             {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 5, 5) !!}
@@ -85,7 +130,7 @@
                             @elseif ($product->prod_status == 'Available')
                                 <span class="bg-success text-light p-2 rounded"> Available </span>
                             @else
-                            <span class="bg-primary text-light p-2 px-4 rounded"> Sold </span>
+                                <span class="bg-primary text-light p-2 px-4 rounded"> Sold </span>
                             @endif
                         </td>
 
@@ -110,7 +155,8 @@
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        You are about to restore "{{ $product->prod_name }}". Are you sure you wish to proceed?
+                                        You are about to restore "{{ $product->prod_name }}". Are you sure you wish to
+                                        proceed?
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary"
@@ -121,12 +167,14 @@
                                 </div>
                             </div>
                         </div>
-
-
                     </tr>
                 @endforeach
             </tbody>
         </table>
+
+        <div class="row">
+            {{ $products->links() }}
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"

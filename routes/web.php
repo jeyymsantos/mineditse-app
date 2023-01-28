@@ -60,6 +60,8 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/archieve', [ProductController::class, 'archieve']);
     Route::get('/products/restore/{id}', [ProductController::class, 'RestoreProduct']);
+    Route::get('/products/restore-all', [ProductController::class, 'RestoreAllProduct']);
+    Route::get('/products/view/{id}', [ProductController::class, 'ViewProduct']);
     Route::get('/products/add', [ProductController::class, 'AddView']);
     Route::post('/products/add', [ProductController::class, 'AddProduct']);
     Route::get('/products/edit/{id}', [ProductController::class, 'ShowProduct']);
