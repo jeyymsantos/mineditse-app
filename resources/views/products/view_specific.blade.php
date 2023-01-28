@@ -21,8 +21,41 @@
                     <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
                         <a href="/admin/products/edit/{{ $product->prod_id }}" class="me-1"><span class="btn btn-warning">
                                 <i class="bi-pencil text-dark"></i></button></a>
-                        <a href="/admin/products/" class="me-1"><span class="btn btn-danger">
-                                <i class="bi-trash"></i></button></a>
+
+                        <!-- Button trigger modal -->
+                        <a class="me-1"><button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                                <i class="bi-trash"></i>
+                            </button></a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteModal" tabindex="-1"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you
+                                            want to
+                                            delete product?</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        You are about to delete "{{ $product->prod_name }}". Are you sure you
+                                        wish
+                                        to
+                                        proceed?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Cancel</button>
+                                        <a href="/admin/products/delete/{{ $product->prod_id }}"><button
+                                                class="btn btn-danger">Delete</button></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <a href="/admin/products/"><span class="btn btn-primary">Back</span></a>
                     </div>
                 </div>
@@ -55,7 +88,8 @@
                         </div>
 
                         <div class="col-lg-3 col-md-12">
-                               {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 8, 8) !!}
+                            {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 8, 8) !!}
+                            <button class="btn btn-primary mt-2"> Print QR </button>
                         </div>
 
                     </div>
@@ -67,51 +101,18 @@
                         @else
                             <p style="text-align: justify"> {{ $product->prod_desc }}</p>
                         @endif
+                    </div>
 
+                    <div class="row">
+                        <p class="text-dark fs-5 my-0 mt-3">Other Details</p>
+                        @if ($product->prod_other_details == '')
+                            <p> No other details available </p>
+                        @else
+                            <p style="text-align: justify"> {{ $product->prod_other_details }}</p>
+                        @endif
                     </div>
                 </div>
             </div>
-        </div>
-
-        {{-- Product QR Code  && Product Image --}}
-        <div class="mb-3 row">
-            <div class="col-sm-6 mb-3">
-                <label for="qrcode" class="form-label">Product QR Code</label>
-                <input type="text" name="id" hidden value="{{ $product->prod_qr_code }}" class="form-control mb-3"
-                    id="qrcode" placeholder="Mine Ditse" required>
-                {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 10, 10) !!}
-                <span for="qrcode" class="form-control mt-3">{{ $product->prod_qr_code }}</span>
-            </div>
-        </div>
-
-        {{-- Product Description --}}
-        <div class="mb-3">
-            <label for="description" class="form-label">Product Description</label>
-            <textarea class="form-control" name="description" id="description" rows="3"
-                placeholder="Some description about the category">{{ $product->prod_desc }}</textarea>
-        </div>
-
-        {{-- Product Unit --}}
-        <div class="mb-3">
-            <label for="unit" class="form-label">Product Unit</label>
-            <select class="form-select" id="unit" name="unit" required aria-label="Default select example">
-                <option value="pc" {{ $product->prod_unit = 'pc' ? 'selected' : '' }}> pc </option>
-                <option value="box"{{ $product->prod_unit = 'box' ? 'selected' : '' }}> box </option>
-            </select>
-        </div>
-
-        {{-- Product Price --}}
-        <div class="mb-3">
-            <label for="price" class="form-label">Product Price</label>
-            <input type="number" name="price" step=".01" class="form-control" id="price" placeholder="##.##"
-                value="{{ $product->prod_price }}" required>
-        </div>
-
-        {{-- Product Other Details --}}
-        <div class="mb-3">
-            <label for="other" class="form-label">Other Details</label>
-            <textarea class="form-control" name="other" id="other" rows="3"
-                placeholder="Additional details about the category">{{ $product->prod_other_details }}</textarea>
         </div>
 
     </div>

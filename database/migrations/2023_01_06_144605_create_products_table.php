@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('prod_desc', 1000)->nullable();
             $table->string('prod_unit', 10);
             $table->decimal('prod_price', 10, 2);
-            $table->string('prod_other_details', 255)->nullable();
+            $table->string('prod_other_details', 1000)->nullable();
             $table->timestamp('prod_last_updated')->useCurrent();
             $table->foreign('bale_id')->references('bale_id')->on('bales');
         });

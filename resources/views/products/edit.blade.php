@@ -115,7 +115,7 @@
             {{-- Product Other Details --}}
             <div class="mb-3">
                 <label for="other" class="form-label">Other Details</label>
-                <textarea class="form-control" name="other" id="other" rows="3"
+                <textarea class="form-control" name="other" id="other" rows="3" maxlength="1000"
                     placeholder="Additional details about the category">{{ $product->prod_other_details }}</textarea>
             </div>
 
