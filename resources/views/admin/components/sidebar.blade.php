@@ -4,9 +4,9 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
         <div class="sidebar-brand-icon">
-            {{-- <img class="img-profile rounded-circle" src="{{ asset('assets/img/logo.png') }}" width="50px"> --}}
+            <img class="img-profile rounded-circle" src="{{ asset('assets/img/logo.png') }}" width="50px">
             {{-- <img class="img-profile rounded-circle" src="/assets/img/logo.png" width="50px"> --}}
-            <img class="img-profile rounded-circle" src="{{ asset('/../storage/app/public/images/products/Jeyym Santos_sandals.png') }}" width="50px">
+            {{-- <img class="img-profile rounded-circle" src="{{ asset('/storage/images/products/Jeyym Santos_sandals.png') }}" width="50px"> --}}
 
 
         </div>

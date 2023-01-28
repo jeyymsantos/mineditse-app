@@ -73,7 +73,8 @@
                             {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 5, 5) !!}
                         </td>
                         <td class="align-middle">
-                            <img src="{{ asset($product->prod_img_path) }}" width="100px" alt="">
+                            {{-- <img src="{{ asset($product->prod_img_path) }}" width="100px" alt=""> --}}
+                            <img src="{{ asset($product->prod_img_path) }}" width="100px">
                         </td>
                         <td class="align-middle">{{ $product->prod_name }}</td>
                         <td class="align-middle">B{{ $product->bale_id }}</td>
