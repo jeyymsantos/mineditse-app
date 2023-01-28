@@ -25,9 +25,11 @@ class ProductController extends Controller
         //     ->paginate(10)->withQueryString();
 
         $products = DB::table('products')
-            ->select('*', 'categories.category_id')
-            ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
-            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->select('*', 'products.bale_id', 'categories.category_name', 'suppliers.supplier_name')
+            ->leftJoin('bales', 'products.bale_id', '=', 'bales.bale_id')
+            ->leftJoin('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->leftJoin('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+
             ->orderBy('prod_id')
             ->orWhere(function ($query) use ($search) {
                 $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
@@ -81,29 +83,35 @@ class ProductController extends Controller
         ]);
     }
 
-    public function RestoreAllProduct(){
+    public function RestoreAllProduct()
+    {
         $products = Product::all();
 
-        foreach($products as $product){
+        foreach ($products as $product) {
             $product->prod_deleted = 0;
             $product->save();
         }
-        
+
         return redirect('admin/products')
             ->with('successfull', 'All products have been successfully restored!');
     }
 
-    public function ViewProduct($id){
-        $product = Product::find($id);
-        $bales = DB::table('bales')
-            ->select('bale_id', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
-            ->join('categories', 'bales.category_id', '=', 'categories.category_id')
-            ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
-            ->get();
+    public function ViewProduct($id)
+    {
+        $product = DB::table('products')
+            ->select('*', 'products.bale_id', 'categories.category_name', 'suppliers.supplier_name')
+            ->leftJoin('bales', 'products.bale_id', '=', 'bales.bale_id')
+            ->leftJoin('categories', 'bales.category_id', '=', 'categories.category_id')
+            ->leftJoin('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
+            ->where('prod_id', '=', $id)
+            ->first();
+
+        // return response()->json([
+        //     'product' => $product,
+        // ], 200, [], JSON_PRETTY_PRINT);
 
         return view('products.view_specific', [
             'product' => $product,
-            'bales' => $bales
         ]);
     }
 

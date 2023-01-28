@@ -74,7 +74,8 @@
                                 <th scope="col">Photo</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Bale</th>
-                                <th scope="col">Unit</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Supplier</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Status</th>
                                 <th scope="col" style="text-align: center">Actions</th>
@@ -95,8 +96,9 @@
                                     </td>
                                     <td class="align-middle">{{ $product->prod_name }}</td>
                                     <td class="align-middle">B{{ $product->bale_id }}</td>
-                                    <td class="align-middle">{{ $product->prod_unit }}</td>
-                                    <td class="align-middle">₱{{ number_format($product->prod_price, 2) }}</td>
+                                    <td class="align-middle">{{ $product->category_name }}</td>
+                                    <td class="align-middle">{{ $product->supplier_name }}</td>
+                                    <td class="align-middle">₱{{ number_format($product->prod_price, 2).'/'.$product->prod_unit }}</td>
                                     <td class="align-middle">
 
                                         @if ($product->prod_status == 'Pending')

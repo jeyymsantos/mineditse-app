@@ -10,15 +10,16 @@
 
 @section('content')
     <div class="container">
-        <form action="/admin/products/edit/{{ $product->prod_id }}" method="POST" enctype="multipart/form-data">
-            @csrf
             <div class="row">
                 <div class="col-6">
-                    <h1> Edit Product</h1>
+                    <h1> View Product</h1>
                 </div>
                 <div class="col-6 d-flex justify-content-end">
-                    <a class="mx-1"><button class="btn btn-primary" type="submit">Update</button></a>
-                    <a href="/admin/products/"><span class="btn btn-warning">Cancel</span></a>
+                    <a href="/admin/update/{{ $product->prod_id }}" class="me-1"><span class="btn btn-warning">
+                        <i class="bi-pencil"></i></button></a>
+                    <a href="/admin/products/" class="me-1"><span class="btn btn-danger">
+                        <i class="bi-trash"></i></button></a>
+                    <a href="/admin/products/"><span class="btn btn-primary">Back</span></a>
                 </div>
             </div>
 
@@ -76,17 +77,7 @@
             {{-- Product Bale --}}
             <div class="mb-3">
                 <label for="bale" class="form-label">Product Bale</label>
-                <select class="form-select" id="bale" name="bale" required aria-label="Default select example">
-                    @if (count($bales) > 0)
-                        @foreach ($bales as $bale)
-                            <option {{ $product->bale_id == $bale->bale_id ? 'selected' : '' }}
-                                value="{{ $bale->bale_id }}">
-                                {{ 'B' . $bale->bale_id . ' (' . $bale->category_name . ')' }}</option>
-                        @endforeach
-                    @else
-                        <option value="" disabled selected> NO BALE FOUND </option>
-                    @endif
-                </select>
+                
             </div>
 
             {{-- Product Description --}}
@@ -118,8 +109,6 @@
                 <textarea class="form-control" name="other" id="other" rows="3"
                     placeholder="Additional details about the category">{{ $product->prod_other_details }}</textarea>
             </div>
-
-        </form>
 
     </div>
 
