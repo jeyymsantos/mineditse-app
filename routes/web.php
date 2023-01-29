@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Artisan;
@@ -68,6 +69,13 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::post('/products/edit/{id}', [ProductController::class, 'EditProduct']);
     Route::get('/generate-barcode', [ProductController::class, 'ViewBarcode'])->name('generate.barcode');
     Route::get('/products/delete/{id}', [ProductController::class, 'DeleteProduct']);
+
+    // Orders
+    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders/add', [OrderController::class, 'ShowProducts'])->name('add_orders');
+    Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
+    Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
+
 });
 
 // Customer Authentication
