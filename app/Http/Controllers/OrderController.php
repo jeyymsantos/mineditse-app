@@ -45,8 +45,6 @@ class OrderController extends Controller
 
     public function ShowProducts(Request $req)
     {
-        $search = $req->search;
-
         $products = DB::table('products')
             ->select('*', 'products.bale_id', 'categories.category_name', 'suppliers.supplier_name')
             ->leftJoin('bales', 'products.bale_id', '=', 'bales.bale_id')
@@ -54,22 +52,15 @@ class OrderController extends Controller
             ->leftJoin('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
 
             ->orderBy('prod_id')
-            ->orWhere(function ($query) use ($search) {
-                $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_price', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_qr_code', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('products.bale_id', 'LIKE', '%' . $search . '%', 'or');
-            })
             ->where('prod_deleted', '=', '0', 'and')
             ->where('prod_status', '=', 'Available')
-            ->paginate(10)->withQueryString();
+            ->get();
 
         $carts = DB::table('carts')
             ->where('user_id', '=', Auth::id())->get();
 
         return view('orders.add', [
             'products' => $products,
-            'search' => $search,
             'i' => 1,
             'carts' => $carts
         ]);
@@ -117,25 +108,31 @@ class OrderController extends Controller
         return response()->json(['cart' => $cart], 200, [], JSON_PRETTY_PRINT);
     }
 
+    public function CartSubmit(Request $req)
+    {
+        
+        $customers = DB::table('carts')
+        ->select('*')
+        ->where('user_id', '=', $req->cust_id)->get();
+        
+        return response()->json($customers, 200, [], JSON_PRETTY_PRINT);
+    }
+
     public function ShowCart(Request $req)
     {
-        $search = $req->search;
         $products = Product::all();
 
         $carts = DB::table('carts')
             ->select('*')
-            ->where('user_id', '=', Auth::id())
-            ->paginate(10)->withQueryString();
-
+            ->where('user_id', '=', Auth::id())->get();
 
         $customers = DB::table('users')
-            ->select('name', 'email', 'customers.cust_type')
+            ->select('name', 'email', 'customers.cust_type', 'customers.cust_id')
             ->join('customers', 'users.id', '=', 'customers.cust_id')
-            ->paginate(10)->withQueryString();
+            ->get();
 
         return view('orders.cart', [
             'carts' => $carts,
-            'search' => $search,
             'products' => $products,
             'i' => 1,
             'carts' => $carts,

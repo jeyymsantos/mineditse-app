@@ -5,7 +5,6 @@
 @endsection
 
 @section('custom_css')
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 @endsection
 
 @section('content')
@@ -34,37 +33,21 @@
             <div class="row my-2 text-success">
                 <h3> {{ session()->get('successfull') }} </h3>
             </div>
-        @endif        
+        @endif
 
         <div class="card shadow mb-4 border-left-primary">
-            <div class="card-header py-3">
-                <h3 class="m-0 font-weight-bold text-primary">View Order Transactions</h6>
-            </div>
-            <div class="card-body">
-
+            <div class="card-header">
                 <div class="row">
-                    <div class="col-md-6 col-sm-12 mb-3 ">
-                        <form>
-                            <div class="row">
-        
-                                <div class="col-md-6 col-sm-12 mb-2">
-                                    <input type="text" class="form-control" name="search" value="{{ $search }}"
-                                        placeholder="Search here">
-                                </div>
-                                <div class="col-md-6 col-sm-12">
-                                    <button class="btn btn-success">Seach</button>
-                                </div>
-        
-                            </div>
-                        </form>
+                    <div class="col-md-6 col-sm-12">
+                        <h3 class="m-0 font-weight-bold text-primary">View Order Transactions</h6>
                     </div>
-                    <div class="col-md-6 col-sm-12 d-flex justify-content-md-end mb-3">
+                    <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
                         <a href="/admin/orders/archieve"><button class="btn btn-secondary me-2">Archive</button></a>
                         <a href="/admin/orders/add"><button class="btn btn-primary">Add Order</button></a>
                     </div>
                 </div>
-
-
+            </div>
+            <div class="card-body">
                 <div class="table-responsive">
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
@@ -89,6 +72,7 @@
                                     </td>
                                     <td class="align-middle" scope="row">
                                         {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 5, 5) !!}
+                                        <span style="display: none">({{ $product->prod_qr_code }})</span>
                                     </td>
                                     <td class="align-middle">
                                         {{-- <img src="{{ asset($product->prod_img_path) }}" width="100px" alt=""> --}}
@@ -98,7 +82,8 @@
                                     <td class="align-middle">B{{ $product->bale_id }}</td>
                                     <td class="align-middle">{{ $product->category_name }}</td>
                                     <td class="align-middle">{{ $product->supplier_name }}</td>
-                                    <td class="align-middle">₱{{ number_format($product->prod_price, 2).'/'.$product->prod_unit }}</td>
+                                    <td class="align-middle">
+                                        ₱{{ number_format($product->prod_price, 2) . '/' . $product->prod_unit }}</td>
                                     <td class="align-middle">
 
                                         @if ($product->prod_status == 'Pending')
@@ -156,20 +141,12 @@
                     </table>
                 </div>
             </div>
-            <div class="row mx-3">
-                {{ $products->links() }}
-            </div>
         </div>
     </div>
 
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-        $("#exampleModal").modal('show');
-        ('#dataTable').DataTable();
-        });
+            $("#exampleModal").modal('show');
         });
     </script>
 @endsection

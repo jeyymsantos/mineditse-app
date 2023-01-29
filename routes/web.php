@@ -76,6 +76,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders/cart/', [OrderController::class, 'ShowCart']);
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
+    Route::POST('/orders/submit', [OrderController::class, 'CartSubmit']);
 
 });
 
