@@ -94,6 +94,25 @@
         </div>
     </li>
 
+    <!-- Nav Item - Orders Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
+            aria-expanded="true" aria-controls="collapseSix">
+            <i class="fa-fw fa-solid fa-list"></i>
+            <span>Orders</span>
+        </a>
+        <div id="collapseSix" class="collapse" aria-labelledby="collapseSix" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage Orders</h6>
+                <a class="collapse-item" href="/admin/orders">View Orders</a>
+                <a class="collapse-item" href="/admin/orders/cart">View Cart</a>
+                <a class="collapse-item" href="/admin/orders/add">Add Order</a>
+            </div>
+        </div>
+    </li>
+
+
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

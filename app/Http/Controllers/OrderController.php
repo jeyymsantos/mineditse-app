@@ -74,20 +74,49 @@ class OrderController extends Controller
 
     public function AddToCart($id)
     {
-
         $product = Product::find($id);
         $cart = new Cart();
 
-        $cart->user_id = Auth::id();
-        $cart->prod_id = $id;
-        $cart->prod_name = $product->prod_name;
-        $cart->prod_qr_code = $product->prod_qr_code;
-        $cart->prod_img_path = $product->prod_img_path;
-        $cart->prod_price = $product->prod_price;
-        $cart->save();
+        if ($product->prod_status == 'Available') {
+            $cart->user_id = Auth::id();
+            $cart->prod_id = $id;
+            $cart->prod_name = $product->prod_name;
+            $cart->prod_qr_code = $product->prod_qr_code;
+            $cart->prod_img_path = $product->prod_img_path;
+            $cart->prod_price = $product->prod_price;
+            $cart->save();
 
-        return redirect()->route('add_orders')
-            ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
+            return redirect()->route('add_orders')
+                ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
+        } else {
+            return redirect()->route('add_orders')
+                ->with([
+                    'error_title' => 'Product Unavailable',
+                    'error_msg' => 'Sorry! You cannot add a product that is not available.'
+                ]);
+        }
+    }
+
+    public function ShowCart(Request $req)
+    {
+        $search = $req->search;
+
+        $carts = DB::table('carts')
+            ->select('*')
+            ->orWhere(function ($query) use ($search) {
+                $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
+                $query->where('prod_price', 'LIKE', '%' . $search . '%', 'or');
+                $query->where('prod_qr_code', 'LIKE', '%' . $search . '%', 'or');
+            })
+            ->where('user_id', '=', Auth::id(), 'and')
+            ->paginate(10)->withQueryString();
+
+        return view('orders.cart', [
+            'carts' => $carts,
+            'search' => $search,
+            'i' => 1,
+            'carts' => $carts
+        ]);
     }
 
     public function RemoveFromCart($id)
@@ -102,10 +131,10 @@ class OrderController extends Controller
 
         try {
             $x = $cart_name->prod_name;
-            return redirect()->route('add_orders')
+            return redirect()->back()
                 ->with('successfull', $x . ' has been removed from from cart!');
         } catch (Exception $ex) {
-            return redirect()->route('add_orders')
+            return redirect()->back()
                 ->with([
                     'error_title' => 'Cannot remove if not in cart',
                     'error_msg' => 'Sorry! You cannot remove a product that has not been added to cart.'

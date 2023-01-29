@@ -73,6 +73,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Orders
     Route::get('/orders', [OrderController::class, 'index']);
     Route::get('/orders/add', [OrderController::class, 'ShowProducts'])->name('add_orders');
+    Route::get('/orders/cart/', [OrderController::class, 'ShowCart']);
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
 
