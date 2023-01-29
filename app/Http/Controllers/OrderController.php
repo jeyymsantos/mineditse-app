@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use App\Models\Customer;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+
+use function PHPUnit\Framework\isNull;
 
 class OrderController extends Controller
 {
@@ -75,47 +78,68 @@ class OrderController extends Controller
     public function AddToCart($id)
     {
         $product = Product::find($id);
-        $cart = new Cart();
+        $cart = DB::table('carts')
+            ->where('prod_id', '=', $id, 'and')
+            ->where('user_id', '=', Auth::id());
 
-        if ($product->prod_status == 'Available') {
-            $cart->user_id = Auth::id();
-            $cart->prod_id = $id;
-            $cart->prod_name = $product->prod_name;
-            $cart->prod_qr_code = $product->prod_qr_code;
-            $cart->prod_img_path = $product->prod_img_path;
-            $cart->prod_price = $product->prod_price;
-            $cart->save();
+        $cart_check = $cart->first();
 
-            return redirect()->route('add_orders')
-                ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
-        } else {
-            return redirect()->route('add_orders')
+        try {
+            $x = $cart_check->prod_id;
+            return redirect()->back()
                 ->with([
-                    'error_title' => 'Product Unavailable',
-                    'error_msg' => 'Sorry! You cannot add a product that is not available.'
+                    'error_title' => 'Product already exist',
+                    'error_msg' => 'Sorry! You cannot add a product that already exist on the cart.'
                 ]);
+        } catch (Exception $e) {
+            $cart = new Cart();
+
+            if ($product->prod_status == 'Available') {
+                $cart->user_id = Auth::id();
+                $cart->prod_id = $id;
+                $cart->prod_name = $product->prod_name;
+                $cart->prod_qr_code = $product->prod_qr_code;
+                $cart->prod_img_path = $product->prod_img_path;
+                $cart->prod_price = $product->prod_price;
+                $cart->save();
+
+                return redirect()->route('add_orders')
+                    ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
+            } else {
+                return redirect()->route('add_orders')
+                    ->with([
+                        'error_title' => 'Product Unavailable',
+                        'error_msg' => 'Sorry! You cannot add a product that is not available.'
+                    ]);
+            }
         }
+
+        return response()->json(['cart' => $cart], 200, [], JSON_PRETTY_PRINT);
     }
 
     public function ShowCart(Request $req)
     {
         $search = $req->search;
+        $products = Product::all();
 
         $carts = DB::table('carts')
             ->select('*')
-            ->orWhere(function ($query) use ($search) {
-                $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_price', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_qr_code', 'LIKE', '%' . $search . '%', 'or');
-            })
-            ->where('user_id', '=', Auth::id(), 'and')
+            ->where('user_id', '=', Auth::id())
+            ->paginate(10)->withQueryString();
+
+
+        $customers = DB::table('users')
+            ->select('name', 'email', 'customers.cust_type')
+            ->join('customers', 'users.id', '=', 'customers.cust_id')
             ->paginate(10)->withQueryString();
 
         return view('orders.cart', [
             'carts' => $carts,
             'search' => $search,
+            'products' => $products,
             'i' => 1,
-            'carts' => $carts
+            'carts' => $carts,
+            'customers' => $customers
         ]);
     }
 
