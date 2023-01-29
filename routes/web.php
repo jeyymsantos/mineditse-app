@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BaleController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
@@ -78,15 +79,20 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
     Route::POST('/orders/submit', [OrderController::class, 'CartSubmit']);
 
+    // Customers
+    Route::get('/customers', [CustomerController::class, 'admin_index']);
+
 });
 
 // Customer Authentication
 Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
     // Customers Route
     Route::get('/', [CustomerController::class, 'index']);
-    Route::get('/trial', function () {
-        return view('customers.trial');
-    });
+
+    // Customer Cart
+    Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
+    Route::get('/orders/checkout', [CartController::class, 'ShowCart']);
+    Route::get('/orders/remove/{id}', [CartController::class, 'RemoveFromCart']);
 });
 
 // Staff Authentication

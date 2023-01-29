@@ -143,7 +143,8 @@
             </div>
         </div>
     </div>
-
+    
+    <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
     <script>
         $(document).ready(function() {
             $("#exampleModal").modal('show');

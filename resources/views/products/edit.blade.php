@@ -100,8 +100,8 @@
             <div class="mb-3">
                 <label for="unit" class="form-label">Product Unit</label>
                 <select class="form-select" id="unit" name="unit" required aria-label="Default select example">
-                    <option value="pc" {{ $product->prod_unit = 'pc' ? 'selected' : '' }}> pc </option>
-                    <option value="box"{{ $product->prod_unit = 'box' ? 'selected' : '' }}> box </option>
+                    <option value="pc" {{ $product->prod_unit == 'pc' ? 'selected' : '' }}> pc </option>
+                    <option value="box"{{ $product->prod_unit == 'box' ? 'selected' : '' }}> box </option>
                 </select>
             </div>
 

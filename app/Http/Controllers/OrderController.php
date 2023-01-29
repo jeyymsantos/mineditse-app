@@ -94,10 +94,10 @@ class OrderController extends Controller
                 $cart->prod_price = $product->prod_price;
                 $cart->save();
 
-                return redirect()->route('add_orders')
+                return redirect()->back()
                     ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
             } else {
-                return redirect()->route('add_orders')
+                return redirect()->back()
                     ->with([
                         'error_title' => 'Product Unavailable',
                         'error_msg' => 'Sorry! You cannot add a product that is not available.'
@@ -131,7 +131,7 @@ class OrderController extends Controller
             ->join('customers', 'users.id', '=', 'customers.cust_id')
             ->get();
 
-        return view('orders.cart', [
+        return view('orders.cart')->with([
             'carts' => $carts,
             'products' => $products,
             'i' => 1,

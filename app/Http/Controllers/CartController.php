@@ -4,83 +4,57 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Http\Controllers\Controller;
+use App\Models\Product;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function ShowCart(Request $req)
     {
-        //
+        $products = Product::all();
+
+        $carts = DB::table('carts')
+            ->select('*')
+            ->where('user_id', '=', Auth::id())->get();
+
+        $customers = DB::table('users')
+            ->select('name', 'email', 'customers.cust_type', 'customers.cust_id')
+            ->join('customers', 'users.id', '=', 'customers.cust_id')
+            ->get();
+
+        return view('customers.cart.view')->with([
+            'carts' => $carts,
+            'products' => $products,
+            'i' => 1,
+            'carts' => $carts,
+            'customers' => $customers
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function RemoveFromCart($id)
     {
-        //
-    }
+        $cart = DB::table('carts')
+            ->where('prod_id', '=', $id, 'and')
+            ->where('user_id', '=', Auth::id());
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $cart_name = $cart->first();
+        $cart->delete();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
+        try {
+            $x = $cart_name->prod_name;
+            return redirect()->back()
+                ->with('successfull', $x . ' has been removed from from cart!');
+        } catch (Exception $ex) {
+            return redirect()->back()
+                ->with([
+                    'error_title' => 'Cannot remove if not in cart',
+                    'error_msg' => 'Sorry! You cannot remove a product that has not been added to cart.'
+                ]);
+        };
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Cart $cart)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Cart $cart)
-    {
-        //
+        return response()->json(['cart' => $cart_name, 'prod' => $cart_name->prod_name], 200, [], JSON_PRETTY_PRINT);
     }
 }

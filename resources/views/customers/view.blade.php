@@ -170,6 +170,5 @@
         $("#exampleModal").modal('show');
         ('#dataTable').DataTable();
         });
-        });
     </script>
 @endsection
