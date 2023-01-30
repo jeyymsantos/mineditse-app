@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
@@ -14,30 +15,55 @@ use function PHPUnit\Framework\isNull;
 
 class OrderController extends Controller
 {
-    public function index(Request $req)
+    public function index()
     {
-        $search = $req->search;
-
-        $products = DB::table('products')
-            ->select('*', 'products.bale_id', 'categories.category_name', 'suppliers.supplier_name')
-            ->leftJoin('bales', 'products.bale_id', '=', 'bales.bale_id')
-            ->leftJoin('categories', 'bales.category_id', '=', 'categories.category_id')
-            ->leftJoin('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
-
-            ->orderBy('prod_id')
-            ->orWhere(function ($query) use ($search) {
-                $query->where('prod_name', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_price', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_qr_code', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('products.bale_id', 'LIKE', '%' . $search . '%', 'or');
-                $query->where('prod_status', 'LIKE', '%' . $search . '%', 'or');
-            })
-            ->where('prod_deleted', '=', '0', 'and')
-            ->paginate(10)->withQueryString();
+        $orders = DB::table('orders')
+            ->select('*', 'users.name')
+            ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->get();
 
         return view('orders.view', [
-            'products' => $products,
-            'search' => $search,
+            'orders' => $orders,
+            'i' => 1,
+            // 'prod_total' => $products->count(),
+        ]);
+    }
+
+    public function ViewOrder($id)
+    {
+
+        $orders = DB::table('orders')
+            ->select('*')
+            ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->leftJoin('order_detail', 'order_detail.order_id', '=', 'orders.order_id')
+            ->leftJoin('products', 'order_detail.prod_id', '=', 'products.prod_id')
+            ->leftJoin('bales', 'bales.bale_id', '=', 'products.bale_id')
+            ->leftJoin('categories', 'categories.category_id', 'bales.category_id')
+            ->where('orders.order_id', '=', $id)
+            ->get();
+
+        $order = $orders->first();
+
+        if ($order == null) {
+            $orders = DB::table('orders')
+                ->select('*', 'users.name')
+                ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+                ->get();
+            return redirect()
+            ->route('orders')
+            ->with([
+                'error_title' => 'Order does not exist',
+                'error_msg' => 'Sorry! There are no such order placed on the system.',
+                'orders' => $orders,
+                'i' => 1,
+            ]);
+        }
+
+        // return response()->json($orders, 200, [], JSON_PRETTY_PRINT);
+
+        return view('orders.view_specific', [
+            'orders' => $orders,
+            'order' => $order,
             'i' => 1,
             // 'prod_total' => $products->count(),
         ]);
@@ -110,11 +136,11 @@ class OrderController extends Controller
 
     public function CartSubmit(Request $req)
     {
-        
+
         $customers = DB::table('carts')
-        ->select('*')
-        ->where('user_id', '=', $req->cust_id)->get();
-        
+            ->select('*')
+            ->where('user_id', '=', $req->cust_id)->get();
+
         return response()->json($customers, 200, [], JSON_PRETTY_PRINT);
     }
 

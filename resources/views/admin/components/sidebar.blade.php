@@ -105,8 +105,8 @@
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Manage Orders</h6>
                 <a class="collapse-item" href="/admin/orders">View Orders</a>
+                <a class="collapse-item" href="/admin/orders/add">Create Order</a>
                 <a class="collapse-item" href="/admin/orders/cart">View Cart</a>
-                <a class="collapse-item" href="/admin/orders/add">Add Order</a>
             </div>
         </div>
     </li>
@@ -123,7 +123,7 @@
 
     <!-- Nav Item - Charts -->
     <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="">
             <i class="fa-fw fa-solid fa-info"></i>
             <span>About</span></a>
     </li>

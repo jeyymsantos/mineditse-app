@@ -72,10 +72,11 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/products/delete/{id}', [ProductController::class, 'DeleteProduct']);
 
     // Orders
-    Route::get('/orders', [OrderController::class, 'index']);
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/orders/add', [OrderController::class, 'ShowProducts'])->name('add_orders');
     Route::get('/orders/cart/', [OrderController::class, 'ShowCart']);
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
+    Route::get('/orders/view/{id}', [OrderController::class, 'ViewOrder']);
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
     Route::POST('/orders/submit', [OrderController::class, 'CartSubmit']);
 

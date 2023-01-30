@@ -76,6 +76,7 @@
                                         </td>
                                         <td class="align-middle" scope="row">
                                             {!! DNS2D::getBarcodeHTML($cart->prod_qr_code, 'QRCODE', 5, 5) !!}
+                                            <span style="display: none">({{ $cart->prod_qr_code }})</span>
                                         </td>
                                         <td class="align-middle">
                                             {{-- <img src="{{ asset($product->prod_img_path) }}" width="100px" alt=""> --}}
@@ -173,7 +174,7 @@
                                                             <p style="text-align: left">You are about to confirm order for
                                                                 {{ $customer->name }}'s
                                                                 cart. Are you sure you wish to proceed?</p>
-                                                            <input name="cust_id[{{ $customer->cust_id }}]" value="{{ $customer->cust_id }}">
+                                                           
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary"

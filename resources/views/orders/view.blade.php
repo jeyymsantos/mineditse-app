@@ -53,88 +53,34 @@
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">QR Code</th>
-                                <th scope="col">Photo</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Bale</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Supplier</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Order ID</th>
+                                <th scope="col">Customer Name</th>
+                                <th scope="col">Order Total</th>
+                                <th scope="col">Order Cash</th>
+                                <th scope="col">Order Change</th>
                                 <th scope="col" style="text-align: center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($products as $product)
+                            @foreach ($orders as $order)
                                 <tr>
-                                    <td class="align-middle" scope="row">
-                                        {{ $i++ }}
-                                    </td>
-                                    <td class="align-middle" scope="row">
-                                        {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 5, 5) !!}
-                                        <span style="display: none">({{ $product->prod_qr_code }})</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        {{-- <img src="{{ asset($product->prod_img_path) }}" width="100px" alt=""> --}}
-                                        <img src="{{ asset($product->prod_img_path) }}" width="100px">
-                                    </td>
-                                    <td class="align-middle">{{ $product->prod_name }}</td>
-                                    <td class="align-middle">B{{ $product->bale_id }}</td>
-                                    <td class="align-middle">{{ $product->category_name }}</td>
-                                    <td class="align-middle">{{ $product->supplier_name }}</td>
-                                    <td class="align-middle">
-                                        ₱{{ number_format($product->prod_price, 2) . '/' . $product->prod_unit }}</td>
-                                    <td class="align-middle">
+                                    <td class="align-middle">{{ $i++ }} </td>
+                                    <td class="align-middle"> ORD-0{{ $order->order_id }}-0{{ $order->cust_id }} </td>
+                                    <td class="align-middle">{{ $order->name }}</td>
+                                    <td class="align-middle">{{ $order->order_total }}</td>
+                                    <td class="align-middle"> ₱{{ number_format($order->order_cash, 2) }}</td>
+                                    <td class="align-middle">{{ $order->order_change }}</td>
 
-                                        @if ($product->prod_status == 'Pending')
-                                            <span class="bg-secondary text-light p-2 px-2 rounded"> Pending </span>
-                                        @elseif ($product->prod_status == 'Available')
-                                            <span class="bg-success text-light p-2 rounded"> Available </span>
-                                        @else
-                                            <span class="bg-primary text-light p-2 px-4 rounded"> Sold </span>
-                                        @endif
-                                    </td>
 
                                     <td class="align-middle" style="text-align: center">
-                                        <a href="/admin/products/view/{{ $product->prod_id }}"><button
-                                                class="btn btn-success"><i class="bi-search"></i></button></a>
-                                        <a href="/admin/products/edit/{{ $product->prod_id }}"><button
-                                                class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
-
-                                        <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $product->prod_id }}">
-                                            <i class="bi-trash"></i>
-                                        </button>
+                                        <a href="/admin/orders/view/{{ $order->order_id }}">
+                                            <button class="btn btn-success">
+                                                <i class="bi-search"></i>
+                                            </button>
+                                        </a>
                                     </td>
 
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="deleteModal{{ $product->prod_id }}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you
-                                                        want to
-                                                        delete product?</h1>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    You are about to delete "{{ $product->prod_name }}". Are you sure you
-                                                    wish
-                                                    to
-                                                    proceed?
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary"
-                                                        data-bs-dismiss="modal">Cancel</button>
-                                                    <a href="/admin/products/delete/{{ $product->prod_id }}"><button
-                                                            class="btn btn-danger">Delete</button></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
                                 </tr>
                             @endforeach
                         </tbody>

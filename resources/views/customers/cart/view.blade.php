@@ -1,7 +1,7 @@
 @extends('layouts.customer')
 
 @section('title')
-    <title> Users Home Page </title>
+    <title> User Cart </title>
 @endsection
 
 @section('content')
@@ -42,6 +42,11 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <h3 class="m-0 font-weight-bold text-primary">Cart Items</h6>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
+                        <a href="/customer/orders/" class="btn btn-secondary me-2">Back</a>
+                        <a href="/customer/orders/" class="btn btn-primary me-2">Proceed</a>
                     </div>
                 </div>
             </div>
