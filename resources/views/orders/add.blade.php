@@ -145,7 +145,7 @@
                             <h3 class="m-0 font-weight-bold text-primary">Cart Items ({{ $carts->count() }})</h6>
                         </div>
                         <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                            <a href="/admin/orders/cart"><button class="btn btn-primary me-2">Checkout</button></a>
+                            <a href="/admin/orders/cart"><button class="btn btn-success me-2">Checkout</button></a>
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,6 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">QR Code</th>
                                     <th scope="col">Photo</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Price</th>
@@ -175,10 +174,6 @@
                                     <tr>
                                         <td class="align-middle" scope="row">
                                             {{ $i++ }}
-                                        </td>
-                                        <td class="align-middle" scope="row">
-                                            {!! DNS2D::getBarcodeHTML($cart->prod_qr_code, 'QRCODE', 5, 5) !!}
-                                            <span style="display: none">({{ $cart->prod_qr_code }})</span>
                                         </td>
                                         <td class="align-middle">
                                             {{-- <img src="{{ asset($product->prod_img_path) }}" width="100px" alt=""> --}}

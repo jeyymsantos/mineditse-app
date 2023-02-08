@@ -148,6 +148,7 @@ class OrderController extends Controller
 
         $carts = DB::table('carts')
             ->select('*')
+            ->join('products', 'products.prod_id', 'carts.prod_id')
             ->where('user_id', '=', Auth::id())->get();
 
         $customers = DB::table('users')

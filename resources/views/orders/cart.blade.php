@@ -49,17 +49,18 @@
                             <div class="col-md-6 col-sm-12">
                                 <h3 class="m-0 font-weight-bold text-primary">Generated Orders</h6>
                             </div>
+                            <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
+                                <a href="/admin/orders/add" class="btn btn-secondary me-2">Back</a>
+                            </div>
                         </div>
                     </div>
 
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table id="" class="display table table-bordered" width="100%" cellspacing="0">
+                            <table id="" class="table table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
-                                        <th scope="col">QR Code</th>
-                                        <th scope="col">Photo</th>
                                         <th scope="col">Name</th>
                                         <th scope="col">Price</th>
                                     </tr>
@@ -76,15 +77,8 @@
                                             <td class="align-middle" scope="row">
                                                 {{ $i++ }}
                                             </td>
-                                            <td class="align-middle" scope="row">
-                                                {!! DNS2D::getBarcodeHTML($cart->prod_qr_code, 'QRCODE', 5, 5) !!}
-                                                <span style="display: none">({{ $cart->prod_qr_code }})</span>
-                                            </td>
-                                            <td class="align-middle">
-                                                {{-- <img src="{{ asset($product->prod_img_path) }}" width="100px" alt=""> --}}
-                                                <img src="{{ asset($cart->prod_img_path) }}" width="100px">
-                                            </td>
-                                            <td class="align-middle">{{ $cart->prod_name }}</td>
+                                            <td class="align-middle">{{ $cart->prod_name }}
+                                                <span style="display: none">({{ $cart->prod_qr_code }})</span></td>
                                             <td class="align-middle">
                                                 ₱{{ number_format($cart->prod_price, 2) }}</td>
                                             @php
@@ -96,7 +90,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="4" style="text-align: end" class="fs-3 text-dark"> Grand Total </td>
+                                        <td colspan="2" style="text-align: end" class="fs-3 text-dark"> Grand Total </td>
                                         <td class="font-weight-bold fs-3  text-dark">
                                             ₱{{ number_format($total, 2) }}
                                             <input type="hidden" name="total" value="{{ $total }}">
@@ -116,10 +110,6 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <h3 class="m-0 font-weight-bold text-primary">Select Customer</h6>
-                            </div>
-
-                            <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <a href="/admin/orders/" class="btn btn-secondary me-2">Back</a>
                             </div>
                         </div>
                     </div>
