@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid">
 
         @if (session()->has('error_title'))
             <!-- Modal -->
@@ -38,20 +38,28 @@
 
         <div class="row">
             @foreach ($products as $product)
-                <div class="col-lg-2 col-md-3 col-sm-1 mt-1 mb-3">
-                    <div class="card" style="width: 10rem;">
+                <div class="col-lg-2 col-md-3 col-sm-4 mt-1 mb-3">
+                    <div class="card h-100">
                         <img src="{{ asset($product->prod_img_path) }}" class="card-img-top" alt="...">
                         <div class="card-body">
-                            <h3 class="text-dark">{{ $product->prod_name }}</h3>
+                            <h4 class="text-dark">{{ $product->prod_name }}</h4>
                             <p class="card-text">
                                 {{ $product->prod_price }} | {{ $product->category_name }}
                             </p>
 
-                            <p class="card-text {{ $product->prod_status }}">
+                            <p class="card-text {{ $product->prod_status == 'Pending' ? 'text-warning' : 'text-success' }}">
                                 {{ $product->prod_status }}
                             </p>
-                            <a href="/customer/orders/add/{{ $product->prod_id }}" class="btn btn-primary">Add to
-                                Cart</a>
+
+
+
+                        </div>
+
+                        <div class="body text-end">
+                            @if ($product->prod_status == 'Available')
+                                <a href="/customer/orders/add/{{ $product->prod_id }}" class="btn btn-primary mb-3 me-3">Add to
+                                    Cart</a>
+                            @endif
                         </div>
                     </div>
                 </div>

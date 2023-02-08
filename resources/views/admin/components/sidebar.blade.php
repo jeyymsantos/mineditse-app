@@ -106,7 +106,6 @@
                 <h6 class="collapse-header">Manage Orders</h6>
                 <a class="collapse-item" href="/admin/orders">View Orders</a>
                 <a class="collapse-item" href="/admin/orders/add">Create Order</a>
-                <a class="collapse-item" href="/admin/orders/cart">View Cart</a>
             </div>
         </div>
     </li>

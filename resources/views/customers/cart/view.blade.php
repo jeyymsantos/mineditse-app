@@ -37,6 +37,14 @@
             $total = 0;
         @endphp
 
+        <div class="col-6">
+
+        </div>
+
+        <div class="col-6">
+
+        </div>
+
         <div class="card shadow mb-4 border-left-primary">
             <div class="card-header">
                 <div class="row">

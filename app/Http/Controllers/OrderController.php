@@ -80,9 +80,11 @@ class OrderController extends Controller
             ->orderBy('prod_id')
             ->where('prod_deleted', '=', '0', 'and')
             ->where('prod_status', '=', 'Available')
+            ->orderBy('prod_id')
             ->get();
 
         $carts = DB::table('carts')
+            ->join('products', 'products.prod_id', 'carts.prod_id')
             ->where('user_id', '=', Auth::id())->get();
 
         return view('orders.add', [
@@ -114,10 +116,6 @@ class OrderController extends Controller
             if ($product->prod_status == 'Available') {
                 $cart->user_id = Auth::id();
                 $cart->prod_id = $id;
-                $cart->prod_name = $product->prod_name;
-                $cart->prod_qr_code = $product->prod_qr_code;
-                $cart->prod_img_path = $product->prod_img_path;
-                $cart->prod_price = $product->prod_price;
                 $cart->save();
 
                 return redirect()->back()
@@ -170,7 +168,8 @@ class OrderController extends Controller
     {
 
         $cart = DB::table('carts')
-            ->where('prod_id', '=', $id, 'and')
+            ->join('products', 'products.prod_id', '=', 'carts.prod_id')
+            ->where('carts.prod_id', '=', $id, 'and')
             ->where('user_id', '=', Auth::id());
 
         $cart_name = $cart->first();
