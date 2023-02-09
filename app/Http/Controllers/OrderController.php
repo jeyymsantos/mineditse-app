@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
@@ -50,13 +51,13 @@ class OrderController extends Controller
                 ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
                 ->get();
             return redirect()
-            ->route('orders')
-            ->with([
-                'error_title' => 'Order does not exist',
-                'error_msg' => 'Sorry! There are no such order placed on the system.',
-                'orders' => $orders,
-                'i' => 1,
-            ]);
+                ->route('orders')
+                ->with([
+                    'error_title' => 'Order does not exist',
+                    'error_msg' => 'Sorry! There are no such order placed on the system.',
+                    'orders' => $orders,
+                    'i' => 1,
+                ]);
         }
 
         // return response()->json($orders, 200, [], JSON_PRETTY_PRINT);
@@ -134,7 +135,7 @@ class OrderController extends Controller
 
     public function CartSubmit(Request $req)
     {
-        if($req->id == "false"){
+        if ($req->id == "false") {
             return redirect()->back()
                 ->with([
                     'error_title' => 'Select a Customer!',
@@ -149,21 +150,28 @@ class OrderController extends Controller
         $order->order_shipping_fee = $req->shipping_fee;
         $order->payment_method = $req->payment_method;
         $order->order_method = $req->order_method;
+        $order->payment_cash = "0";
         $order->order_status = "PAYMENT PENDING";
         $order->order_details = $req->remarks;
+        $order->save();
+
+        // return response()->json($order, 200, [], JSON_PRETTY_PRINT);
 
         $carts = DB::table('carts')
             ->select('*')
             ->join('products', 'products.prod_id', 'carts.prod_id')
             ->where('user_id', '=', Auth::id())->get();
 
-        
-
         foreach ($carts as $cart) {
-            
+            $order_detail = new OrderDetail();
+            $order_detail->order_id = $order->order_id;
+            $order_detail->prod_id = $cart->prod_id;
+            $order_detail->save();
+
+            Cart::find($cart->card_id)->delete();
         }
 
-        return response()->json($req, 200, [], JSON_PRETTY_PRINT);
+       return redirect()->route('orders');
     }
 
     public function ShowCart(Request $req)
@@ -214,9 +222,10 @@ class OrderController extends Controller
         return response()->json(['cart' => $cart_name, 'prod' => $cart_name->prod_name], 200, [], JSON_PRETTY_PRINT);
     }
 
-    public function GetAddress($id){
+    public function GetAddress($id)
+    {
         $address['data'] = Customer::where('cust_id', $id)
-        ->get();
+            ->get();
 
         return response()->json($address, 200, [], JSON_PRETTY_PRINT);
     }
