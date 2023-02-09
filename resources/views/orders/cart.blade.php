@@ -78,7 +78,8 @@
                                                 {{ $i++ }}
                                             </td>
                                             <td class="align-middle">{{ $cart->prod_name }}
-                                                <span style="display: none">({{ $cart->prod_qr_code }})</span></td>
+                                                <span style="display: none">({{ $cart->prod_qr_code }})</span>
+                                            </td>
                                             <td class="align-middle">
                                                 ₱{{ number_format($cart->prod_price, 2) }}</td>
                                             @php
@@ -104,89 +105,63 @@
                 </div>
             </div>
 
-            <div class="col-6">
+            <div class="col-md-6">
                 <div class="card shadow mb-4 border-left-primary">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
-                                <h3 class="m-0 font-weight-bold text-primary">Select Customer</h6>
+                                <h3 class="m-0 font-weight-bold text-primary">Transaction Details</h6>
+                            </div>
+                            <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
+                                <a href="/admin/orders/add" class="btn btn-success me-2">Place Order</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="" class="display table table-bordered" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Email</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($customers as $customer)
-                                        @php
-                                            $find = 0;
-                                        @endphp
-                                        <tr>
-                                            <td class="align-middle" scope="row">
-                                                {{ $i++ }}
-                                            </td>
-                                            <td class="align-middle" scope="row">
-                                                {{ $customer->name }}
-                                            </td>
-                                            <td class="align-middle">
-                                                {{ $customer->email }}
-                                            </td>
-                                            <td class="align-middle">{{ $customer->cust_type }}</td>
-                                            <td style="text-align: center">
+                        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
+                            @csrf
 
-                                                {{-- Button --}}
-                                                <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                    data-bs-target="#cartModal{{ $customer->cust_id }}">
-                                                    <i class="bi bi-bag-check-fill"></i>
-                                                </button>
+                            {{-- Customer Name --}}
+                            <div class="mb-3">
+                                <label for="unit" class="form-label">Customer Name</label>
+                                <select class="form-select" id="unit" name="unit" required
+                                    aria-label="Default select example">
+                                    <option value="pc" selected> Customer Name </option>
+                                    <option value="box"> box </option>
+                                </select>
+                            </div>
 
-                                                <!-- Modal -->
-                                                <div class="modal fade" id="cartModal{{ $customer->cust_id }}"
-                                                    tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Are you
-                                                                    sure
-                                                                    you
-                                                                    want to
-                                                                    checkout?</h1>
-                                                                <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p style="text-align: left">You are about to confirm order
-                                                                    for
-                                                                    {{ $customer->name }}'s
-                                                                    cart. Are you sure you wish to proceed?</p>
+                            {{-- Order Method --}}
+                            <div class="mb-3">
+                                <label for="order_method" class="form-label">Order Method</label>
+                                <select class="form-select" id="unit" name="order_method" required
+                                    aria-label="Default select example">
+                                    <option value="Pick-Up" selected> Pick-Up </option>
+                                    <option value="Delivery"> Delivery </option>
+                                    <option value="Meet-Up"> Meet-Up </option>
+                                </select>
+                            </div>
 
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancel</button>
-                                                                <button type="submit" class="btn btn-success"><i
-                                                                        class="bi-check-circle-fill"></i>
-                                                                    Confirm</button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            {{-- Payment Method --}}
+                            <div class="mb-3">
+                                <label for="order_method" class="form-label">Payment Method</label>
+                                <select class="form-select" id="unit" name="order_method" required
+                                    aria-label="Default select example">
+                                    <option value="Pick-Up" selected> Cash </option>
+                                    <option value="Delivery"> Gcash/Card </option>
+
+                                </select>
+                            </div>
+
+                            {{-- Product Price --}}
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Shipping Fee</label>
+                                <input type="number" name="price" step=".01" class="form-control" id="price"
+                                    placeholder="##.##" required>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
             </div>
