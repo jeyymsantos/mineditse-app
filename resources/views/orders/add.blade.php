@@ -145,7 +145,12 @@
                             <h3 class="m-0 font-weight-bold text-primary">Cart Items ({{ $carts->count() }})</h6>
                         </div>
                         <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                            <a href="/admin/orders/cart"><button class="btn btn-success me-2">Checkout</button></a>
+
+                            @if ($carts->count() != 0)
+                                <a href="/admin/orders/cart"><button class="btn btn-success me-2">Checkout</button></a>
+                            @endif
+
+
                         </div>
                     </div>
                 </div>

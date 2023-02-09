@@ -168,6 +168,9 @@ class OrderController extends Controller
             $order_detail->prod_id = $cart->prod_id;
             $order_detail->save();
 
+            $edit = Product::find($cart->prod_id);
+            $edit->prod_status = "Sold";
+            $edit->save();
             Cart::find($cart->card_id)->delete();
         }
 
