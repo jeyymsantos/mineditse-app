@@ -134,12 +134,36 @@ class OrderController extends Controller
 
     public function CartSubmit(Request $req)
     {
+        if($req->id == "false"){
+            return redirect()->back()
+                ->with([
+                    'error_title' => 'Select a Customer!',
+                    'error_msg' => 'Sorry! You cannot generate an invoice without selecting a customer.'
+                ]);
+        }
 
-        $customers = DB::table('carts')
+        $order = new Order();
+        $order->cust_id = $req->id;
+        $order->staff_id = Auth::user()->id;
+        $order->order_total = $req->order_total;
+        $order->order_shipping_fee = $req->shipping_fee;
+        $order->payment_method = $req->payment_method;
+        $order->order_method = $req->order_method;
+        $order->order_status = "PAYMENT PENDING";
+        $order->order_details = $req->remarks;
+
+        $carts = DB::table('carts')
             ->select('*')
-            ->where('user_id', '=', $req->cust_id)->get();
+            ->join('products', 'products.prod_id', 'carts.prod_id')
+            ->where('user_id', '=', Auth::id())->get();
 
-        return response()->json($customers, 200, [], JSON_PRETTY_PRINT);
+        
+
+        foreach ($carts as $cart) {
+            
+        }
+
+        return response()->json($req, 200, [], JSON_PRETTY_PRINT);
     }
 
     public function ShowCart(Request $req)
@@ -152,7 +176,6 @@ class OrderController extends Controller
             ->where('user_id', '=', Auth::id())->get();
 
         $customers = DB::table('users')
-            ->select('name', 'email', 'customers.cust_type', 'customers.cust_id')
             ->join('customers', 'users.id', '=', 'customers.cust_id')
             ->get();
 
@@ -189,5 +212,12 @@ class OrderController extends Controller
         };
 
         return response()->json(['cart' => $cart_name, 'prod' => $cart_name->prod_name], 200, [], JSON_PRETTY_PRINT);
+    }
+
+    public function GetAddress($id){
+        $address['data'] = Customer::where('cust_id', $id)
+        ->get();
+
+        return response()->json($address, 200, [], JSON_PRETTY_PRINT);
     }
 }

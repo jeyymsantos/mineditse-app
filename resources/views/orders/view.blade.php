@@ -67,9 +67,9 @@
                                     <td class="align-middle">{{ $i++ }} </td>
                                     <td class="align-middle"> ORD-0{{ $order->order_id }}-0{{ $order->cust_id }} </td>
                                     <td class="align-middle">{{ $order->name }}</td>
-                                    <td class="align-middle">{{ $order->order_total }}</td>
-                                    <td class="align-middle"> ₱{{ number_format($order->order_cash, 2) }}</td>
-                                    <td class="align-middle">{{ $order->order_change }}</td>
+                                    <td class="align-middle">₱{{ number_format($order->order_total+$order->order_shipping_fee,2) }}</td>
+                                    <td class="align-middle"> ₱{{ number_format($order->payment_cash, 2) }}</td>
+                                    <td class="align-middle">₱{{ number_format($order->payment_cash-($order->order_total+$order->order_shipping_fee), 2) }}</td>
 
 
                                     <td class="align-middle" style="text-align: center">

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> View Cart </title>
+    <title> Order Invoice </title>
 @endsection
 
 @section('custom_css')
@@ -37,6 +37,7 @@
 
 
         <form action="/admin/orders/submit" method="POST" class="row">
+        {{-- <form action="" method="" class="row"> --}}
             @csrf
             @php
                 $total = 0;
@@ -70,9 +71,6 @@
                                         $i = 1;
                                     @endphp
                                     @foreach ($carts as $cart)
-                                        @php
-                                            $find = 0;
-                                        @endphp
                                         <tr>
                                             <td class="align-middle" scope="row">
                                                 {{ $i++ }}
@@ -91,10 +89,10 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2" style="text-align: end" class="fs-3 text-dark"> Grand Total </td>
-                                        <td class="font-weight-bold fs-3  text-dark">
-                                            ₱{{ number_format($total, 2) }}
-                                            <input type="hidden" name="total" value="{{ $total }}">
+                                        <td colspan="2" style="text-align: end" class="text-dark"> Order Total </td>
+                                        <td class="font-weight-bold text-dark">
+                                            <span id="order_total">₱{{ number_format($total, 2) }}</span>
+                                            <input type="hidden" name="order_total" value="{{ $total }}">
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -110,10 +108,11 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
-                                <h3 class="m-0 font-weight-bold text-primary">Transaction Details</h6>
+                                <h3 class="m-0 font-weight-bold text-primary">Generate Order Invoice</h6>
                             </div>
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <a href="/admin/orders/add" class="btn btn-success me-2">Place Order</a>
+                                <button type="submit" href="/admin/orders/add" class="btn btn-success me-2">Place
+                                    Order</button>
                             </div>
                         </div>
                     </div>
@@ -124,18 +123,42 @@
 
                             {{-- Customer Name --}}
                             <div class="mb-3">
-                                <label for="unit" class="form-label">Customer Name</label>
-                                <select class="form-select" id="unit" name="unit" required
+                                <label for="name" class="form-label">Customer Name</label>
+                                <select class="form-select" id="name" name="id" required
                                     aria-label="Default select example">
-                                    <option value="pc" selected> Customer Name </option>
-                                    <option value="box"> box </option>
+
+                                    <option value="false" selected> Select a Customer</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->cust_id }}"> {{ $customer->name }}
+                                            ({{ $customer->email }})
+                                        </option>
+                                    @endforeach
+
+
+                                </select>
+                            </div>
+
+                            {{-- Customer Address --}}
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Customer Address</label>
+                                <input type="text" name="address" class="form-control" id="address"
+                                    placeholder="Address" readonly required value="Select a customer to generate address">
+                            </div>
+
+                            {{-- Payment Method --}}
+                            <div class="mb-3">
+                                <label for="payment_method" class="form-label">Payment Method</label>
+                                <select class="form-select" id="payment_method" name="payment_method" required
+                                    aria-label="Default select example">
+                                    <option value="Cash" selected> Cash </option>
+                                    <option value="Gcash"> Gcash </option>
                                 </select>
                             </div>
 
                             {{-- Order Method --}}
                             <div class="mb-3">
                                 <label for="order_method" class="form-label">Order Method</label>
-                                <select class="form-select" id="unit" name="order_method" required
+                                <select class="form-select" id="order_method" name="order_method" required
                                     aria-label="Default select example">
                                     <option value="Pick-Up" selected> Pick-Up </option>
                                     <option value="Delivery"> Delivery </option>
@@ -143,22 +166,19 @@
                                 </select>
                             </div>
 
-                            {{-- Payment Method --}}
-                            <div class="mb-3">
-                                <label for="order_method" class="form-label">Payment Method</label>
-                                <select class="form-select" id="unit" name="order_method" required
-                                    aria-label="Default select example">
-                                    <option value="Pick-Up" selected> Cash </option>
-                                    <option value="Delivery"> Gcash/Card </option>
-
-                                </select>
-                            </div>
-
                             {{-- Product Price --}}
                             <div class="mb-3">
-                                <label for="price" class="form-label">Shipping Fee</label>
-                                <input type="number" name="price" step=".01" class="form-control" id="price"
-                                    placeholder="##.##" required>
+                                <label for="shipping_fee" class="form-label">Shipping Fee</label>
+                                <input type="number" name="shipping_fee"
+                                    value="0"
+                                    class="form-control" id="shipping_fee" placeholder="##.##" required readonly>
+                            </div>
+
+                            {{-- Product Remarks --}}
+                            <div class="mb-3">
+                                <label for="remarks" class="form-label">Additional Remarks</label>
+                                <textarea class="form-control" name="remarks" maxlength="255" id="remarks" rows="3"
+                                    placeholder="Enter some remarks"></textarea>
                             </div>
 
                         </form>
@@ -175,6 +195,49 @@
     <script>
         $(document).ready(function() {
             $("#exampleModal").modal('show');
+
+            $('#name').change(function() {
+                var id = $(this).val();
+
+                $.ajax({
+                    url: '/admin/customer/address/' + id,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(response) {
+
+                        if (response['data'].length > 0) {
+                            var address = response['data'][0].cust_street + ", " +
+                                response['data'][0].cust_barangay + ", " +
+                                response['data'][0].cust_city + ", " +
+                                response['data'][0].cust_province;
+                            $("#address").val(address);
+                        } else {
+                            $("#address").val("Select a customer to generate address");
+                        }
+                    }
+                });
+
+            });
+
+            $('#name').select2();
+
+            $('#order_method').change(function() {
+                var method = $(this).val();
+                if (method === "Delivery") {
+                    $('#shipping_fee').prop('readonly', false);
+                    $('#shipping_fee').prop('required', true);
+                    $('#shipping_fee').val('');
+                } else if (method === "Meet-Up") {
+                    $('#shipping_fee').prop('readonly', false);
+                    $('#shipping_fee').prop('required', true);
+                    $('#shipping_fee').val('');
+                } else {
+                    $('#shipping_fee').prop('readonly', true);
+                    $('#shipping_fee').prop('required', false);
+                    $('#shipping_fee').val('0');
+                }
+            });
+
         });
     </script>
 @endsection

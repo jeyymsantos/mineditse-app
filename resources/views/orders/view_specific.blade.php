@@ -99,8 +99,8 @@
                             <tfoot>
                                 <td colspan="5" style="text-align: end" class="text-dark"> Change </td>
                                 <td class="font-weight-bold text-dark">
-                                    ₱{{ number_format(($order->order_cash-$total), 2) }}
-                                    <input type="hidden" name="total" value="{{ $order->order_change }}">
+                                    ₱{{ number_format(($order->payment_cash-$total), 2) }}
+                                    <input type="hidden" name="total" value="">
                                 </td>
                             </tfoot>
 
@@ -115,8 +115,8 @@
                             <tfoot>
                                 <td colspan="5" style="text-align: end" class="text-dark"> Cash </td>
                                 <td class="font-weight-bold text-dark">
-                                    ₱{{ number_format($order->order_cash, 2) }}
-                                    <input type="hidden" name="total" value="{{ $order->order_cash }}">
+                                    ₱{{ number_format($order->payment_cash, 2) }}
+                                    {{-- <input type="hidden" name="total" value="{{ $order->order_cash }}"> --}}
                                 </td>
                             </tfoot>
 

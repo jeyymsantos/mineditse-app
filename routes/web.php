@@ -80,6 +80,8 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
     Route::POST('/orders/submit', [OrderController::class, 'CartSubmit']);
 
+    Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
+
     // Customers
     Route::get('/customers', [CustomerController::class, 'admin_index']);
 
