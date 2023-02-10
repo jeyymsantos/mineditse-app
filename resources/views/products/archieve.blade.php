@@ -138,7 +138,7 @@
 
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#deleteModal{{ $product->prod_id }}">
+                                data-bs-target="#deleteModal{{ $product->prod_id }}" title="Restore Product">
                                 <i class="bi-arrow-clockwise text-dark"></i>
                             </button>
                         </td>

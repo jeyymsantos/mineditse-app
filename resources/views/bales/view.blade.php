@@ -75,9 +75,9 @@
 
                         <td class="align-middle" style="text-align: center">
                             <a href="/admin/bales/edit/{{ $bale->bale_id }}"><button class="btn btn-warning"><i
-                                        class="bi-pencil"></i></button></a>
+                                        class="bi-pencil" title="Edit Bale"></i></button></a>
                             <a href="/admin/bales/delete/{{ $bale->bale_id }}"><button class="btn btn-danger"><i
-                                        class="bi-trash"></i></button></a>
+                                        class="bi-trash" title="Delete Bale"></i></button></a>
                         </td>
                     </tr>
                 @endforeach

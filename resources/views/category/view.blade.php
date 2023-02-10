@@ -69,9 +69,9 @@
 
                         <td class="align-middle" style="text-align: center">
                             <a href="/admin/category/edit/{{ $category->category_id }}"><button class="btn btn-warning"><i
-                                        class="bi-pencil"></i></button></a>
+                                        class="bi-pencil" title="Edit Category"></i></button></a>
                             <a href="/admin/category/delete/{{ $category->category_id }}"><button
-                                    class="btn btn-danger"><i class="bi-trash"></i></button></a>
+                                    class="btn btn-danger" title="Delete Category"><i class="bi-trash"></i></button></a>
                         </td>
                     </tr>
                 @endforeach

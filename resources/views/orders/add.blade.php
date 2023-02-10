@@ -124,7 +124,7 @@
 
                                             <td class="align-middle" style="text-align: center">
                                                 <a href="/admin/orders/add/{{ $product->prod_id }}"><button
-                                                        class="btn btn-primary"><i class="bi-cart"></i></button></a>
+                                                        class="btn btn-primary" title="Add to Cart"><i class="bi-cart"></i></button></a>
                                             </td>
                                         </tr>
                                     @endif
@@ -203,7 +203,7 @@
                                             @if ($find == 1)
                                                 {{-- Button --}}
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#deleteModal{{ $cart->prod_id }}">
+                                                    data-bs-target="#deleteModal{{ $cart->prod_id }}" title="Remove from Cart">
                                                     <i class="bi-trash"></i>
                                                 </button>
                                             @else

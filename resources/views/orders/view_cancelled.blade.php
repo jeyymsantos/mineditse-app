@@ -105,13 +105,13 @@
                                         @else
                                             <a href="/admin/orders/invoice/{{ $order->order_id }}"
                                                 style="text-decoration: none;">
-                                                <button class="btn btn-success">
+                                                <button class="btn btn-success" title="View Order">
                                                     <i class="bi-search"></i>
                                                 </button>
                                             </a>
 
                                             <a href="/admin/orders/edit/{{ $order->order_id }}"><button
-                                                    class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
+                                                    class="btn btn-warning text-dark" title="Edit Order"><i class="bi-pencil"></i></button></a>
                                         @endif
 
 

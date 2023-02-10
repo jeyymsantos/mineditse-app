@@ -97,13 +97,13 @@
 
                                     <td class="align-middle" style="text-align: center">
                                         <a href="/admin/products/view/{{ $product->prod_id }}"><button
-                                                class="btn btn-success"><i class="bi-search"></i></button></a>
+                                                class="btn btn-success"><i class="bi-search" title="View Product"></i></button></a>
                                         <a href="/admin/products/edit/{{ $product->prod_id }}"><button
-                                                class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
+                                                class="btn btn-warning text-dark"><i class="bi-pencil" title="Edit Product"></i></button></a>
 
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $product->prod_id }}">
+                                            data-bs-target="#deleteModal{{ $product->prod_id }}" title="Delete Product">
                                             <i class="bi-trash"></i>
                                         </button>
                                     </td>

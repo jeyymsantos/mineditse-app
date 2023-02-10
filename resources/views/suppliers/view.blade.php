@@ -76,9 +76,9 @@
 
                         <td class="align-middle" style="text-align: center">
                             <a href="/admin/suppliers/edit/{{ $supplier->supplier_id }}"><button
-                                    class="btn btn-warning"><i class="bi-pencil"></i></button></a>
+                                    class="btn btn-warning" title="Edit Supplier"><i class="bi-pencil"></i></button></a>
                             <a href="/admin/suppliers/delete/{{ $supplier->supplier_id }}"><button
-                                    class="btn btn-danger"><i class="bi-trash"></i></button></a>
+                                    class="btn btn-danger" title="Delete Supplier"><i class="bi-trash"></i></button></a>
                         </td>
                     </tr>
                 @endforeach
