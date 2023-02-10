@@ -200,6 +200,7 @@ return [
         * Barcode Library
         */
         Milon\Barcode\BarcodeServiceProvider::class,
+        Barryvdh\DomPDF\ServiceProvider::class,
     ],
 
     /*
@@ -218,4 +219,5 @@ return [
     ])->toArray(),
     'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
     'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+    'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
 ];

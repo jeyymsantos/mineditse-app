@@ -48,8 +48,12 @@
                                     <button class="btn btn-secondary me-2">Back</button>
                                 </a>
 
-                                <a href="/admin/orders/print">
-                                    <button class="btn btn-primary me-2"><i class="bi bi-printer me-2"></i>Print Invoice</button>
+                                <a href="/admin/orders/invoice/{{ $order->order_id }}/view" target="_blank">
+                                    <button class="btn btn-warning me-2"><i class="bi bi-folder2-open me-2"></i>View Invoice</button>
+                                </a>
+
+                                <a href="/admin/orders/invoice/{{ $order->order_id }}/generate" >
+                                    <button class="btn btn-primary me-2"><i class="bi bi-download me-2"></i>Download Invoice</button>
                                 </a>
 
                             </div>
