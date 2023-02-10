@@ -77,6 +77,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders');
     Route::get('/orders/add', [OrderController::class, 'ShowProducts'])->name('add_orders');
     Route::get('/orders/cart/', [OrderController::class, 'ShowCart']);
+    Route::get('/orders/cancelled/', [OrderController::class, 'CancelledOrders']);
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
     Route::POST('/orders/submit', [OrderController::class, 'CartSubmit']);
@@ -85,14 +86,18 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders/invoice/{id}', [OrderController::class, 'ViewOrder']);
     Route::GET('/orders/edit/{id}', [OrderController::class, 'EditOrder']);
     Route::POST('/order/update/{id}', [OrderController::class, 'UpdateOrder']);
+    Route::get('/orders/delete/{id}', [OrderController::class, 'DeleteOrder']);
+
+    // Invoice Printing
+    Route::get('/orders/invoice/{id}/view', [PrintController::class, 'ViewInvoice']);
+    Route::get('/orders/invoice/{id}/generate', [PrintController::class, 'GenerateInvoice']);
 
     // Invoice Payment
     Route::get('/orders/payment/{id}', [PaymentController::class, 'ViewPayment'])->name('view_payment');
     Route::post('/orders/payment/{id}', [PaymentController::class, 'PayOrder']);
 
-    // Invoice Printing
-    Route::get('/orders/invoice/{id}/view', [PrintController::class, 'ViewInvoice']);
-    Route::get('/orders/invoice/{id}/generate', [PrintController::class, 'GenerateInvoice']);
+    Route::get('/orders/receipts', [PaymentController::class, 'index'])->name('receipts');
+
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
 

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Order Invoices </title>
+    <title> Order Receipts </title>
 @endsection
 
 @section('custom_css')
@@ -39,11 +39,11 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <h3 class="m-0 font-weight-bold text-primary">View Order Invoices</h6>
+                        <h3 class="m-0 font-weight-bold text-primary">View Order Receipts</h3>
                     </div>
-                    <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
+                    {{-- <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
                         <a href="/admin/orders/add"><button class="btn btn-primary">Add Invoice</button></a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <div class="card-body">
@@ -92,39 +92,14 @@
 
 
                                     <td class="align-middle" style="text-align: center">
-
-                                        @if ($order->order_status == 'Completed')
+                                        @if ($order->payment_status == 'Received')
                                             <a href="/admin/orders/receipt/{{ $order->order_id }}"
                                                 style="text-decoration: none;">
                                                 <button class="btn btn-primary">
                                                     <i class="bi-search"></i>
                                                 </button>
                                             </a>
-                                        @else
-                                            @if ($order->payment_status != 'Received')
-                                                <a href="/admin/orders/invoice/{{ $order->order_id }}"
-                                                    style="text-decoration: none;">
-                                                    <button class="btn btn-success">
-                                                        <i class="bi-search"></i>
-                                                    </button>
-                                                </a>
-
-                                                <a href="/admin/orders/payment/{{ $order->order_id }}">
-                                                    <button class="btn btn-info text-dark"><i class="bi-cash"></i></button>
-                                                </a>
-                                            @else
-                                                <a href="/admin/orders/receipt/{{ $order->order_id }}"
-                                                    style="text-decoration: none;">
-                                                    <button class="btn btn-primary">
-                                                        <i class="bi-search"></i>
-                                                    </button>
-                                                </a>
-                                            @endif
-                                            <a href="/admin/orders/edit/{{ $order->order_id }}"><button
-                                                    class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
                                         @endif
-
-
                                     </td>
 
 

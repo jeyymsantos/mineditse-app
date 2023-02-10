@@ -94,18 +94,43 @@
         </div>
     </li>
 
+    
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        ORDERS
+    </div>
+
     <!-- Nav Item - Orders Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSix"
             aria-expanded="true" aria-controls="collapseSix">
             <i class="fa-fw fa-solid fa-list"></i>
-            <span>Orders</span>
+            <span>Invoices</span>
         </a>
         <div id="collapseSix" class="collapse" aria-labelledby="collapseSix" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Manage Orders</h6>
-                <a class="collapse-item" href="/admin/orders">View Orders</a>
-                <a class="collapse-item" href="/admin/orders/add">Create Order</a>
+                <h6 class="collapse-header">Manage Invoices</h6>
+                <a class="collapse-item" href="/admin/orders">View Invoices</a>
+                <a class="collapse-item" href="/admin/orders/add">Add Invoice</a>
+                <a class="collapse-item" href="/admin/orders/cancelled">Cancelled Invoices</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Orders Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSeven"
+            aria-expanded="true" aria-controls="collapseSeven">
+            <i class="fa-fw fa-solid fa-money-bill"></i>
+            <span>Receipts</span>
+        </a>
+        <div id="collapseSeven" class="collapse" aria-labelledby="collapseSeven" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Manage Receipts</h6>
+                <a class="collapse-item" href="/admin/orders/receipts">View Receipts</a>
             </div>
         </div>
     </li>

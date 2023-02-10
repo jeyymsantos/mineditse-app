@@ -21,9 +21,26 @@ class OrderController extends Controller
         $orders = DB::table('orders')
             ->select('*', 'users.name')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->where('payment_status', '=', 'Pending')
+            ->where('order_status', '<>', 'Cancelled')
             ->get();
 
         return view('orders.view', [
+            'orders' => $orders,
+            'i' => 1,
+            // 'prod_total' => $products->count(),
+        ]);
+    }
+
+    public function CancelledOrders()
+    {
+        $orders = DB::table('orders')
+            ->select('*', 'users.name')
+            ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->where('order_status', '=', 'Cancelled')
+            ->get();
+
+        return view('orders.view_cancelled', [
             'orders' => $orders,
             'i' => 1,
             // 'prod_total' => $products->count(),
@@ -45,7 +62,7 @@ class OrderController extends Controller
 
         $order = $orders->first();
 
-        if($order->order_status == "Completed"){
+        if ($order->order_status == "Completed") {
             return redirect('/admin/order/receipt/' . $id);
         }
 
@@ -177,7 +194,7 @@ class OrderController extends Controller
 
         $carts = DB::table('carts')
             ->select('*')
-            ->join('products', 'products.prod_id', 'carts.prod_id')
+            ->join('products', 'products.prod_id', '=', 'carts.prod_id')
             ->where('user_id', '=', Auth::id())->get();
 
         foreach ($carts as $cart) {
@@ -192,7 +209,7 @@ class OrderController extends Controller
             Cart::find($cart->card_id)->delete();
         }
 
-        return redirect('/admin/orders/invoice/'.$order->order_id);
+        return redirect('/admin/orders/invoice/' . $order->order_id);
     }
 
     public function ShowCart(Request $req)
@@ -273,6 +290,17 @@ class OrderController extends Controller
             ->get();
 
         $order = $orders->first();
+
+        if ($order->payment_status == "Received") {
+            return redirect()->route('receipts')
+                ->with([
+                    'error_title' => 'Order already placed',
+                    'error_msg' => 'Sorry! You cannot edit a placed order.',
+                    'orders' => $orders,
+                    'i' => 1,
+                ]);;
+        }
+
         $staff = DB::table('orders')
             ->select('*')
             ->join('users', 'orders.staff_id', '=', 'users.id')
@@ -322,5 +350,26 @@ class OrderController extends Controller
         $order->save();
 
         return redirect()->route('orders')->with('successfull', 'Order has been updated!');
+    }
+
+    public function DeleteOrder($id)
+    {
+
+        $order = Order::find($id);
+        $order->order_status = "Cancelled";
+        $order->save();
+
+        $items = DB::table('order_detail')
+            ->select('*')
+            ->join('products', 'products.prod_id', '=', 'order_detail.prod_id')
+            ->where('order_id', '=', $order->order_id)->get();
+
+        foreach ($items as $item) {
+            $edit = Product::find($item->prod_id);
+            $edit->prod_status = "Available";
+            $edit->save();  
+        }
+
+        return redirect()->route('orders')->with('successfull', 'Order has been deleted! Product has been restored as available');
     }
 }

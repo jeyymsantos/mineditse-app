@@ -9,6 +9,23 @@ use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
+
+    public function index()
+    {
+        $orders = DB::table('orders')
+            ->select('*', 'users.name')
+            ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->where('payment_status', '=', 'Received')
+            ->get();
+
+        return view('orders.receipt_view', [
+            'orders' => $orders,
+            'i' => 1,
+            // 'prod_total' => $products->count(),
+        ]);
+    }
+
+
     public function ViewPayment($id)
     {
 
@@ -91,7 +108,7 @@ class PaymentController extends Controller
        $order->save();
 
        return redirect()
-            ->route('orders')
+            ->route('receipts')
             ->with('successfull', 'Payment has been confirmed & received!');
 
     }

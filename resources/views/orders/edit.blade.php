@@ -144,63 +144,99 @@
                                 <h3 class="m-0 font-weight-bold text-primary">Edit Invoice Methods</h6>
                             </div>
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <button type="submit" href="/admin/order/update/{{ $order->order_id }}" class="btn btn-primary me-2">Update
-                                    </button>
+
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-danger me-2" data-bs-toggle="modal"
+                                    data-bs-target="#deleteModal">
+                                    <i class="bi-trash me-2"></i>Delete
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="deleteModal" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you
+                                                    want to
+                                                    delete order?</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                You are about to delete this order. Are you sure you
+                                                wish
+                                                to
+                                                proceed? Take note that this action can't be undone.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">Cancel</button> 
+                                                <a href="/admin/orders/delete/{{ $order->order_id }}" class="btn btn-danger">
+                                                  Confirm Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary me-2">
+                                    Update
+                                </button>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
 
-                            {{-- Payment Method --}}
-                            <div class="mb-3">
-                                <label for="payment_method" class="form-label">Payment Method</label>
-                                <select class="form-select" id="payment_method" name="payment_method" required
-                                    aria-label="Default select example">
-                                    <option value="Cash" {{ $order->payment_method == 'Cash' ? 'Selected' : '' }}> Cash
-                                    </option>
-                                    <option value="Gcash" {{ $order->payment_method == 'Gcash' ? 'Selected' : '' }}>
-                                        Gcash </option>
-                                </select>
-                            </div>
+                        {{-- Payment Method --}}
+                        <div class="mb-3">
+                            <label for="payment_method" class="form-label">Payment Method</label>
+                            <select class="form-select" id="payment_method" name="payment_method" required
+                                aria-label="Default select example">
+                                <option value="Cash" {{ $order->payment_method == 'Cash' ? 'Selected' : '' }}> Cash
+                                </option>
+                                <option value="Gcash" {{ $order->payment_method == 'Gcash' ? 'Selected' : '' }}>
+                                    Gcash </option>
+                            </select>
+                        </div>
 
-                            {{-- Order Method --}}
-                            <div class="mb-3">
-                                <label for="order_method" class="form-label">Order Method</label>
-                                <select class="form-select" id="order_method" name="order_method" required
-                                    aria-label="Default select example">
+                        {{-- Order Method --}}
+                        <div class="mb-3">
+                            <label for="order_method" class="form-label">Order Method</label>
+                            <select class="form-select" id="order_method" name="order_method" required
+                                aria-label="Default select example">
 
-                                    @if ($order->order_method == 'Pick-Up')
-                                        <option value="Pick-Up" selected> Pick-Up </option>
-                                        <option value="Delivery"> Delivery </option>
-                                        <option value="Meet-Up"> Meet-Up </option>
-                                    @elseif($order->order_method == 'Delivery')
-                                        <option value="Pick-Up"> Pick-Up </option>
-                                        <option value="Delivery" selected> Delivery </option>
-                                        <option value="Meet-Up"> Meet-Up </option>
-                                    @else
-                                        <option value="Pick-Up"> Pick-Up </option>
-                                        <option value="Delivery"> Delivery </option>
-                                        <option value="Meet-Up" selected> Meet-Up </option>
-                                    @endif
+                                @if ($order->order_method == 'Pick-Up')
+                                    <option value="Pick-Up" selected> Pick-Up </option>
+                                    <option value="Delivery"> Delivery </option>
+                                    <option value="Meet-Up"> Meet-Up </option>
+                                @elseif($order->order_method == 'Delivery')
+                                    <option value="Pick-Up"> Pick-Up </option>
+                                    <option value="Delivery" selected> Delivery </option>
+                                    <option value="Meet-Up"> Meet-Up </option>
+                                @else
+                                    <option value="Pick-Up"> Pick-Up </option>
+                                    <option value="Delivery"> Delivery </option>
+                                    <option value="Meet-Up" selected> Meet-Up </option>
+                                @endif
+                            </select>
+                        </div>
 
+                        {{-- Product Price --}}
+                        <div class="mb-3">
+                            <label for="shipping_fee" class="form-label">Shipping Fee</label>
+                            <input type="number" name="shipping_fee" value="{{ $order->order_shipping_fee }}"
+                                class="form-control" id="shipping_fee" placeholder="##.##" required
+                                {{ $order->order_method == 'Pick-Up' ? 'readonly' : '' }}>
+                        </div>
 
-                                </select>
-                            </div>
-
-                            {{-- Product Price --}}
-                            <div class="mb-3">
-                                <label for="shipping_fee" class="form-label">Shipping Fee</label>
-                                <input type="number" name="shipping_fee" value="{{ $order->order_shipping_fee }}" class="form-control"
-                                    id="shipping_fee" placeholder="##.##" required {{ $order->order_method == "Pick-Up" ? "readonly" : ""}}>
-                            </div>
-
-                            {{-- Product Remarks --}}
-                            <div class="mb-3">
-                                <label for="remarks" class="form-label">Additional Remarks</label>
-                                <textarea class="form-control" name="remarks" maxlength="255" id="remarks" rows="3"
-                                    placeholder="Enter some remarks">{{ $order->order_details }}</textarea>
-                            </div>
+                        {{-- Product Remarks --}}
+                        <div class="mb-3">
+                            <label for="remarks" class="form-label">Additional Remarks</label>
+                            <textarea class="form-control" name="remarks" maxlength="255" id="remarks" rows="3"
+                                placeholder="Enter some remarks">{{ $order->order_details }}</textarea>
+                        </div>
                     </div>
                 </div>
 
