@@ -42,7 +42,6 @@
                         <h3 class="m-0 font-weight-bold text-primary">View Order Transactions</h6>
                     </div>
                     <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                        <a href="/admin/orders/archieve"><button class="btn btn-secondary me-2">Archive</button></a>
                         <a href="/admin/orders/add"><button class="btn btn-primary">Add Order</button></a>
                     </div>
                 </div>
@@ -95,14 +94,14 @@
                                     <td class="align-middle" style="text-align: center">
 
                                         @if ($order->order_status == 'Completed')
-                                            <a href="/admin/orders/invoice/{{ $order->order_id }}"
+                                            <a href="/admin/orders/receipt/{{ $order->order_id }}"
                                                 style="text-decoration: none;">
                                                 <button class="btn btn-primary">
                                                     <i class="bi-search"></i>
                                                 </button>
                                             </a>
                                         @else
-                                            <a href="/admin/orders/receipt/{{ $order->order_id }}"
+                                            <a href="/admin/orders/invoice/{{ $order->order_id }}"
                                                 style="text-decoration: none;">
                                                 <button class="btn btn-success">
                                                     <i class="bi-search"></i>

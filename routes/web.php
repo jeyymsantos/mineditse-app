@@ -82,7 +82,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Invoice
     Route::get('/orders/invoice/{id}', [OrderController::class, 'ViewOrder']);
     Route::GET('/order/edit/{id}', [OrderController::class, 'EditOrder']);
-    Route::GET('/order/update/{id}', [OrderController::class, 'UpdateOrder']);
+    Route::POST('/order/update/{id}', [OrderController::class, 'UpdateOrder']);
 
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);

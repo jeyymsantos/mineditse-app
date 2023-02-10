@@ -35,6 +35,7 @@ class OrderController extends Controller
         $orders = DB::table('orders')
             ->select('*')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->leftJoin('customers', 'users.id', '=', 'customers.cust_id')
             ->leftJoin('order_detail', 'order_detail.order_id', '=', 'orders.order_id')
             ->leftJoin('products', 'order_detail.prod_id', '=', 'products.prod_id')
             ->leftJoin('bales', 'bales.bale_id', '=', 'products.bale_id')
@@ -43,6 +44,17 @@ class OrderController extends Controller
             ->get();
 
         $order = $orders->first();
+
+        if($order->order_status == "Completed"){
+            return redirect('/admin/order/receipt/' . $id);
+        }
+
+
+        $staff = DB::table('orders')
+            ->select('*')
+            ->join('users', 'orders.staff_id', '=', 'users.id')
+            ->where('order_id', '=', $id)
+            ->get()->first();
 
         if ($order == null) {
             $orders = DB::table('orders')
@@ -59,12 +71,18 @@ class OrderController extends Controller
                 ]);
         }
 
-        // return response()->json($orders, 200, [], JSON_PRETTY_PRINT);
+        $carts = DB::table('order_detail')
+            ->select('*')
+            ->where('order_id', '=', $id)
+            ->join('products', 'products.prod_id', '=', 'order_detail.prod_id')
+            ->get();
 
         return view('orders.view_specific', [
             'orders' => $orders,
             'order' => $order,
             'i' => 1,
+            'staff' => $staff,
+            'carts' => $carts
             // 'prod_total' => $products->count(),
         ]);
     }
@@ -168,13 +186,13 @@ class OrderController extends Controller
             $order_detail->prod_id = $cart->prod_id;
             $order_detail->save();
 
-            $edit = Product::find($cart->prod_id);
-            $edit->prod_status = "Sold";
-            $edit->save();
+            // $edit = Product::find($cart->prod_id);
+            // $edit->prod_status = "Sold";
+            // $edit->save();
             Cart::find($cart->card_id)->delete();
         }
 
-       return redirect()->route('orders');
+        return redirect('/admin/orders/invoice/'.$order->order_id);
     }
 
     public function ShowCart(Request $req)
@@ -185,6 +203,14 @@ class OrderController extends Controller
             ->select('*')
             ->join('products', 'products.prod_id', 'carts.prod_id')
             ->where('user_id', '=', Auth::id())->get();
+
+        if ($carts->isEmpty()) {
+            return redirect()->route('add_orders')
+                ->with([
+                    'error_title' => 'Cannot Process',
+                    'error_msg' => 'Sorry! You cannot process an invoice without items in the cart.'
+                ]);
+        }
 
         $customers = DB::table('users')
             ->join('customers', 'users.id', '=', 'customers.cust_id')
@@ -233,24 +259,25 @@ class OrderController extends Controller
         return response()->json($address, 200, [], JSON_PRETTY_PRINT);
     }
 
-    public function EditOrder($id){
+    public function EditOrder($id)
+    {
         $orders = DB::table('orders')
-        ->select('*')
-        ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
-        ->leftJoin('customers', 'users.id', '=', 'customers.cust_id')
-        ->leftJoin('order_detail', 'order_detail.order_id', '=', 'orders.order_id')
-        ->leftJoin('products', 'order_detail.prod_id', '=', 'products.prod_id')
-        ->leftJoin('bales', 'bales.bale_id', '=', 'products.bale_id')
-        ->leftJoin('categories', 'categories.category_id', 'bales.category_id')
-        ->where('orders.order_id', '=', $id)
-        ->get();
+            ->select('*')
+            ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+            ->leftJoin('customers', 'users.id', '=', 'customers.cust_id')
+            ->leftJoin('order_detail', 'order_detail.order_id', '=', 'orders.order_id')
+            ->leftJoin('products', 'order_detail.prod_id', '=', 'products.prod_id')
+            ->leftJoin('bales', 'bales.bale_id', '=', 'products.bale_id')
+            ->leftJoin('categories', 'categories.category_id', 'bales.category_id')
+            ->where('orders.order_id', '=', $id)
+            ->get();
 
         $order = $orders->first();
         $staff = DB::table('orders')
-        ->select('*')
-        ->join('users', 'orders.staff_id', '=', 'users.id')
-        ->where('order_id', '=', $id)
-        ->get()->first();
+            ->select('*')
+            ->join('users', 'orders.staff_id', '=', 'users.id')
+            ->where('order_id', '=', $id)
+            ->get()->first();
 
         if ($order == null) {
             $orders = DB::table('orders')
@@ -268,10 +295,10 @@ class OrderController extends Controller
         }
 
         $carts = DB::table('order_detail')
-        ->select('*')
-        ->where('order_id', '=', $id)
-        ->join('products', 'products.prod_id', '=', 'order_detail.prod_id')
-        ->get();
+            ->select('*')
+            ->where('order_id', '=', $id)
+            ->join('products', 'products.prod_id', '=', 'order_detail.prod_id')
+            ->get();
 
         return view('orders.edit', [
             'orders' => $orders,
@@ -281,10 +308,19 @@ class OrderController extends Controller
             'i' => 1,
             // 'prod_total' => $products->count(),
         ]);
-
     }
 
-    public function UpdateOrder($id){
-        
+    public function UpdateOrder($id, Request $req)
+    {
+
+        $order = Order::find($id);
+        $order->payment_method = $req->payment_method;
+        $order->order_method = $req->order_method;
+        $order->order_status = "For " . $req->order_method;
+        $order->order_shipping_fee = $req->shipping_fee;
+        $order->order_details = $req->remarks;
+        $order->save();
+
+        return redirect()->route('orders')->with('successfull', 'Order has been updated!');
     }
 }

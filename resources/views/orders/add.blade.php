@@ -147,7 +147,7 @@
                         <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
 
                             @if ($carts->count() != 0)
-                                <a href="/admin/orders/cart"><button class="btn btn-success me-2">Checkout</button></a>
+                                <a href="/admin/orders/cart"><button class="btn btn-primary me-2">Next</button></a>
                             @endif
 
 

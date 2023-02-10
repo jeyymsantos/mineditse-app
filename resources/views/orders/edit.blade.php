@@ -36,7 +36,6 @@
         @endif
 
         <div class="row">
-
             <div class="col-md-6">
                 <div class="card shadow mb-4 border-left-primary">
                     <div class="card-header">
@@ -135,7 +134,7 @@
             </div>
 
 
-            <form action="/admin/orders/submit" method="POST" class="col-md-6">
+            <form action="/admin/order/update/{{ $order->order_id }}" method="POST" class="col-md-6">
                 {{-- <form action="" method="" class="row"> --}}
                 @csrf
                 <div class="card shadow mb-4 border-left-primary">
@@ -152,8 +151,6 @@
                     </div>
 
                     <div class="card-body">
-                        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
-                            @csrf
 
                             {{-- Payment Method --}}
                             <div class="mb-3">
@@ -204,8 +201,6 @@
                                 <textarea class="form-control" name="remarks" maxlength="255" id="remarks" rows="3"
                                     placeholder="Enter some remarks">{{ $order->order_details }}</textarea>
                             </div>
-
-                        </form>
                     </div>
                 </div>
 

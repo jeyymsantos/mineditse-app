@@ -111,15 +111,13 @@
                                 <h3 class="m-0 font-weight-bold text-primary">Generate Order Invoice</h6>
                             </div>
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <button type="submit" href="/admin/orders/add" class="btn btn-success me-2">Place
-                                    Order</button>
+                                <button type="submit" href="/admin/orders/add" class="btn btn-primary me-2">Generate
+                                    Invoice</button>
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
-                        <form action="/admin/products/add" method="POST" enctype="multipart/form-data">
-                            @csrf
 
                             {{-- Customer Name --}}
                             <div class="mb-3">
@@ -180,8 +178,6 @@
                                 <textarea class="form-control" name="remarks" maxlength="255" id="remarks" rows="3"
                                     placeholder="Enter some remarks"></textarea>
                             </div>
-
-                        </form>
                     </div>
                 </div>
             </div>

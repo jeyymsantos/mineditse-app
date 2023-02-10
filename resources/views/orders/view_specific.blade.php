@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         @if (session()->has('error_title'))
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -35,104 +35,115 @@
             </div>
         @endif
 
-        <div class="card shadow mb-4 border-left-primary">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <h3 class="m-0 font-weight-bold text-primary">View Order Details</h6>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card shadow mb-4 border-left-primary">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <h3 class="m-0 font-weight-bold text-primary">Invoice Details Preview</h6>
+                            </div>
+                            <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
+                                <a href="/admin/orders/">
+                                    <button class="btn btn-secondary me-2">Back</button>
+                                </a>
+
+                                <a href="/admin/orders/print">
+                                    <button class="btn btn-secondary me-2">Print Invoice</button>
+                                </a>
+
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                        <a href="/admin/orders/"><button class="btn btn-secondary me-2">Back</button></a>
-                        <a href="#"><button class="btn btn-primary">Print Order</button></a>
-                    </div>
-                </div>
-            </div>
-            <div class="card-body">
 
-                <div class="row">
-                    <p class="m-0"> Transaction ID: <b>ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</b></p>
-                    <p class="m-0"> Customer Name: <b>{{ $order->name }}</b></p>
-                    <p class="m-0"> Customer Email: <b>{{ $order->email }}</b></p>
-                </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <p class="fs-2 fw-bold text-primary text-end text-uppercase">{{ $order->order_method }} </p>
+                        </div>
 
-                <hr />
+                        <div class="row mb-3">
+                            <p class="m-0 col-md-6"> Transaction ID:
+                                <b>ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</b>
+                            </p>
+                            <p class="m-0 col-md-6"> Customer Name: <b>{{ $order->name }}</b></p>
+                            <p class="m-0 col-md-6"> Customer Email: <b>{{ $order->email }}</b></p>
+                            <p class="m-0 col-md-6"> Customer Phone: <b>{{ $order->phone_number }}</b></p>
 
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Product QR</th>
-                                <th scope="col">Image</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Bale (Category)</th>
-                                <th scope="col">Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @php
-                                $total = 0;
-                            @endphp
-                            @foreach ($orders as $order)
-                                <tr>
-                                    <td class="align-middle">{{ $i++ }} </td>
-                                    <td class="align-middle">
-                                        {!! DNS2D::getBarcodeHTML($order->prod_qr_code, 'QRCODE', 5, 5) !!}
-                                        <span style="display: none">({{ $order->prod_qr_code }})</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <img src="{{ asset($order->prod_img_path) }}" width="100px">
-                                    </td>
-                                    <td class="align-middle">{{ $order->prod_name }}</td>
-                                    <td class="align-middle">
-                                        {{ 'B' . $order->bale_id . ' (' . $order->category_name . ')' }}
-                                    </td>
-                                    <td class="align-middle">
-                                        ₱{{ number_format($order->prod_price, 2) }}
-                                    </td>
+                        </div>
+
+                        <div class="row mb-3">
+                            <p class="m-0 col-md-6"> Invoice Date: <b>
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, H:ia') }}
+                                </b></p>
+                            <p class="m-0 col-md-6"> Processed by: <b>{{ $staff->name }}</b></p>
+                            <p class="m-0 col-md-6"> Address:
+                                <b>{{ $order->cust_street . ', ' . $order->cust_barangay . ', ' . $order->cust_city . ', ' . $order->cust_province }}</b>
+                            </p>
+                            <p class="m-0 col-md-6"> Payment Method: <b> {{ $order->payment_method }}</b></p>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table id="" class="table table-bordered" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Product Name</th>
+                                        <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
                                     @php
-                                        $total += $order->prod_price;
+                                        $i = 1;
                                     @endphp
-                                </tr>
-                            @endforeach
+                                    @foreach ($carts as $cart)
+                                        <tr>
+                                            <td class="align-middle" scope="row">
+                                                {{ $i++ }}
+                                            </td>
+                                            <td class="align-middle">{{ $cart->prod_name }}
+                                                <span style="display: none">({{ $cart->prod_qr_code }})</span>
+                                            </td>
+                                            <td class="align-middle">₱{{ number_format($cart->prod_price, 2) }}</td>
 
-                            <tfoot>
-                                <td colspan="5" style="text-align: end" class="text-dark"> Change </td>
-                                <td class="font-weight-bold text-dark">
-                                    ₱{{ number_format(($order->payment_cash-$total), 2) }}
-                                    <input type="hidden" name="total" value="">
-                                </td>
-                            </tfoot>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2" style="text-align: end" class="text-dark"> Order Total </td>
+                                        <td class="font-weight-bold text-dark">
+                                            <span id="order_total">₱{{ number_format($order->order_total, 2) }}</span>
+                                        </td>
+                                    </tr>
 
-                            <tfoot>
-                                <td colspan="5" style="text-align: end" class="fs-3 text-dark"> Grand Total </td>
-                                <td class="font-weight-bold fs-3  text-dark">
-                                    ₱{{ number_format($total, 2) }}
-                                    <input type="hidden" name="total" value="{{ $total }}">
-                                </td>
-                            </tfoot>
-                            
-                            <tfoot>
-                                <td colspan="5" style="text-align: end" class="text-dark"> Cash </td>
-                                <td class="font-weight-bold text-dark">
-                                    ₱{{ number_format($order->payment_cash, 2) }}
-                                    {{-- <input type="hidden" name="total" value="{{ $order->order_cash }}"> --}}
-                                </td>
-                            </tfoot>
+                                    <tr>
+                                        <td colspan="2" style="text-align: end" class="text-dark"> Shipping Fee </td>
+                                        <td class="font-weight-bold text-dark">
+                                            <span
+                                                id="order_total">₱{{ number_format($order->order_shipping_fee, 2) }}</span>
+                                        </td>
+                                    </tr>
 
-                                                      
-                            
-                        </tbody>
-                    </table>
+                                    <tr>
+                                        <td colspan="2" style="text-align: end" class="text-dark fs-3"> Grand Total </td>
+                                        <td class="font-weight-bold text-dark fs-3">
+                                            <span
+                                                id="order_total">₱{{ number_format($order->order_shipping_fee + $order->order_total, 2) }}</span>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $("#exampleModal").modal('show');
-        });
-    </script>
-@endsection
+        <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $("#exampleModal").modal('show');
+            });
+        </script>
+    @endsection
