@@ -49,7 +49,7 @@
                                 </a>
 
                                 <a href="/admin/orders/print">
-                                    <button class="btn btn-secondary me-2">Print Invoice</button>
+                                    <button class="btn btn-primary me-2"><i class="bi bi-printer me-2"></i>Print Invoice</button>
                                 </a>
 
                             </div>
