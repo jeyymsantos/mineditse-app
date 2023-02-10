@@ -101,13 +101,26 @@
                                                 </button>
                                             </a>
                                         @else
-                                            <a href="/admin/orders/invoice/{{ $order->order_id }}"
-                                                style="text-decoration: none;">
-                                                <button class="btn btn-success">
-                                                    <i class="bi-search"></i>
-                                                </button>
-                                            </a>
-                                            <a href="/admin/order/edit/{{ $order->order_id }}"><button
+                                            @if ($order->payment_status != 'Received')
+                                                <a href="/admin/orders/invoice/{{ $order->order_id }}"
+                                                    style="text-decoration: none;">
+                                                    <button class="btn btn-success">
+                                                        <i class="bi-search"></i>
+                                                    </button>
+                                                </a>
+
+                                                <a href="/admin/orders/payment/{{ $order->order_id }}">
+                                                    <button class="btn btn-info text-dark"><i class="bi-cash"></i></button>
+                                                </a>
+                                            @else
+                                                <a href="/admin/orders/receipt/{{ $order->order_id }}"
+                                                    style="text-decoration: none;">
+                                                    <button class="btn btn-primary">
+                                                        <i class="bi-search"></i>
+                                                    </button>
+                                                </a>
+                                            @endif
+                                            <a href="/admin/orders/edit/{{ $order->order_id }}"><button
                                                     class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
                                         @endif
 

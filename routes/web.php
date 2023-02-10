@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\StaffController;
@@ -82,13 +83,16 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
     // Invoice
     Route::get('/orders/invoice/{id}', [OrderController::class, 'ViewOrder']);
-    Route::GET('/order/edit/{id}', [OrderController::class, 'EditOrder']);
+    Route::GET('/orders/edit/{id}', [OrderController::class, 'EditOrder']);
     Route::POST('/order/update/{id}', [OrderController::class, 'UpdateOrder']);
 
+    // Invoice Payment
+    Route::get('/orders/payment/{id}', [PaymentController::class, 'ViewPayment'])->name('view_payment');
+    Route::post('/orders/payment/{id}', [PaymentController::class, 'PayOrder']);
+
+    // Invoice Printing
     Route::get('/orders/invoice/{id}/view', [PrintController::class, 'ViewInvoice']);
     Route::get('/orders/invoice/{id}/generate', [PrintController::class, 'GenerateInvoice']);
-
-
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
 
