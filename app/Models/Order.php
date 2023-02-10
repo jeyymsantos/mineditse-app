@@ -16,6 +16,7 @@ class Order extends Model
         'order_total', 
         'order_shipping_fee',
         'payment_method',
+        'payment_status',
         'payment_cash',
         'order_method',
         'order_status',   

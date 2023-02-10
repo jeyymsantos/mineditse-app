@@ -32,7 +32,6 @@ class OrderController extends Controller
 
     public function ViewOrder($id)
     {
-
         $orders = DB::table('orders')
             ->select('*')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
@@ -148,10 +147,11 @@ class OrderController extends Controller
         $order->staff_id = Auth::user()->id;
         $order->order_total = $req->order_total;
         $order->order_shipping_fee = $req->shipping_fee;
-        $order->payment_method = $req->payment_method;
         $order->order_method = $req->order_method;
+        $order->payment_method = $req->payment_method;
         $order->payment_cash = "0";
-        $order->order_status = "PAYMENT PENDING";
+        $order->payment_status = "Pending";
+        $order->order_status = "For " . $req->order_method;
         $order->order_details = $req->remarks;
         $order->save();
 
@@ -231,5 +231,60 @@ class OrderController extends Controller
             ->get();
 
         return response()->json($address, 200, [], JSON_PRETTY_PRINT);
+    }
+
+    public function EditOrder($id){
+        $orders = DB::table('orders')
+        ->select('*')
+        ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+        ->leftJoin('customers', 'users.id', '=', 'customers.cust_id')
+        ->leftJoin('order_detail', 'order_detail.order_id', '=', 'orders.order_id')
+        ->leftJoin('products', 'order_detail.prod_id', '=', 'products.prod_id')
+        ->leftJoin('bales', 'bales.bale_id', '=', 'products.bale_id')
+        ->leftJoin('categories', 'categories.category_id', 'bales.category_id')
+        ->where('orders.order_id', '=', $id)
+        ->get();
+
+        $order = $orders->first();
+        $staff = DB::table('orders')
+        ->select('*')
+        ->join('users', 'orders.staff_id', '=', 'users.id')
+        ->where('order_id', '=', $id)
+        ->get()->first();
+
+        if ($order == null) {
+            $orders = DB::table('orders')
+                ->select('*', 'users.name')
+                ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
+                ->get();
+            return redirect()
+                ->route('orders')
+                ->with([
+                    'error_title' => 'Order does not exist',
+                    'error_msg' => 'Sorry! There are no such order placed on the system.',
+                    'orders' => $orders,
+                    'i' => 1,
+                ]);
+        }
+
+        $carts = DB::table('order_detail')
+        ->select('*')
+        ->where('order_id', '=', $id)
+        ->join('products', 'products.prod_id', '=', 'order_detail.prod_id')
+        ->get();
+
+        return view('orders.edit', [
+            'orders' => $orders,
+            'order' => $order,
+            'carts' => $carts,
+            'staff' => $staff,
+            'i' => 1,
+            // 'prod_total' => $products->count(),
+        ]);
+
+    }
+
+    public function UpdateOrder($id){
+        
     }
 }

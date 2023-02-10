@@ -76,9 +76,14 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders/add', [OrderController::class, 'ShowProducts'])->name('add_orders');
     Route::get('/orders/cart/', [OrderController::class, 'ShowCart']);
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
-    Route::get('/orders/view/{id}', [OrderController::class, 'ViewOrder']);
     Route::get('/orders/remove/{id}', [OrderController::class, 'RemoveFromCart']);
     Route::POST('/orders/submit', [OrderController::class, 'CartSubmit']);
+
+    // Invoice
+    Route::get('/orders/invoice/{id}', [OrderController::class, 'ViewOrder']);
+    Route::GET('/order/edit/{id}', [OrderController::class, 'EditOrder']);
+    Route::GET('/order/update/{id}', [OrderController::class, 'UpdateOrder']);
+
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
 

@@ -56,28 +56,63 @@
                                 <th scope="col">Order ID</th>
                                 <th scope="col">Customer Name</th>
                                 <th scope="col">Order Total</th>
-                                <th scope="col">Order Cash</th>
-                                <th scope="col">Order Change</th>
+                                <th scope="col">Order Method</th>
+                                <th scope="col">Payment Method</th>
+                                <th scope="col">Payment Status</th>
+                                <th scope="col">Order Status</th>
                                 <th scope="col" style="text-align: center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($orders as $order)
                                 <tr>
-                                    <td class="align-middle">{{ $i++ }} </td>
-                                    <td class="align-middle"> ORD-0{{ $order->order_id }}-0{{ $order->cust_id }} </td>
-                                    <td class="align-middle">{{ $order->name }}</td>
-                                    <td class="align-middle">₱{{ number_format($order->order_total+$order->order_shipping_fee,2) }}</td>
-                                    <td class="align-middle"> ₱{{ number_format($order->payment_cash, 2) }}</td>
-                                    <td class="align-middle">₱{{ number_format($order->payment_cash-($order->order_total+$order->order_shipping_fee), 2) }}</td>
+                                    <td class="text-center">{{ $i++ }} </td>
+                                    <td class="text-center"> ORD-0{{ $order->order_id }}-0{{ $order->cust_id }} </td>
+                                    <td class="text-center">{{ $order->name }}</td>
+                                    <td class="text-center">
+                                        ₱{{ number_format($order->order_total + $order->order_shipping_fee, 2) }}</td>
+
+                                    <td class="text-center">{{ $order->order_method }}</td>
+                                    <td class="text-center">{{ $order->payment_method }}</td>
+
+                                    {{-- Payment Status --}}
+                                    @if ($order->payment_status == 'Received')
+                                        <td class="text-center text-success fw-bold">{{ $order->payment_status }}</td>
+                                    @else
+                                        <td class="text-center text-danger fw-bold">{{ $order->payment_status }}</td>
+                                    @endif
+
+                                    {{-- Order Status --}}
+                                    @if ($order->order_status == 'Completed')
+                                        <td class="text-center text-success fw-bold">{{ $order->order_status }}</td>
+                                    @elseif($order->order_status == 'In-Transit')
+                                        <td class="text-center text-primary fw-bold">{{ $order->order_status }}</td>
+                                    @else
+                                        <td class="text-center text-warning fw-bold">{{ $order->order_status }}</td>
+                                    @endif
 
 
                                     <td class="align-middle" style="text-align: center">
-                                        <a href="/admin/orders/view/{{ $order->order_id }}">
-                                            <button class="btn btn-success">
-                                                <i class="bi-search"></i>
-                                            </button>
-                                        </a>
+
+                                        @if ($order->order_status == 'Completed')
+                                            <a href="/admin/orders/invoice/{{ $order->order_id }}"
+                                                style="text-decoration: none;">
+                                                <button class="btn btn-primary">
+                                                    <i class="bi-search"></i>
+                                                </button>
+                                            </a>
+                                        @else
+                                            <a href="/admin/orders/receipt/{{ $order->order_id }}"
+                                                style="text-decoration: none;">
+                                                <button class="btn btn-success">
+                                                    <i class="bi-search"></i>
+                                                </button>
+                                            </a>
+                                            <a href="/admin/order/edit/{{ $order->order_id }}"><button
+                                                    class="btn btn-warning text-dark"><i class="bi-pencil"></i></button></a>
+                                        @endif
+
+
                                     </td>
 
 

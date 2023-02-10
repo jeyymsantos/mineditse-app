@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('order_method', 50);
             $table->string('order_status', 100);
             $table->string('payment_method', 10);
+            $table->string('payment_status', 20);
             $table->decimal('payment_cash', 10, 2);
             $table->string('order_details', 255)->nullable();
             $table->timestamp('order_date')->useCurrent();
