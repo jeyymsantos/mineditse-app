@@ -1,14 +1,14 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Payment for Invoice | {{ $order->name }} </title>
+    <title> Orders | Receipt ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</title>
 @endsection
 
 @section('custom_css')
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         @if (session()->has('error_title'))
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -36,23 +36,47 @@
         @endif
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="card shadow mb-4 border-left-primary">
                     <div class="card-header">
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
-                                <h3 class="m-0 font-weight-bold text-primary">Invoice Details Preview</h6>
+                                <h3 class="m-0 font-weight-bold text-primary">Receipt Details Preview</h6>
                             </div>
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <a href="/admin/orders/">
-                                    <button class="btn btn-secondary me-2">Back</button></a>
+
+                                @if ($order->order_status != 'Cancelled')
+                                    <a href="/admin/orders/">
+                                        <button class="btn btn-secondary me-2">Back</button>
+                                    </a>
+
+                                    <a href="/admin/orders/invoice/{{ $order->order_id }}/view" target="_blank">
+                                        <button class="btn btn-warning me-2"><i class="bi bi-folder2-open me-2"></i>View
+                                            Receipt</button>
+                                    </a>
+
+                                    <a href="/admin/orders/invoice/{{ $order->order_id }}/generate">
+                                        <button class="btn btn-primary me-2"><i class="bi bi-download me-2"></i>Download
+                                            Receipt</button>
+                                    </a>
+                                @else
+                                    <a href="/admin/orders/cancelled">
+                                        <button class="btn btn-secondary me-2">Back</button>
+                                    </a>
+                                @endif
+
                             </div>
                         </div>
                     </div>
 
                     <div class="card-body">
                         <div class="row">
-                            <p class="fs-2 fw-bold text-primary text-end text-uppercase">{{ $order->order_method }} </p>
+                            @if ($order->order_status == 'Cancelled')
+                                <p class="fs-2 fw-bold text-danger text-end text-uppercase">{{ $order->order_status }} </p>
+                            @else
+                                <p class="fs-2 fw-bold text-primary text-end text-uppercase">{{ $order->order_method }} </p>
+                            @endif
+
                         </div>
 
                         <div class="row mb-3">
@@ -62,18 +86,23 @@
                             <p class="m-0 col-md-6"> Customer Name: <b>{{ $order->name }}</b></p>
                             <p class="m-0 col-md-6"> Customer Email: <b>{{ $order->email }}</b></p>
                             <p class="m-0 col-md-6"> Customer Phone: <b>{{ $order->phone_number }}</b></p>
-
                         </div>
 
                         <div class="row mb-3">
                             <p class="m-0 col-md-6"> Invoice Date: <b>
-                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, h:ia') }}
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, H:ia') }}
                                 </b></p>
                             <p class="m-0 col-md-6"> Processed by: <b>{{ $staff->name }}</b></p>
                             <p class="m-0 col-md-6"> Address:
                                 <b>{{ $order->cust_street . ', ' . $order->cust_barangay . ', ' . $order->cust_city . ', ' . $order->cust_province }}</b>
                             </p>
                             <p class="m-0 col-md-6"> Payment Method: <b> {{ $order->payment_method }}</b></p>
+                        </div>
+
+                        <div class="row mb-3">
+                            <p class="m-0 col-md-6"> Payment Date: <b>
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->payment_date)->format('F d, Y, H:ia') }}
+                                </b></p>
                         </div>
 
                         <div class="table-responsive">
@@ -132,101 +161,12 @@
                     </div>
                 </div>
             </div>
-
-
-            <form action="/admin/orders/payment/submit" method="POST" class="col-md-6">
-                {{-- <form action="" method="" class="row"> --}}
-                @csrf
-                <div class="card shadow mb-4 border-left-primary">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-6 col-sm-12">
-                                <h3 class="m-0 font-weight-bold text-primary">Settle Payment</h6>
-                            </div>
-                            <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <button type="submit" class="btn btn-primary me-2">
-                                    <i class="bi bi-cash me-2"></i> Pay
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-
-                        {{-- Order ID --}}
-                        <div class="mb-3">
-                            <label for="transac" class="form-label">Transaction ID</label>
-                            <input type="text" name="transac"
-                                value="ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}" class="form-control"
-                                id="transac" placeholder="##.##" required readonly>
-
-                            <input type="hidden" name="id" value="{{ $order->order_id }}" class="form-control"
-                                id="id" placeholder="##.##" required>
-                        </div>
-
-                        {{-- Order Payment --}}
-                        <div class="mb-3">
-                            <label for="order_payment" class="form-label">Order Payment</label>
-                            <input type="number" name="order_payment" class="form-control" id="order_payment"
-                                placeholder="##.##" required>
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </form>
         </div>
 
-    </div>
-
-    <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $("#exampleModal").modal('show');
-
-            $('#name').change(function() {
-                var id = $(this).val();
-
-                $.ajax({
-                    url: '/admin/customer/address/' + id,
-                    type: 'get',
-                    dataType: 'json',
-                    success: function(response) {
-
-                        if (response['data'].length > 0) {
-                            var address = response['data'][0].cust_street + ", " +
-                                response['data'][0].cust_barangay + ", " +
-                                response['data'][0].cust_city + ", " +
-                                response['data'][0].cust_province;
-                            $("#address").val(address);
-                        } else {
-                            $("#address").val("Select a customer to generate address");
-                        }
-                    }
-                });
-
+        <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
+        <script>
+            $(document).ready(function() {
+                $("#exampleModal").modal('show');
             });
-
-            $('#name').select2();
-
-            $('#order_method').change(function() {
-                var method = $(this).val();
-                if (method === "Delivery") {
-                    $('#shipping_fee').prop('readonly', false);
-                    $('#shipping_fee').prop('required', true);
-                    $('#shipping_fee').val('');
-                } else if (method === "Meet-Up") {
-                    $('#shipping_fee').prop('readonly', false);
-                    $('#shipping_fee').prop('required', true);
-                    $('#shipping_fee').val('');
-                } else {
-                    $('#shipping_fee').prop('readonly', true);
-                    $('#shipping_fee').prop('required', false);
-                    $('#shipping_fee').val('0');
-                }
-            });
-
-        });
-    </script>
-@endsection
+        </script>
+    @endsection

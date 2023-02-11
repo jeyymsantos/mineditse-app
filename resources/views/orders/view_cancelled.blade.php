@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Order Invoices </title>
+    <title> Order Invoices | Cancelled </title>
 @endsection
 
 @section('custom_css')
@@ -94,30 +94,13 @@
 
 
                                     <td class="align-middle" style="text-align: center">
-
-                                        @if ($order->order_status == 'Completed')
-                                            <a href="/admin/orders/receipt/{{ $order->order_id }}"
-                                                style="text-decoration: none;">
-                                                <button class="btn btn-primary">
-                                                    <i class="bi-search"></i>
-                                                </button>
-                                            </a>
-                                        @else
-                                            <a href="/admin/orders/invoice/{{ $order->order_id }}"
-                                                style="text-decoration: none;">
-                                                <button class="btn btn-success" title="View Order">
-                                                    <i class="bi-search"></i>
-                                                </button>
-                                            </a>
-
-                                            <a href="/admin/orders/edit/{{ $order->order_id }}"><button
-                                                    class="btn btn-warning text-dark" title="Edit Order"><i class="bi-pencil"></i></button></a>
-                                        @endif
-
-
+                                        <a href="/admin/orders/invoice/{{ $order->order_id }}"
+                                            style="text-decoration: none;">
+                                            <button class="btn btn-primary" title="View Order">
+                                                <i class="bi-search"></i>
+                                            </button>
+                                        </a>
                                     </td>
-
-
                                 </tr>
                             @endforeach
                         </tbody>

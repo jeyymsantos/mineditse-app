@@ -21,5 +21,7 @@ class Order extends Model
         'order_method',
         'order_status',   
         'order_details',
+        'order_date',
+        'payment_date',
     ];
 }

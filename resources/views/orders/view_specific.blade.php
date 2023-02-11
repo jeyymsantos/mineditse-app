@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Orders </title>
+    <title> Orders | Invoice ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</title>
 @endsection
 
 @section('custom_css')
@@ -44,17 +44,29 @@
                                 <h3 class="m-0 font-weight-bold text-primary">Invoice Details Preview</h6>
                             </div>
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <a href="/admin/orders/">
-                                    <button class="btn btn-secondary me-2">Back</button>
-                                </a>
 
-                                <a href="/admin/orders/invoice/{{ $order->order_id }}/view" target="_blank">
-                                    <button class="btn btn-warning me-2"><i class="bi bi-folder2-open me-2"></i>View Invoice</button>
-                                </a>
+                                @if ($order->order_status != 'Cancelled')
+                                    <a href="/admin/orders/">
+                                        <button class="btn btn-secondary me-2">Back</button>
+                                    </a>
 
-                                <a href="/admin/orders/invoice/{{ $order->order_id }}/generate" >
-                                    <button class="btn btn-primary me-2"><i class="bi bi-download me-2"></i>Download Invoice</button>
-                                </a>
+                                    <a href="/admin/orders/invoice/{{ $order->order_id }}/view" target="_blank">
+                                        <button class="btn btn-warning me-2"><i class="bi bi-folder2-open me-2"></i>View
+                                            Invoice</button>
+                                    </a>
+
+                                    <a href="/admin/orders/invoice/{{ $order->order_id }}/generate">
+                                        <button class="btn btn-primary me-2"><i class="bi bi-download me-2"></i>Download
+                                            Invoice</button>
+                                    </a>
+                                @else
+                                    <a href="/admin/orders/cancelled">
+                                        <button class="btn btn-secondary me-2">Back</button>
+                                    </a>
+                                @endif
+
+
+
 
                             </div>
                         </div>
@@ -62,7 +74,12 @@
 
                     <div class="card-body">
                         <div class="row">
-                            <p class="fs-2 fw-bold text-primary text-end text-uppercase">{{ $order->order_method }} </p>
+                            @if ($order->order_status == 'Cancelled')
+                                <p class="fs-2 fw-bold text-danger text-end text-uppercase">{{ $order->order_status }} </p>
+                            @else
+                                <p class="fs-2 fw-bold text-primary text-end text-uppercase">{{ $order->order_method }} </p>
+                            @endif
+
                         </div>
 
                         <div class="row mb-3">
@@ -77,7 +94,7 @@
 
                         <div class="row mb-3">
                             <p class="m-0 col-md-6"> Invoice Date: <b>
-                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, H:ia') }}
+                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, h:ia') }}
                                 </b></p>
                             <p class="m-0 col-md-6"> Processed by: <b>{{ $staff->name }}</b></p>
                             <p class="m-0 col-md-6"> Address:

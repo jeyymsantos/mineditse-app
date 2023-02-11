@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Order Invoices </title>
+    <title> Order Invoices | Pending </title>
 @endsection
 
 @section('custom_css')
@@ -104,13 +104,14 @@
                                             @if ($order->payment_status != 'Received')
                                                 <a href="/admin/orders/invoice/{{ $order->order_id }}"
                                                     style="text-decoration: none;">
-                                                    <button class="btn btn-success">
+                                                    <button class="btn btn-primary">
                                                         <i class="bi-search"></i>
                                                     </button>
                                                 </a>
 
-                                                <a href="/admin/orders/payment/{{ $order->order_id }}">
-                                                    <button class="btn btn-info text-dark"><i class="bi-cash"></i></button>
+                                                <a href="/admin/orders/payment/{{ $order->order_id }}"
+                                                    style="text-decoration: none;">
+                                                    <button class="btn btn-success text-dark"><i class="bi-cash"></i></button>
                                                 </a>
                                             @else
                                                 <a href="/admin/orders/receipt/{{ $order->order_id }}"

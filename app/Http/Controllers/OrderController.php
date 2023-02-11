@@ -62,8 +62,8 @@ class OrderController extends Controller
 
         $order = $orders->first();
 
-        if ($order->order_status == "Completed") {
-            return redirect('/admin/order/receipt/' . $id);
+        if ($order->payment_status == "Received") {
+            return redirect('/admin/orders/receipt/' . $id);
         }
 
 

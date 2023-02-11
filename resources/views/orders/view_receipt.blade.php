@@ -93,7 +93,7 @@
 
                                     <td class="align-middle" style="text-align: center">
                                         @if ($order->payment_status == 'Received')
-                                            <a href="/admin/orders/receipt/{{ $order->order_id }}"
+                                            <a href="/admin/orders/invoice/{{ $order->order_id }}"
                                                 style="text-decoration: none;">
                                                 <button class="btn btn-primary">
                                                     <i class="bi-search"></i>

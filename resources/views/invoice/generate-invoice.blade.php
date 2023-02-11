@@ -121,7 +121,9 @@
                 </th>
                 <th width="50%" colspan="2" class="text-end company-data">
                     <span>INVOICE ID: <b>ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</b></span> <br>
-                    <span>{{ $datetime->toDateTimeString() }} </span> <br>
+                    <span>
+                        {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $datetime)->format('F d, Y, h:ia') }}
+                    </span> <br>
                     <span>Mine Ditse Shop, Brgy. Sto. Cristo, <br>Baliuag, Bulacan, Philippines</span> <br>
                 </th>
             </tr>
@@ -140,7 +142,9 @@
             </tr>
             <tr>
                 <td>Invoice Date:</td>
-                <td>{{ $order->order_date }}</td>
+                <td>
+                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, h:ia') }}    
+                </td>
 
                 <td>Email Address:</td>
                 <td>{{ $order->email }}</td>
@@ -185,29 +189,28 @@
                     <td>
                         {{ $cart->prod_name }}
                     </td>
-                    <td width="10%"><span style="font-family: DejaVu Sans; sans-serif;">₱</span>{{ $cart->prod_price }}</td>
+                    <td width="10%"><span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ $cart->prod_price }}</td>
                     <td width="10%">1</td>
                     <td width="15%" class="fw-bold">
-                        <span style="font-family: DejaVu Sans; sans-serif;">₱</span>{{ $cart->prod_price }}</td>
+                        <span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ $cart->prod_price }}</td>
                 </tr>
             @endforeach
 
             <tr>
                 <td colspan="4">Subtotal:</td>
                 <td colspan="1">
-                    <span style="font-family: DejaVu Sans; sans-serif;">₱</span>
-                    {{ $order->order_total }}</td>
+                    <span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ $order->order_total }}</td>
             </tr>
 
             <tr>
                 <td colspan="4">Shipping Fee:</td>
                 <td colspan="1">
-                    <span style="font-family: DejaVu Sans; sans-serif;">₱</span>{{ $order->order_shipping_fee }}</td>
+                    <span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ $order->order_shipping_fee }}</td>
             </tr>
 
             <tr>
                 <td colspan="4" class="total-heading">Total Amount:</td>
-                <td colspan="1" class="total-heading"><span style="font-family: DejaVu Sans; sans-serif;">₱</span>{{ number_format($order->order_shipping_fee+$order->order_total, 2) }}</td>
+                <td colspan="1" class="total-heading"><span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ number_format($order->order_shipping_fee+$order->order_total, 2) }}</td>
             </tr>
         </tbody>
     </table>

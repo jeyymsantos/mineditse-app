@@ -96,7 +96,9 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/orders/payment/{id}', [PaymentController::class, 'ViewPayment'])->name('view_payment');
     Route::post('/orders/payment/{id}', [PaymentController::class, 'PayOrder']);
 
+    // Receipts
     Route::get('/orders/receipts', [PaymentController::class, 'index'])->name('receipts');
+    Route::get('/orders/receipt/{id}', [PaymentController::class, 'ViewReceipt'])->name('view_receipt');
 
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
@@ -128,3 +130,9 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/storage/link', function () {
     Artisan::call('storage:link');
 });
+
+Route::get('/register_sample', function (){
+    return view('auth.register_try');
+});
+
+
