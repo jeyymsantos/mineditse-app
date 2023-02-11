@@ -50,12 +50,12 @@
                                         <button class="btn btn-secondary me-2">Back</button>
                                     </a>
 
-                                    <a href="/admin/orders/invoice/{{ $order->order_id }}/view" target="_blank">
+                                    <a href="/admin/orders/receipt/{{ $order->order_id }}/view" target="_blank">
                                         <button class="btn btn-warning me-2"><i class="bi bi-folder2-open me-2"></i>View
                                             Receipt</button>
                                     </a>
 
-                                    <a href="/admin/orders/invoice/{{ $order->order_id }}/generate">
+                                    <a href="/admin/orders/receipt/{{ $order->order_id }}/generate">
                                         <button class="btn btn-primary me-2"><i class="bi bi-download me-2"></i>Download
                                             Receipt</button>
                                     </a>
@@ -103,6 +103,7 @@
                             <p class="m-0 col-md-6"> Payment Date: <b>
                                     {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->payment_date)->format('F d, Y, H:ia') }}
                                 </b></p>
+                            <p class="m-0 col-md-6"> Payment Status: <b class="text-success"> {{ $order->payment_status }}</b></p>
                         </div>
 
                         <div class="table-responsive">
@@ -152,6 +153,21 @@
                                         <td class="font-weight-bold text-dark fs-3">
                                             <span
                                                 id="order_total">₱{{ number_format($order->order_shipping_fee + $order->order_total, 2) }}</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="text-align: end" class="text-dark"> Cash </td>
+                                        <td class="font-weight-bold text-dark">
+                                            <span id="order_total">₱{{ number_format($order->payment_cash, 2) }}</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="2" style="text-align: end" class="text-dark"> Change </td>
+                                        <td class="font-weight-bold text-dark">
+                                            <span
+                                                id="order_total">₱{{ number_format($order->payment_cash - $order->order_total, 2) }}</span>
                                         </td>
                                     </tr>
                                 </tfoot>

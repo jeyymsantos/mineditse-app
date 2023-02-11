@@ -7,5 +7,7 @@ use Illuminate\Http\Request;
 
 class InquiryController extends Controller
 {
-    //
+    public function SubmitInquiry(Request $req){
+        return redirect()->route('main');
+    }
 }

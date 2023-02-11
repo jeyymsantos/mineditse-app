@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PrintController;
@@ -29,7 +30,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('main');
 
 Auth::routes();
 
@@ -99,7 +100,8 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Receipts
     Route::get('/orders/receipts', [PaymentController::class, 'index'])->name('receipts');
     Route::get('/orders/receipt/{id}', [PaymentController::class, 'ViewReceipt'])->name('view_receipt');
-
+    Route::get('/orders/receipt/{id}/view', [PrintController::class, 'Receipt'])->name('receipt');;
+    Route::get('/orders/receipt/{id}/generate', [PrintController::class, 'GenerateReceipt']);
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
 
@@ -110,7 +112,6 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 // Customer Authentication
 Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
-    // Customers Route
     Route::get('/', [CustomerController::class, 'index']);
 
     // Customer Cart
@@ -121,7 +122,6 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
 
 // Staff Authentication
 Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function () {
-    // Customers Route
     Route::get('/', [StaffController::class, 'index']);
 });
 
@@ -131,8 +131,8 @@ Route::get('/storage/link', function () {
     Artisan::call('storage:link');
 });
 
-Route::get('/register_sample', function (){
-    return view('auth.register_try');
-});
+
+// Inquiry
+Route::post('/inquiry/submit', [InquiryController::class, 'SubmitInquiry']);
 
 

@@ -26,6 +26,8 @@ class PaymentController extends Controller
         ]);
     }
 
+    
+
 
     public function ViewPayment($id)
     {
@@ -168,6 +170,5 @@ class PaymentController extends Controller
             'carts' => $carts,
             'datetime' => $datetime
         ]);
-        
     }
 }

@@ -53,8 +53,8 @@
                     </div>
 
                     <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                        <a href="/customer/orders/" class="btn btn-secondary me-2">Back</a>
-                        <a href="/customer/orders/" class="btn btn-primary me-2">Proceed</a>
+                        <a href="/customer/" class="btn btn-secondary me-2">Back</a>
+                        <a href="#" class="btn btn-primary me-2">Proceed</a>
                     </div>
                 </div>
             </div>

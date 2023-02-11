@@ -18,6 +18,7 @@ class CartController extends Controller
 
         $carts = DB::table('carts')
             ->select('*')
+            ->join('products', 'products.prod_id', '=', 'carts.prod_id')
             ->where('user_id', '=', Auth::id())->get();
 
         $customers = DB::table('users')
@@ -37,7 +38,8 @@ class CartController extends Controller
     public function RemoveFromCart($id)
     {
         $cart = DB::table('carts')
-            ->where('prod_id', '=', $id, 'and')
+            ->join('products', 'products.prod_id', '=', 'carts.prod_id')
+            ->where('carts.prod_id', '=', $id, 'and')
             ->where('user_id', '=', Auth::id());
 
         $cart_name = $cart->first();

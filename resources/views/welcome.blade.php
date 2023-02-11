@@ -214,7 +214,8 @@
                     </div>
 
                     <div class="col-lg-6">
-                        <form action="/inquiry/submit" method="post" class="php-email-form">
+                        <form action="mailto:inquiry@mineditse.store" method="post" class="php-email-form">
+                            @csrf
                             <div class="row gy-4">
 
                                 <div class="col-md-6">

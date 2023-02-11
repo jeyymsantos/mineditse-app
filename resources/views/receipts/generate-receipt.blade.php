@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Invoice for {{ $order->name }} | {{ $order->order_id }}</title>
+    <title>Receipt for {{ $order->name }} | {{ $order->order_id }}</title>
     <link rel="shortcut icon" href="{{ asset('img/Logo.png') }}" type="image/x-icon">
 
     <style>
@@ -112,7 +112,7 @@
         <thead>
             <tr>
                 <td colspan="4">
-                    <h2 class="text-center">Customer's Invoice</h2>
+                    <h2 class="text-center">Customer's Receipt</h2>
                 </td>
             </tr>
             <tr>
@@ -150,8 +150,8 @@
                 <td>{{ $order->email }}</td>
             </tr>
             <tr>
-                <td>Order Method:</td>
-                <td>{{ $order->order_method }}</td>
+                <td>Payment Status:</td>
+                <td style="color:green"><b>{{ $order->payment_status }}</b></td>
 
                 <td>Phone:</td>
                 <td>{{ $order->phone_number }}</td>
@@ -212,6 +212,19 @@
                 <td colspan="4" class="total-heading">Total Amount:</td>
                 <td colspan="1" class="total-heading"><span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ number_format($order->order_shipping_fee+$order->order_total, 2) }}</td>
             </tr>
+
+            <tr>
+                <td colspan="4">Cash:</td>
+                <td colspan="1">
+                    <span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ $order->payment_cash }}</td>
+            </tr>
+
+            <tr>
+                <td colspan="4">Change:</td>
+                <td colspan="1">
+                    <span style="font-family: DejaVu Sans; sans-serif;">₱ </span>{{ $order->payment_cash-$order->order_total }}</td>
+            </tr>
+
         </tbody>
     </table>
 
