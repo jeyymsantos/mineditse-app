@@ -7,6 +7,13 @@
          <!-- Topbar -->
          <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
+            <div class="container">
+                <a class="navbar-brand" href="/customer">
+                  <img src="{{ asset('img/logo.png') }}" alt="Mine Ditse" height="50" class="d-inline-block align-text-middle">
+                  Mine Ditse
+                </a>
+              </div>
+
              <!-- Sidebar Toggle (Topbar) -->
              <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                  <i class="fa fa-bars"></i>
@@ -80,11 +87,11 @@
                          <!-- Dropdown - User Information -->
                          <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                              aria-labelledby="userDropdown">
-                             <a class="dropdown-item" href="#">
+                             <a class="dropdown-item" href="/customer/profile">
                                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                  Profile
                              </a>
-                             <a class="dropdown-item" href="#">
+                             <a class="dropdown-item" href="/customer/settings">
                                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                                  Settings
                              </a>

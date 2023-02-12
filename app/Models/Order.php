@@ -23,5 +23,6 @@ class Order extends Model
         'order_details',
         'order_date',
         'payment_date',
+        'completed_date'
     ];
 }

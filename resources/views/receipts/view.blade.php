@@ -46,7 +46,7 @@
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
 
                                 @if ($order->order_status != 'Cancelled')
-                                    <a href="/admin/orders/">
+                                    <a href="/admin/orders/receipts">
                                         <button class="btn btn-secondary me-2">Back</button>
                                     </a>
 

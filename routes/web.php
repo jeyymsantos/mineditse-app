@@ -113,6 +113,8 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 // Customer Authentication
 Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
     Route::get('/', [CustomerController::class, 'index']);
+    Route::get('/profile', [CustomerController::class, 'ViewProfile'])->name('view_profile');
+    Route::get('/order/confirm/{id}', [CustomerController::class, 'ConfirmOrder']);
 
     // Customer Cart
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
