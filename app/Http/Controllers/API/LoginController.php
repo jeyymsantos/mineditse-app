@@ -16,4 +16,12 @@ class LoginController extends Controller
 
         return response()->json($users, 200, [], JSON_PRETTY_PRINT);
     }
+
+    public function GetProducts(){
+        $products = DB::table('products')
+        ->select('*')
+        ->get();
+
+        return response()->json($products, 200, [], JSON_PRETTY_PRINT);
+    }
 }
