@@ -11,71 +11,75 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
-    public function GetCustomers(){
+    public function GetCustomers()
+    {
         $users = DB::table('customers')
-        ->select('*')
-        ->join('users', 'users.id', '=', 'customers.cust_id')
-        ->get();
+            ->select('*')
+            ->join('users', 'users.id', '=', 'customers.cust_id')
+            ->get();
 
         return response()->json($users, 200, [], JSON_PRETTY_PRINT);
     }
 
-    public function GetProducts(){
+    public function GetProducts()
+    {
         $products = DB::table('products')
-        ->select('*')
-        ->get();
+            ->select('*')
+            ->get();
 
         return response()->json($products, 200, [], JSON_PRETTY_PRINT);
     }
 
-    public function LoginCustomer(Request $req){
+    public function LoginCustomer(Request $req)
+    {
 
         $email = $req->email;
         $password = $req->password;
 
-        if(is_null($email) || is_null($password)){
+        if (is_null($email) || is_null($password)) {
             echo 'All fields required!';
             return;
         };
 
         $user = DB::table('customers')
-        ->select('*')
-        ->join('users', 'users.id', '=', 'customers.cust_id')
-        ->where('email', '=', $email)
-        ->get()->first();
+            ->select('*')
+            ->join('users', 'users.id', '=', 'customers.cust_id')
+            ->where('email', '=', $email)
+            ->get()->first();
 
-        if(Hash::check($password, $user->password)){
+        if (Hash::check($password, $user->password)) {
             return response()->json($user, 200, [], JSON_PRETTY_PRINT);
         }
 
         echo 'Account not found';
-        
     }
 
-    public function GetOrder(Request $req){
+    public function GetOrder(Request $req)
+    {
 
         $id = $req->id;
-        if(is_null($id)){
+        if (is_null($id)) {
             echo 'ID required!';
             return;
         };
 
         $order = DB::table('orders')
-        ->select('*')
-        ->join('customers', 'customers.cust_id', '=', 'orders.cust_id')
-        ->join('users', 'customers.cust_id', '=', 'users.id')
-        ->orderBy('order_date', 'desc')
-        ->where('orders.cust_id', '=',$id)->get();
+            ->select('*')
+            ->join('customers', 'customers.cust_id', '=', 'orders.cust_id')
+            ->join('users', 'customers.cust_id', '=', 'users.id')
+            ->orderBy('order_date', 'desc')
+            ->where('orders.cust_id', '=', $id)->get();
 
-        if(is_null($order->first())){
+        if (is_null($order->first())) {
             echo 'No Transactions Found';
             return;
         }
 
         return response()->json($order, 200, [], JSON_PRETTY_PRINT);
     }
-    
-    public function CreateCustomer(Request $req){
+
+    public function CreateCustomer(Request $req)
+    {
         $name = $req->name;
         $phone = $req->phone;
         $email = $req->email;
@@ -84,7 +88,12 @@ class LoginController extends Controller
         $barangay = $req->barangay;
         $city = $req->city;
         $province = $req->province;
-        
+
+        if (is_null($email) || is_null($password) || is_null($name) || is_null($phone) || is_null($street) || is_null($barangay) || is_null($city) || is_null($province)) {
+            echo 'All fields required!';
+            return;
+        };
+
         $user = User::create([
             'name' => $name,
             'email' => $email,
@@ -100,6 +109,6 @@ class LoginController extends Controller
             'cust_province' => $province,
         ]);
 
+        echo 'Customer saved successfully!';
     }
-    
 }
