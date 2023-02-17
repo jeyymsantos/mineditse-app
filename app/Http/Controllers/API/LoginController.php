@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -50,7 +52,14 @@ class LoginController extends Controller
         
     }
 
-    public function GetOrder($id){
+    public function GetOrder(Request $req){
+
+        $id = $req->id;
+        if(is_null($id)){
+            echo 'ID required!';
+            return;
+        };
+
         $order = DB::table('orders')
         ->select('*')
         ->join('customers', 'customers.cust_id', '=', 'orders.cust_id')
@@ -58,7 +67,39 @@ class LoginController extends Controller
         ->orderBy('order_date', 'desc')
         ->where('orders.cust_id', '=',$id)->get();
 
+        if(is_null($order->first())){
+            echo 'No Transactions Found';
+            return;
+        }
+
         return response()->json($order, 200, [], JSON_PRETTY_PRINT);
+    }
+    
+    public function CreateCustomer(Request $req){
+        $name = $req->name;
+        $phone = $req->phone;
+        $email = $req->email;
+        $password = $req->password;
+        $street = $req->street;
+        $barangay = $req->barangay;
+        $city = $req->city;
+        $province = $req->province;
+        
+        $user = User::create([
+            'name' => $name,
+            'email' => $email,
+            'phone_number' => $phone,
+            'password' => Hash::make($password),
+        ]);
+
+        Customer::create([
+            'cust_id' => $user->id,
+            'cust_street' => $street,
+            'cust_barangay' => $barangay,
+            'cust_city' => $city,
+            'cust_province' => $province,
+        ]);
+
     }
     
 }

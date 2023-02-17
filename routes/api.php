@@ -23,7 +23,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('customers', [LoginController::class, 'GetCustomers']);
 Route::get('products', [LoginController::class, 'GetProducts']);
 
-// Post Objects (login pending)
+// Post Objects
 Route::post('login', [LoginController::class, 'LoginCustomer']);
-
-Route::get('order/{id}', [LoginController::class, 'GetOrder']);
+Route::post('order', [LoginController::class, 'GetOrder']);
