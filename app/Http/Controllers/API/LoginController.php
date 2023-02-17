@@ -20,6 +20,7 @@ class LoginController extends Controller
     public function GetProducts(){
         $products = DB::table('products')
         ->select('*')
+        ->where('prod_status', '=', 'Available')
         ->get();
 
         return response()->json($products, 200, [], JSON_PRETTY_PRINT);
