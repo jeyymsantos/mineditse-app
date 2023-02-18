@@ -97,6 +97,15 @@ class LoginController extends Controller
             return;
         };
 
+        $validatedData = Validator::make($req->all(), [
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+
+        if($validatedData->fails()){
+            return response()->json($validatedData->messages(), 200, [], JSON_PRETTY_PRINT);
+        }
+
         $user = DB::table('users')
             ->select('*')
             ->where('email', '=', $email)
