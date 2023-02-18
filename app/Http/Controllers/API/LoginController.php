@@ -81,7 +81,8 @@ class LoginController extends Controller
 
     public function CreateCustomer(Request $req)
     {
-        $name = $req->name;
+        $first_name = $req->first_name;
+        $last_name = $req->last_name;
         $phone = $req->phone;
         $email = $req->email;
         $password = $req->password;
@@ -90,7 +91,7 @@ class LoginController extends Controller
         $city = $req->city;
         $province = $req->province;
 
-        if (is_null($email) || is_null($password) || is_null($name) || is_null($phone) || is_null($street) || is_null($barangay) || is_null($city) || is_null($province)) {
+        if (is_null($email) || is_null($password) || is_null($first_name) || is_null($last_name) || is_null($phone) || is_null($street) || is_null($barangay) || is_null($city) || is_null($province)) {
             echo 'All fields required!';
             return;
         };
@@ -106,7 +107,8 @@ class LoginController extends Controller
         }
 
         $user = User::create([
-            'name' => $name,
+            'first_name' => $first_name,
+            'last_name' => $last_name,
             'email' => $email,
             'phone_number' => $phone,
             'password' => Hash::make($password),
