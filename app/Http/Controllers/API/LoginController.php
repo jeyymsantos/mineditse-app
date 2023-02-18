@@ -161,4 +161,28 @@ class LoginController extends Controller
         echo "Customer updated successfully!";
 
     }
+
+    public function DeactivateCustomer(Request $req){
+        
+        $id = $req->id;
+       
+        if (is_null($id)) {
+            echo 'All fields required!';
+            return;
+        };
+
+        $customer = Customer::find($id);
+        if(empty($customer)){
+            echo 'Cannot find customer!';
+            return;
+        }
+
+        // return response()->json($customer, 200, [], JSON_PRETTY_PRINT);
+
+        $customer->cust_type = "DEACTIVATED";
+        $customer->save();
+
+        echo "Your account is now deactivated!";
+
+    }
 }

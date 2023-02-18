@@ -27,4 +27,5 @@ Route::get('products', [LoginController::class, 'GetProducts']);
 Route::post('login', [LoginController::class, 'LoginCustomer']);
 Route::post('create', [LoginController::class, 'CreateCustomer']);
 Route::post('edit', [LoginController::class, 'EditCustomer']);
+Route::post('deactivate', [LoginController::class, 'DeactivateCustomer']);
 Route::post('order', [LoginController::class, 'GetOrder']);
