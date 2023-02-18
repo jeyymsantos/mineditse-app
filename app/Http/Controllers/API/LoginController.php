@@ -47,11 +47,12 @@ class LoginController extends Controller
             ->where('email', '=', $email)
             ->get()->first();
 
-        if (Hash::check($password, $user->password)) {
+        if(!empty($user) && Hash::check($password, $user->password)){
             return response()->json($user, 200, [], JSON_PRETTY_PRINT);
+        }else{
+            echo 'Incorrect email/password';
         }
 
-        echo 'Account not found';
     }
 
     public function GetOrder(Request $req)
@@ -93,6 +94,16 @@ class LoginController extends Controller
             echo 'All fields required!';
             return;
         };
+
+        $user = DB::table('users')
+            ->select('*')
+            ->where('email', '=', $email)
+            ->get()->first();
+
+        if(!empty($user)){
+            echo 'Email already exist!';
+            return;
+        }
 
         $user = User::create([
             'name' => $name,
