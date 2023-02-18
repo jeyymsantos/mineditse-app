@@ -83,7 +83,7 @@
                             <p class="m-0 col-md-6"> Transaction ID:
                                 <b>ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</b>
                             </p>
-                            <p class="m-0 col-md-6"> Customer Name: <b>{{ $order->name }}</b></p>
+                            <p class="m-0 col-md-6"> Customer Name: <b>{{ $order->first_name." ".$order->last_name }}</b></p>
                             <p class="m-0 col-md-6"> Customer Email: <b>{{ $order->email }}</b></p>
                             <p class="m-0 col-md-6"> Customer Phone: <b>{{ $order->phone_number }}</b></p>
                         </div>
@@ -92,7 +92,7 @@
                             <p class="m-0 col-md-6"> Invoice Date: <b>
                                     {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, H:ia') }}
                                 </b></p>
-                            <p class="m-0 col-md-6"> Processed by: <b>{{ $staff->name }}</b></p>
+                            <p class="m-0 col-md-6"> Processed by: <b>{{ $staff->first_name." ".$staff->last_name }}</b></p>
                             <p class="m-0 col-md-6"> Address:
                                 <b>{{ $order->cust_street . ', ' . $order->cust_barangay . ', ' . $order->cust_city . ', ' . $order->cust_province }}</b>
                             </p>

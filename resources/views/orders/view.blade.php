@@ -67,7 +67,7 @@
                                 <tr>
                                     <td class="text-center">{{ $i++ }} </td>
                                     <td class="text-center"> ORD-0{{ $order->order_id }}-0{{ $order->cust_id }} </td>
-                                    <td class="text-center">{{ $order->name }}</td>
+                                    <td class="text-center">{{ $order->first_name." ".$order->last_name }}</td>
                                     <td class="text-center">
                                         ₱{{ number_format($order->order_total + $order->order_shipping_fee, 2) }}</td>
 

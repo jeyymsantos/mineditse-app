@@ -45,7 +45,7 @@
                                 <img src="{{ asset('backend/img/undraw_profile.svg') }}" alt="avatar"
                                     class="rounded-circle img-fluid" style="width: 150px;">
                                 <h5 class="mt-3 mb-1">
-                                    <b class="text-primary"> {{ $user->name }}</b> |
+                                    <b class="text-primary"> {{ $user->first_name." ".$user->last_name }}</b> |
                                     <i>{{ $user->cust_type }}</i>
                                 </h5>
                                 <p class="text-muted m-0 mb-2">Customer since
@@ -74,7 +74,7 @@
                                             <p class="mb-0">Name</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->name }}</p>
+                                            <p class="text-muted mb-0">{{ $user->first_name." ".$user->last_name }}</p>
                                         </div>
                                     </div>
                                     <hr>

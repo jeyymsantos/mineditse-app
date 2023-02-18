@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Invoice for {{ $order->name }} | {{ $order->order_id }}</title>
+    <title>Invoice for {{ $order->first_name." ".$order->last_name }} | {{ $order->order_id }}</title>
     <link rel="shortcut icon" href="{{ asset('img/Logo.png') }}" type="image/x-icon">
 
     <style>
@@ -138,7 +138,7 @@
                 <td>ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</td>
 
                 <td>Full Name:</td>
-                <td>{{ $order->name }}</td>
+                <td>{{ $order->first_name." ".$order->last_name }}</td>
             </tr>
             <tr>
                 <td>Invoice Date:</td>

@@ -128,6 +128,9 @@ Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function () {
 });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/register_try', function () {
+    return view('auth.register_try');
+});
 
 Route::get('/storage/link', function () {
     Artisan::call('storage:link');

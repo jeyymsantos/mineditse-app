@@ -19,7 +19,7 @@ class OrderController extends Controller
     public function index()
     {
         $orders = DB::table('orders')
-            ->select('*', 'users.name')
+            ->select('*')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
             ->where('payment_status', '=', 'Pending')
             ->where('order_status', '<>', 'Cancelled')
@@ -35,7 +35,7 @@ class OrderController extends Controller
     public function CancelledOrders()
     {
         $orders = DB::table('orders')
-            ->select('*', 'users.name')
+            ->select('*')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
             ->where('order_status', '=', 'Cancelled')
             ->get();

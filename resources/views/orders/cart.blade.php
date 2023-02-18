@@ -127,7 +127,7 @@
 
                                     <option value="false" selected> Select a Customer</option>
                                     @foreach ($customers as $customer)
-                                        <option value="{{ $customer->cust_id }}"> {{ $customer->name }}
+                                        <option value="{{ $customer->cust_id }}"> {{ $customer->first_name." ".$customer->last_name }}
                                             ({{ $customer->email }})
                                         </option>
                                     @endforeach

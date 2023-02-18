@@ -14,7 +14,7 @@ class PaymentController extends Controller
     public function index()
     {
         $orders = DB::table('orders')
-            ->select('*', 'users.name')
+            ->select('*')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
             ->where('payment_status', '=', 'Received')
             ->get();
