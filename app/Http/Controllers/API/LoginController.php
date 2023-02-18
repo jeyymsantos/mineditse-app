@@ -122,4 +122,43 @@ class LoginController extends Controller
 
         echo 'Customer saved successfully!';
     }
+
+    public function EditCustomer(Request $req){
+        
+        $id = $req->id;
+        $first_name = $req->first_name;
+        $last_name = $req->last_name;
+        $phone = $req->phone;
+        
+        $street = $req->street;
+        $barangay = $req->barangay;
+        $city = $req->city;
+        $province = $req->province;
+
+        if (is_null($first_name) || is_null($last_name) || is_null($id) || is_null($phone) || is_null($street) || is_null($barangay) || is_null($city) || is_null($province)) {
+            echo 'All fields required!';
+            return;
+        };
+
+        $user = User::find($id);
+        if(empty($user)){
+            echo 'Cannot find user!';
+            return;
+        }
+
+        $user->first_name = $first_name;
+        $user->last_name = $last_name;
+        $user->phone_number = $phone;
+        $user->save();
+
+        $customer = Customer::find($id);
+        $customer->cust_street = $street;
+        $customer->cust_barangay = $barangay;
+        $customer->cust_city = $city;
+        $customer->cust_province = $province;
+        $customer->save();
+
+        echo "Customer updated successfully!";
+
+    }
 }

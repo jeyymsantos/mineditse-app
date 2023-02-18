@@ -26,4 +26,5 @@ Route::get('products', [LoginController::class, 'GetProducts']);
 // Post Objects
 Route::post('login', [LoginController::class, 'LoginCustomer']);
 Route::post('create', [LoginController::class, 'CreateCustomer']);
+Route::post('edit', [LoginController::class, 'EditCustomer']);
 Route::post('order', [LoginController::class, 'GetOrder']);
