@@ -97,25 +97,15 @@ class LoginController extends Controller
             return;
         };
 
-        $validatedData = Validator::make($req->all(), [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8'],
-        ]);
-
-        if($validatedData->fails()){
-            return response()->json($validatedData->messages(), 200, [], JSON_PRETTY_PRINT);
-            return;
-        }
-
         $user = DB::table('users')
             ->select('*')
             ->where('email', '=', $email)
             ->get()->first();
 
-        // if(!empty($user)){
-        //     echo 'Email already exist!';
-        //     return;
-        // }
+        if(!empty($user)){
+            echo 'Email already exist!';
+            return;
+        }
 
         $user = User::create([
             'first_name' => $first_name,
