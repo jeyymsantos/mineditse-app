@@ -174,6 +174,7 @@ class ProductController extends Controller
         $product->bale_id = $req->bale;
         $product->prod_price = $req->price;
         $product->prod_unit = $req->unit;
+        $product->prod_status = $req->activation;
         $product->prod_desc = $req->description;
         $product->prod_other_details = $req->other;
 
@@ -187,8 +188,8 @@ class ProductController extends Controller
         }
 
         $product->save();
-
-        return redirect('/admin/products')->with('successfull', $product->prod_name . ' has been successfully added!');
+        // return response()->json($product, 200, [], JSON_PRETTY_PRINT);
+        return redirect('/admin/products')->with('successfull', $product->prod_name . ' has been successfully edited!');
     }
 
     public function ViewBarcode()

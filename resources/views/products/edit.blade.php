@@ -54,6 +54,8 @@
                 </label>
                 @if ($product->prod_status == 'Sold')
                     <span for="qrcode" class="form-control bg-primary text-light"> Sold </span>
+                    <input type="hidden" name="activation" class="form-control" id="name" placeholder="Mine Ditse"
+                    value="Sold" required>
                 @else
                     <select class="form-select" id="activation" name="activation" required
                         aria-label="Default select example">
