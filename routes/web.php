@@ -117,6 +117,16 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Admin Side
     Route::get('/profile', [AdminController::class, 'ViewProfile'])->name('admin_profile');
     Route::post('/settings/update_password', [AdminController::class, 'UpdatePassword']);
+
+    // Staffs
+    Route::get('/staffs', [AdminController::class, 'ViewStaffs'])->name('ViewStaffs');
+    Route::get('/staffs/edit/{id}', [AdminController::class, 'EditStaff'])->name('EditStaff');
+    Route::post('/staffs/edit/{id}', [AdminController::class, 'SaveEdit'])->name('SaveEdit');
+    Route::get('/staffs/add', [AdminController::class, 'AddStaff'])->name('AddStaff');
+    Route::post('/staffs/add/', [AdminController::class, 'SaveStaff'])->name('SaveStaff');
+    Route::get('/staffs/deactivate/{id}', [AdminController::class, 'DeactivateStaff'])->name('DeactivateStaff');
+    Route::get('/staffs/archive', [AdminController::class, 'ArchiveStaffs'])->name('ArchiveStaffs');
+    Route::get('/staffs/restore/{id}', [AdminController::class, 'RestoreStaff'])->name('RestoreStaff');
 });
 
 // Customer Authentication

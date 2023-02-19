@@ -28,11 +28,11 @@
                             <div class="text-lg font-weight-bold text-primary text-uppercase mb-1">
                                 TOTAL SALES </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ "₱".number_format($total_sales, 2) }}
+                                {{ '₱' . number_format($total_sales, 2) }}
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-solid fa-users fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-peso-sign fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -48,11 +48,11 @@
                             <div class="text-lg font-weight-bold text-success text-uppercase mb-1">
                                 Unsettled Payments</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ "₱".number_format($pending_payments, 2) }}
+                                {{ '₱' . number_format($pending_payments, 2) }}
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-solid fa-truck-field fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-hand-holding-dollar fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -95,7 +95,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-fw fa-solid fa-shirt fa-2x text-gray-300"></i>
+                            <i class="fa-fw fa-solid fa-check fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -106,7 +106,7 @@
 
     {{-- NEXT CONTENT ROW --}}
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Payment & Orders</h1>
+        <h1 class="h3 mb-0 text-gray-800">Order Tracking</h1>
     </div>
 
     <!-- Content Row -->
@@ -124,7 +124,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-solid fa-users fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-money-bill-wave fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-solid fa-truck-field fa-2x text-gray-300"></i>
+                            <i class="fa-solid fa-box-open fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            <i class="fas fa-handshake fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fa-fw fa-solid fa-shirt fa-2x text-gray-300"></i>
+                            <i class="fas fa-truck fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -196,6 +196,11 @@
         </div>
     </div>
     <!-- Content Row -->
+
+    {{-- NEXT CONTENT ROW --}}
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Total Overview</h1>
+    </div>
 
     <!-- Content Row -->
     <div class="row">

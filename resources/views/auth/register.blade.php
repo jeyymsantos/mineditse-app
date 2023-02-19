@@ -93,7 +93,6 @@
 
                                             <div class="row">
                                                 <div class="col-md-6 mb-4 pb-2">
-
                                                     <div class="form-outline">
                                                         <input id="first_name" type="text"
                                                             class="form-control form-control-lg @error('first_name') is-invalid @enderror"

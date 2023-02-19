@@ -7,6 +7,7 @@ use App\Models\Bale;
 use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Staff;
 use App\Models\Supplier;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -100,5 +101,113 @@ class AdminController extends Controller
         ]);
 
         return back()->with("successfull", "Password changed successfully!");
+    }
+
+    public function ViewStaffs(){
+
+        $staffs = DB::table('staff')
+        ->select('*')
+        ->join('users', 'users.id', '=', 'staff.staff_id')
+        ->where('staff_status', '=', 'ACTIVE')
+        ->get();
+
+        return view('admin.staffs.view')
+        ->with([
+            'staffs' => $staffs,
+            'i' => 1
+        ]);
+    }
+
+    public function EditStaff($id){
+        $staff = DB::table('staff')
+        ->select('*')
+        ->join('users', 'users.id', '=', 'staff.staff_id')
+        ->where('staff_id', '=', $id)
+        ->get()->first();
+
+        return view('admin.staffs.edit')
+        ->with([
+            'user' => $staff,
+        ]);
+    }
+
+    public function SaveEdit(Request $req, $id){
+
+        $user = User::find($id);
+        $user->first_name = $req->first_name;
+        $user->last_name = $req->last_name;
+        $user->phone_number = $req->phone_number;
+        $user->save();
+
+        $staff = Staff::find($id);
+        $staff->staff_hired_date = $req->date;
+        $staff->save();
+
+        return redirect()->route('ViewStaffs')
+        ->with([
+            'successfull' => 'Staff edited successfully!',
+        ]);
+    }
+
+    public function AddStaff(){
+        return view('admin.staffs.add');
+    }
+
+    public function SaveStaff(Request $req){
+
+        $user = new User();
+        $user->first_name = $req->first_name;
+        $user->last_name = $req->last_name;
+        $user->phone_number = $req->phone_number;
+        $user->role = "staff";
+        $user->email = $req->email;
+        $user->password =  Hash::make($req->password);
+        $user->save();
+
+        $staff = new Staff();
+        $staff->staff_id = $user->id;
+        $staff->staff_hired_date = $req->date;
+        $staff->save();
+
+        return redirect()->route('ViewStaffs')
+        ->with([
+            'successfull' => 'Staff saved successfully!',
+        ]);
+    }
+
+    public function DeactivateStaff($id)
+    {
+        $staff = Staff::find($id);
+        $staff->staff_status = "DEACTIVATED";
+        $staff->save();
+
+        return redirect()->route('ViewStaffs')
+        ->with('successfull', 'Staff is now deactivated!');
+    }
+    
+    public function ArchiveStaffs(){
+
+        $staffs = DB::table('staff')
+        ->select('*')
+        ->join('users', 'users.id', '=', 'staff.staff_id')
+        ->where('staff_status', '=', 'DEACTIVATED')
+        ->get();
+
+        return view('admin.staffs.archive')
+        ->with([
+            'staffs' => $staffs,
+            'i' => 1
+        ]);
+    }
+
+    public function RestoreStaff($id)
+    {
+
+        $staff = Staff::find($id);
+        $staff->staff_status = "ACTIVE";
+        $staff->save();
+
+        return redirect()->route('ArchiveStaffs')
+            ->with('successfull', 'Staff has been successfully reactivated!');
     }
 }
