@@ -23,6 +23,7 @@ class OrderController extends Controller
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
             ->where('payment_status', '=', 'Pending')
             ->where('order_status', '<>', 'Cancelled')
+            ->orderBy('order_date', 'desc')
             ->get();
 
         return view('orders.view', [
@@ -153,10 +154,10 @@ class OrderController extends Controller
                 $cart->prod_id = $id;
                 $cart->save();
 
-                return redirect()->back()
+                return redirect()->route('customer_home')
                     ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
             } else {
-                return redirect()->back()
+                return redirect()->route('customer_home')
                     ->with([
                         'error_title' => 'Product Unavailable',
                         'error_msg' => 'Sorry! You cannot add a product that is not available.'

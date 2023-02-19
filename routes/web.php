@@ -112,7 +112,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 
 // Customer Authentication
 Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
-    Route::get('/', [CustomerController::class, 'index']);
+    Route::get('/', [CustomerController::class, 'index'])->name('customer_home');
     Route::get('/profile', [CustomerController::class, 'ViewProfile'])->name('view_profile');
     Route::get('/deactivate', [CustomerController::class, 'DeactivateCustomer'])->name('deactivate');
     Route::post('/profile/edit', [CustomerController::class, 'EditProfile']);
@@ -120,6 +120,7 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
     Route::get('/order/confirm/{id}', [CustomerController::class, 'ConfirmOrder']);
     Route::get('/settings', [CustomerController::class, 'Settings'])->name('settings');
     Route::post('/settings/update_password', [CustomerController::class, 'UpdatePassword'])->name('update_pass');
+    Route::get('/transactions', [CustomerController::class, 'ViewTransactions']);
 
     // Receipt & Invoice
     Route::get('/orders/invoice/{id}/view', [PrintController::class, 'InvoiceCustomer_View'])->name("customer_invoice");

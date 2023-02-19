@@ -17,6 +17,7 @@ class PaymentController extends Controller
             ->select('*')
             ->leftJoin('users', 'users.id', '=', 'orders.cust_id')
             ->where('payment_status', '=', 'Received')
+            ->orderBy('payment_date', 'desc')
             ->get();
 
         return view('orders.view_receipt', [

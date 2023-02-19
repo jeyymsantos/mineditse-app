@@ -13,12 +13,13 @@ class BaleController extends Controller
 {
     public function index()
     {
-        // $bales = Bale::all();
+
         $bales = DB::table('bales')
         ->select('bale_id', 'bale_price', 'bale_quantity', 'categories.category_name', 'suppliers.supplier_name', 'bale_description', 'bale_order_date')
         ->join('categories', 'bales.category_id', '=', 'categories.category_id')
         ->join('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
-        ->paginate(10)->withQueryString();
+        ->orderBy('bale_id', 'asc')
+        ->get();
 
         return view('bales.view', [
             'bales' => $bales,

@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-    <div class="container table-responsive">
+    <div class="container-fluid table-responsive">
 
         @if (session()->has('error_title'))
             <!-- Modal -->
@@ -37,63 +37,70 @@
             </div>
         @endif
 
-        <div class="row">
-            <div class="col-6">
-                <h1> Bales</h1>
+        <div class="card shadow mb-4 border-left-primary">
+
+            <div class="card-header py-3">
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        <h3 class="m-0 font-weight-bold text-primary"> Bales</h3>
+                    </div>
+                    <div class="col-md-6 col-sm-12 d-flex justify-content-md-end mb-3">
+                        <a href="/admin/bales/add"><button class="btn btn-primary">Add Bale</button></a>
+                    </div>
+                </div>
             </div>
-            <div class="col-6 d-flex justify-content-end">
-                <a href="/admin/bales/add"><button class="btn btn-primary">Add Bale</button></a>
+
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Supplier</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Bale Date</th>
+                                <th scope="col" style="text-align: center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($bales as $bale)
+                                <tr>
+                                    <th class="align-middle"> {{ $bale->bale_id }} </th>
+                                    <td class="align-middle">{{ $bale->category_name }}</td>
+                                    <td class="align-middle">{{ $bale->supplier_name }}</td>
+                                    <td class="align-middle">₱{{ number_format($bale->bale_price, 2) }}</td>
+                                    <td class="align-middle">{{ $bale->bale_quantity }}</td>
+                                    <td class="align-middle">
+                                        {{ $bale->bale_description == null ? 'N/A' : $bale->bale_description }}
+                                    </td>
+                                    <td class="align-middle">
+                                        {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $bale->bale_order_date)->format('F d, Y') }}
+                                    </td>
+
+                                    <td class="align-middle" style="text-align: center">
+                                        <a href="/admin/bales/edit/{{ $bale->bale_id }}"><button class="btn btn-warning"><i
+                                                    class="bi-pencil" title="Edit Bale"></i></button></a>
+                                        <a href="/admin/bales/delete/{{ $bale->bale_id }}"><button
+                                                class="btn btn-danger"><i class="bi-trash"
+                                                    title="Delete Bale"></i></button></a>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Supplier</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Bale Date</th>
-                    <th scope="col" style="text-align: center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($bales as $bale)
-                    <tr>
-                        <th class="align-middle" scope="row"> {{ 'B' . $bale->bale_id }} </th>
-                        <td class="align-middle">{{ $bale->category_name }}</td>
-                        <td class="align-middle">{{ $bale->supplier_name }}</td>
-                        <td class="align-middle">₱{{ number_format($bale->bale_price, 2) }}</td>
-                        <td class="align-middle">{{ $bale->bale_quantity }}</td>
-                        <td class="align-middle">{{ $bale->bale_description == null ? 'N/A' : $bale->bale_description }}
-                        </td>
-                        <td class="align-middle">
-                            {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $bale->bale_order_date)->format('F d, Y') }}
-                        </td>
-
-                        <td class="align-middle" style="text-align: center">
-                            <a href="/admin/bales/edit/{{ $bale->bale_id }}"><button class="btn btn-warning"><i
-                                        class="bi-pencil" title="Edit Bale"></i></button></a>
-                            <a href="/admin/bales/delete/{{ $bale->bale_id }}"><button class="btn btn-danger"><i
-                                        class="bi-trash" title="Delete Bale"></i></button></a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        <div class="row">
-            {{ $bales->links() }}
-        </div>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-        integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            $("#exampleModal").modal('show');
-        });
-    </script>
-@endsection
+        <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function() {
+                $("#exampleModal").modal('show');
+            });
+        </script>
+    @endsection

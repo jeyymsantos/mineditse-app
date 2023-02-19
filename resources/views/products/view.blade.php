@@ -39,7 +39,7 @@
             <div class="card-header py-3">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <h3 class="m-0 font-weight-bold text-primary">View All Products</h6>
+                        <h3 class="m-0 font-weight-bold text-primary">View All Products</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 d-flex justify-content-md-end mb-3">
                         <a href="/admin/products/archieve"><button class="btn btn-secondary me-2">Archive</button></a>

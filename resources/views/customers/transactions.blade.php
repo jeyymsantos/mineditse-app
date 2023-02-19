@@ -194,72 +194,12 @@
 
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="card mb-4 h-100">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <h5 class="mb-0 text-primary"><b>Profile Details</b></h5>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Name</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->first_name . ' ' . $user->last_name }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Email</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->email }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Phone</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->phone_number }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Type</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->cust_type }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Address</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">
-                                                {{ $user->cust_street . ', ' . $user->cust_barangay . ', ' . $user->cust_city . ', ' . $user->cust_province }}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="card mb-4 mb-lg-0 h-100">
                                 <div class="card-body p-0">
                                     <ul class="list-group list-group-flush rounded-3">
                                         <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <h5 class="mb-0 text-primary"><b>Latest Transactions</b></h5>
+                                            <h5 class="mb-0 text-primary"><b>Transaction History</b></h5>
                                         </li>
 
                                         @foreach ($orders as $order)
@@ -329,10 +269,6 @@
                                             </li>
                                         @endforeach
 
-                                        <li class="list-group-item d-flex justify-content-center align-items-center p-3">
-                                            <a class="btn btn-primary" href="/customer/transactions"><i class="fas fa-search fa-sm"></i> View All
-                                                Transactions</a>
-                                        </li>
                                     </ul>
                                 </div>
                             </div>

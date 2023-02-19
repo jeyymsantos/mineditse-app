@@ -37,6 +37,22 @@
         <h1 class="mb-4"> All Products </h1>
 
         <div class="row">
+            <div class="mb-3">
+                <form method="GET" action="/customer">
+                    <input type="text" class="form-control" id="search" maxlength="50" name="search"
+                        placeholder="Seach for Product">
+                </form>
+            </div>
+        </div>
+
+        @if ($products->count() == 0)
+            <div class="row m-5">
+                <h1 style="text-align:center"> No Products Found </h1>
+            </div>
+        @endif
+
+
+        <div class="row">
             @foreach ($products as $product)
                 <div class="col-lg-2 col-md-3 col-sm-4 mt-1 mb-3">
                     <div class="card h-100">
@@ -51,13 +67,12 @@
                                 {{ $product->prod_status }}
                             </p>
 
-
-
                         </div>
 
                         <div class="body text-end">
                             @if ($product->prod_status == 'Available')
-                                <a href="/customer/orders/add/{{ $product->prod_id }}" class="btn btn-primary mb-3 me-3">Add to
+                                <a href="/customer/orders/add/{{ $product->prod_id }}" class="btn btn-primary mb-3 me-3">Add
+                                    to
                                     Cart</a>
                             @endif
                         </div>

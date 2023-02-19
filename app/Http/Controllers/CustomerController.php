@@ -20,11 +20,18 @@ class CustomerController extends Controller
 
     public function admin_index()
     {
+        $customers = DB::table('customers')
+            ->select('*')
+            ->join('users', 'users.id', '=', 'customers.cust_id')
+            ->get();
+
+        return view('admin.customers.view', [
+            'customers' => $customers
+        ]);
     }
 
-    public function index()
+    public function index(Request $req)
     {
-
         $customer = Customer::find(Auth::user()->id);
         if ($customer->cust_type == "DEACTIVATED") {
             Session::flush();
@@ -36,12 +43,19 @@ class CustomerController extends Controller
             ]);
         }
 
+        $search = $req->search;
+
         $products = DB::table('products')
             ->select('*', 'categories.category_id')
             ->join('bales', 'products.bale_id', '=', 'bales.bale_id')
             ->join('categories', 'bales.category_id', '=', 'categories.category_id')
             ->orderBy('prod_id')
-            ->where('prod_status', '<>', 'Sold')
+            ->where('prod_status', '<>', 'Sold', 'and')
+            ->where(function ($query) use ($search) {
+                $query->where('prod_name', 'LIKE', '%'.$search.'%')
+                ->orWhere('category_name', 'LIKE', '%'.$search.'%')
+                ->orWhere('prod_qr_code', 'LIKE', '%'.$search.'%');
+            })
             ->paginate('18')->withQueryString();
 
         $carts = DB::table('carts')
@@ -224,8 +238,38 @@ class CustomerController extends Controller
             Cart::find($cart->card_id)->delete();
         }
 
-        return redirect('/customer/cart')->with(
+        return redirect('/customer/orders/checkout')->with(
             'successfull', 'Your order has been placed! Visit your profile to check invoice.'
         );
     }
+
+    public function ViewTransactions(){
+        $carts = DB::table('carts')
+            ->select('*')
+            ->join('products', 'products.prod_id', '=', 'carts.prod_id')
+            ->where('user_id', '=', Auth::id())->get();
+
+        $orders = DB::table('orders')
+            ->select('*')
+            ->join('customers', 'customers.cust_id', '=', 'orders.cust_id')
+            ->join('users', 'customers.cust_id', '=', 'users.id')
+            // ->leftJoin('order_detail', 'order_detail.order_id', '=', 'orders.order_id')
+            // ->join('products', 'products.prod_id', '=', 'order_detail.prod_id')
+            ->orderBy('order_date', 'desc')
+            ->where('orders.cust_id', '=', Auth::user()->id)->get();
+
+        $user = DB::table('customers')
+            ->select('*')
+            ->join('users', 'customers.cust_id', '=', 'users.id')
+            ->where('customers.cust_id', '=', Auth::user()->id)
+            ->get()->first();
+
+        return view('customers.transactions', [
+            'carts' => $carts,
+            'orders' => $orders,
+            'user' => $user
+        ]);
+
+    }
+
 }

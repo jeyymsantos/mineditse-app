@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $categories = DB::table('categories')->paginate(10)->withQueryString();
+        $categories = DB::table('categories')->get();
         return view('category.view', ['categories' => $categories]);
     }
 
