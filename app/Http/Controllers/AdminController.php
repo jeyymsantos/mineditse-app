@@ -202,7 +202,6 @@ class AdminController extends Controller
 
     public function RestoreStaff($id)
     {
-
         $staff = Staff::find($id);
         $staff->staff_status = "ACTIVE";
         $staff->save();

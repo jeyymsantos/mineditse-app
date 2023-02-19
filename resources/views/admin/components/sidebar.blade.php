@@ -30,37 +30,39 @@
         Manage
     </div>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEight"
-            aria-expanded="true" aria-controls="collapseEight">
-            <i class="fa-solid fa-fw fa-user"></i>
-            <span>Customers</span>
-        </a>
-        <div id="collapseEight" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Manage Customers</h6>
-                <a class="collapse-item" href="/admin/customers">View Customers</a>
-                <a class="collapse-item" href="/admin/customers/archive">Deactivated Customers</a>
+    @if (Auth::user()->role != 'staff')
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEight"
+                aria-expanded="true" aria-controls="collapseEight">
+                <i class="fa-solid fa-fw fa-user"></i>
+                <span>Customers</span>
+            </a>
+            <div id="collapseEight" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Manage Customers</h6>
+                    <a class="collapse-item" href="/admin/customers">View Customers</a>
+                    <a class="collapse-item" href="/admin/customers/archive">Deactivated Customers</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
 
-    <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEleven"
-            aria-expanded="true" aria-controls="collapseEleven">
-            <i class="fa-solid fa-fw fa-users"></i>
-            <span>Staffs</span>
-        </a>
-        <div id="collapseEleven" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Manage Staffs</h6>
-                <a class="collapse-item" href="/admin/staffs">View Staffs</a>
-                <a class="collapse-item" href="/admin/staffs/archive">Deactivated Staffs</a>
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEleven"
+                aria-expanded="true" aria-controls="collapseEleven">
+                <i class="fa-solid fa-fw fa-users"></i>
+                <span>Staffs</span>
+            </a>
+            <div id="collapseEleven" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Manage Staffs</h6>
+                    <a class="collapse-item" href="/admin/staffs">View Staffs</a>
+                    <a class="collapse-item" href="/admin/staffs/archive">Deactivated Staffs</a>
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    @endif
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">

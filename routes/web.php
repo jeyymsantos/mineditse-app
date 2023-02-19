@@ -152,9 +152,9 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
 });
 
 // Staff Authentication
-Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function () {
-    Route::get('/', [StaffController::class, 'index']);
-});
+// Route::prefix('staff')->middleware(['auth', 'isStaff'])->group(function () {
+//     Route::get('/', [StaffController::class, 'index']);
+// });
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/register_try', function () {

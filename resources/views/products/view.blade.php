@@ -42,7 +42,9 @@
                         <h3 class="m-0 font-weight-bold text-primary">View All Products</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 d-flex justify-content-md-end mb-3">
-                        <a href="/admin/products/archieve"><button class="btn btn-secondary me-2">Archive</button></a>
+                        @if (Auth::user()->role != 'staff')
+                            <a href="/admin/products/archieve"><button class="btn btn-secondary me-2">Archive</button></a>
+                        @endif
                         <a href="/admin/products/add"><button class="btn btn-primary">Add Product</button></a>
                     </div>
                 </div>
@@ -97,9 +99,11 @@
 
                                     <td class="align-middle" style="text-align: center">
                                         <a href="/admin/products/view/{{ $product->prod_id }}"><button
-                                                class="btn btn-success"><i class="bi-search" title="View Product"></i></button></a>
+                                                class="btn btn-success"><i class="bi-search"
+                                                    title="View Product"></i></button></a>
                                         <a href="/admin/products/edit/{{ $product->prod_id }}"><button
-                                                class="btn btn-warning text-dark"><i class="bi-pencil" title="Edit Product"></i></button></a>
+                                                class="btn btn-warning text-dark"><i class="bi-pencil"
+                                                    title="Edit Product"></i></button></a>
 
                                         <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal"
@@ -143,7 +147,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
     <script>
         $(document).ready(function() {

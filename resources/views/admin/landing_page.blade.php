@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Admin </title>
+    <title> Dashboard </title>
 @endsection
 
 @section('custom_css')
