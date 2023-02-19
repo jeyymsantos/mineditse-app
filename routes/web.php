@@ -114,6 +114,8 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
 Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function () {
     Route::get('/', [CustomerController::class, 'index']);
     Route::get('/profile', [CustomerController::class, 'ViewProfile'])->name('view_profile');
+    Route::get('/deactivate', [CustomerController::class, 'DeactivateCustomer'])->name('deactivate');
+
     Route::get('/order/confirm/{id}', [CustomerController::class, 'ConfirmOrder']);
 
     // Customer Cart

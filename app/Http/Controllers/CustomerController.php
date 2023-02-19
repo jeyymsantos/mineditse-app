@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
@@ -18,12 +19,17 @@ class CustomerController extends Controller
     
     public function index()
     {
-        // $find = Customer::where('cust_id', '=', Auth::user()->id)->first();
-        // if($find == null){
-        //     $customer = new Customer();
-        //     $customer->cust_id = Auth::user()->id;
-        //     $customer->save();
-        // }
+        
+        $customer = Customer::find(Auth::user()->id);
+        if($customer->cust_type == "DEACTIVATED"){
+            Session::flush();
+            Auth::logout();
+    
+            return redirect()->route('main')->with([
+                "error_title" => "Account is deactivated",
+                "error_msg" => "Sorry, you account is deactivated. Please contact Mine Ditse to reactivate your account. Thank you."
+            ]);
+        }
 
         $products = DB::table('products')
         ->select('*', 'categories.category_id')
@@ -83,4 +89,18 @@ class CustomerController extends Controller
         ->with('successfull', 'Order completed successfully!');
 
     }
+
+    public function DeactivateCustomer(){
+
+        $customer = Customer::find(Auth::user()->id);
+        $customer->cust_type = "DEACTIVATED";
+        $customer->save();
+
+        Session::flush();
+        Auth::logout();
+
+        return redirect()->route('main');
+
+    }
+
 }

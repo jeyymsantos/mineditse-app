@@ -45,7 +45,7 @@
                                 <img src="{{ asset('backend/img/undraw_profile.svg') }}" alt="avatar"
                                     class="rounded-circle img-fluid" style="width: 150px;">
                                 <h5 class="mt-3 mb-1">
-                                    <b class="text-primary"> {{ $user->first_name." ".$user->last_name }}</b> |
+                                    <b class="text-primary"> {{ $user->first_name . ' ' . $user->last_name }}</b> |
                                     <i>{{ $user->cust_type }}</i>
                                 </h5>
                                 <p class="text-muted m-0 mb-2">Customer since
@@ -53,7 +53,34 @@
                                 </p>
                                 <div class="d-flex justify-content-center mb-2">
                                     <button type="button" class="btn btn-primary">Edit Profile</button>
-                                    <button type="button" class="btn btn-outline-danger ms-1">Deactivate</button>
+
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-outline-danger ms-1" data-bs-toggle="modal"
+                                        data-bs-target="#deactivationModal">
+                                        Deactivate
+                                    </button>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="deactivationModal" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Account Deactivation</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p style="text-align:justify">Are you sure you want to deactivate? You will need to ask for Mine Ditse to reactivate your account once you decided to use it again. <br><br>Once you proceed, you will automatically be logged out.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cancel</button>
+                                                    <a href="/customer/deactivate"><button type="button" class="btn btn-outline-danger">Confirm Deactivation</button></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -74,7 +101,7 @@
                                             <p class="mb-0">Name</p>
                                         </div>
                                         <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->first_name." ".$user->last_name }}</p>
+                                            <p class="text-muted mb-0">{{ $user->first_name . ' ' . $user->last_name }}</p>
                                         </div>
                                     </div>
                                     <hr>

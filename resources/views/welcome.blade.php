@@ -29,6 +29,29 @@
     </section><!-- End Hero -->
 
     <main id="main">
+
+        @if (session()->has('error_title'))
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">{{ session()->get('error_title') }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ session()->get('error_msg') }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I understand</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+
+
+
         <!-- ======= About Section ======= -->
         <section id="about" class="about">
 
@@ -321,4 +344,11 @@
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
+
+    <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $("#exampleModal").modal('show');
+        });
+    </script>
 @endsection
