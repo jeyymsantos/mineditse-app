@@ -344,6 +344,7 @@ class OrderController extends Controller
         $order = Order::find($id);
         $order->payment_method = $req->payment_method;
         $order->order_method = $req->order_method;
+        $order->staff_id = Auth::user()->id;
         $order->order_status = "For " . $req->order_method;
         $order->order_shipping_fee = $req->shipping_fee;
         $order->order_details = $req->remarks;
@@ -354,9 +355,9 @@ class OrderController extends Controller
 
     public function DeleteOrder($id)
     {
-
         $order = Order::find($id);
         $order->order_status = "Cancelled";
+        $order->staff_id = Auth::user()->id;
         $order->save();
 
         $items = DB::table('order_detail')

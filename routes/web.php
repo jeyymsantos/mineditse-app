@@ -100,7 +100,7 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     // Receipts
     Route::get('/orders/receipts', [PaymentController::class, 'index'])->name('receipts');
     Route::get('/orders/receipt/{id}', [PaymentController::class, 'ViewReceipt'])->name('view_receipt');
-    Route::get('/orders/receipt/{id}/view', [PrintController::class, 'Receipt'])->name('receipt');;
+    Route::get('/orders/receipt/{id}/view', [PrintController::class, 'Receipt'])->name('receipt');
     Route::get('/orders/receipt/{id}/generate', [PrintController::class, 'GenerateReceipt']);
 
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
@@ -115,12 +115,19 @@ Route::prefix('customer')->middleware(['auth', 'isCustomer'])->group(function ()
     Route::get('/', [CustomerController::class, 'index']);
     Route::get('/profile', [CustomerController::class, 'ViewProfile'])->name('view_profile');
     Route::get('/deactivate', [CustomerController::class, 'DeactivateCustomer'])->name('deactivate');
+    Route::post('/profile/edit', [CustomerController::class, 'EditProfile']);
 
     Route::get('/order/confirm/{id}', [CustomerController::class, 'ConfirmOrder']);
+    Route::get('/settings', [CustomerController::class, 'Settings'])->name('settings');
+    Route::post('/settings/update_password', [CustomerController::class, 'UpdatePassword'])->name('update_pass');
+
+    // Receipt & Invoice
+    Route::get('/orders/invoice/{id}/view', [PrintController::class, 'InvoiceCustomer_View'])->name("customer_invoice");
 
     // Customer Cart
     Route::get('/orders/add/{id}', [OrderController::class, 'AddToCart']);
     Route::get('/orders/checkout', [CartController::class, 'ShowCart']);
+    Route::post('/cart/submit', [CustomerController::class, 'CartSubmit']);
     Route::get('/orders/remove/{id}', [CartController::class, 'RemoveFromCart']);
 });
 

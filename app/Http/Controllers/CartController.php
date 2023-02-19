@@ -22,7 +22,7 @@ class CartController extends Controller
             ->where('user_id', '=', Auth::id())->get();
 
         $customers = DB::table('users')
-            ->select('name', 'email', 'customers.cust_type', 'customers.cust_id')
+            ->select('*')
             ->join('customers', 'users.id', '=', 'customers.cust_id')
             ->get();
 

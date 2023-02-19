@@ -193,157 +193,59 @@
                         </div>
 
                     </div>
+
+                </div>
+
+                <form action="/customer/settings/update_password" method="POST">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="card mb-4 h-100">
+                        <div class="col-lg-12">
+                            <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <h5 class="mb-0 text-primary"><b>Profile Details</b></h5>
-                                        </div>
+
+                                    <span class="d-flex justify-content-between align-items-center ms-1 mb-3">
+                                        <h5 class="mb-0 text-primary"><b>Change Password</b></h5>
+                                    </span>
+
+
+                                    @csrf
+                                    <div class="mb-3">
+                                        <label for="oldPasswordInput" class="form-label">Old Password</label>
+                                        <input name="old_password" type="password"
+                                            class="form-control @error('old_password') is-invalid @enderror"
+                                            id="oldPasswordInput" placeholder="Old Password">
+                                        @error('old_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Name</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->first_name . ' ' . $user->last_name }}
-                                            </p>
-                                        </div>
+                                    <div class="mb-3">
+                                        <label for="newPasswordInput" class="form-label">New Password</label>
+                                        <input name="new_password" type="password"
+                                            class="form-control @error('new_password') is-invalid @enderror"
+                                            id="newPasswordInput" placeholder="New Password">
+                                        @error('new_password')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Email</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->email }}</p>
-                                        </div>
+                                    <div class="mb-3">
+                                        <label for="confirmNewPasswordInput" class="form-label">Confirm New
+                                            Password</label>
+                                        <input name="new_password_confirmation" type="password" class="form-control"
+                                            id="confirmNewPasswordInput" placeholder="Confirm New Password">
                                     </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Phone</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->phone_number }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Type</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">{{ $user->cust_type }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-sm-3">
-                                            <p class="mb-0">Address</p>
-                                        </div>
-                                        <div class="col-sm-9">
-                                            <p class="text-muted mb-0">
-                                                {{ $user->cust_street . ', ' . $user->cust_barangay . ', ' . $user->cust_city . ', ' . $user->cust_province }}
-                                            </p>
-                                        </div>
+
+                                    <div class="mb-3 d-flex justify-content-end">
+                                        <button type="submit" class="btn btn-primary">Change Password</button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <div class="col-md-6">
-                            <div class="card mb-4 mb-lg-0 h-100">
-                                <div class="card-body p-0">
-                                    <ul class="list-group list-group-flush rounded-3">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                                            <h5 class="mb-0 text-primary"><b>Latest Transactions</b></h5>
-                                        </li>
-
-                                        @foreach ($orders as $order)
-                                            <li class="list-group-item d-flex align-items-center p-3">
-
-                                                <a href="/customer/orders/invoice/{{ $order->order_id }}/view"><button
-                                                        class="btn btn-outline-primary me-1"><i
-                                                            class="fas fa-search fa-sm"></i></button></a>
-
-                                                @if ($order->order_status == 'Cancelled' || $order->order_status == 'Completed')
-                                                    <button style="visibility: hidden"
-                                                        class="btn btn-outline-success me-2"><i
-                                                            class="fas fa-check fa-sm"></i></button>
-                                                @else
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-outline-success me-2"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#confirmModal{{ $order->order_id }}">
-                                                        <i class="fas fa-check fa-sm"></i>
-                                                    </button>
-
-                                                    <!-- Modal -->
-                                                    <div class="modal fade" id="confirmModal{{ $order->order_id }}"
-                                                        tabindex="-1" aria-labelledby="confirmModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h1 class="modal-title fs-5" id="confirmModalLabel">
-                                                                        Confirm Received Order</h1>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    Are you sure you want to confirm received status of
-                                                                    ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}?
-                                                                    This will now place your order as completed
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Close</button>
-                                                                    <a
-                                                                        href="/customer/order/confirm/{{ $order->order_id }}"><button
-                                                                            type="button"
-                                                                            class="btn btn-primary">Confirm</button></a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
-
-
-                                                <p class="mb-0">
-                                                    ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}
-                                                    |
-                                                    {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y') }}
-                                                    •
-                                                    <span
-                                                        class="@if ($order->order_status == 'Cancelled') text-danger
-                                                        @elseif ($order->order_status == 'Completed') text-success
-                                                        @else text-warning @endif">
-                                                        {{ $order->order_status }}
-                                                    </span>
-                                                </p>
-
-                                            </li>
-                                        @endforeach
-
-                                        <li class="list-group-item d-flex justify-content-center align-items-center p-3">
-                                            <button class="btn btn-primary"><i class="fas fa-search fa-sm"></i> View All
-                                                Transactions</button>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
+
+
             </div>
         </section>
-
-
-
 
         </section>
     </div>
