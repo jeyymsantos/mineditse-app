@@ -253,7 +253,7 @@
 
                                                     <input id="phone" type="text"
                                                         class="form-control form-control-lg @error('phone') is-invalid @enderror"
-                                                        name="phone" value="{{ old('phone') }}" required
+                                                        name="phone" value="{{ old('phone') }}" required minlength="11" maxlength="11"
                                                         autocomplete="phone" autofocus title="09xxxxxxxxx">
                                                     <label for="phone"
                                                         class="form-label">{{ __('Phone Number') }}</label>
