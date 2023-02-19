@@ -206,7 +206,6 @@
                                         <h5 class="mb-0 text-primary"><b>Change Password</b></h5>
                                     </span>
 
-
                                     @csrf
                                     <div class="mb-3">
                                         <label for="oldPasswordInput" class="form-label">Old Password</label>

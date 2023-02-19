@@ -116,7 +116,7 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        ORDERS
+        TRANSACTIONS
     </div>
 
     <!-- Nav Item - Orders Collapse Menu -->

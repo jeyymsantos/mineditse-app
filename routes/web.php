@@ -114,6 +114,9 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/customers/edit/{id}', [CustomerController::class, 'admin_edit_customer']);
     Route::post('/customers/edit/{id}', [CustomerController::class, 'admin_save_customer']);
 
+    // Admin Side
+    Route::get('/profile', [AdminController::class, 'ViewProfile'])->name('admin_profile');
+    Route::post('/settings/update_password', [AdminController::class, 'UpdatePassword']);
 });
 
 // Customer Authentication

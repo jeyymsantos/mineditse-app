@@ -7,9 +7,11 @@ use App\Models\Bale;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -58,5 +60,36 @@ class AdminController extends Controller
             'delivery' => $delivery,
             'meetup' => $meetup,
         ]);
+    }
+
+    public function ViewProfile(){
+        $user = User::find(Auth::user()->id);
+        return view('admin.profile', [
+            'user' => $user
+        ]);
+    }
+
+    public function UpdatePassword(Request $request)
+    {
+        # Validation
+        $request->validate([
+            'old_password' => 'required',
+            'new_password' => 'required|confirmed|min:8',
+        ]);
+
+        #Match The Old Password
+        if (!Hash::check($request->old_password, auth()->user()->password)) {
+            return back()->with([
+                "error_title" => "Old Password Doesn't match!",
+                "error_msg" => "Kindly input your correct old password in order to proceed."
+            ]);
+        }
+
+        #Update the new Password
+        User::whereId(auth()->user()->id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return back()->with("successfull", "Password changed successfully!");
     }
 }
