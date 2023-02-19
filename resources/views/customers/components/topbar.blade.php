@@ -9,7 +9,7 @@
 
             <div class="container">
                 <a class="navbar-brand" href="/customer">
-                  <img src="{{ asset('img/logo.png') }}" alt="Mine Ditse" height="50" class="d-inline-block align-text-middle">
+                  <img src="{{ asset('img/Logo.png') }}" alt="Mine Ditse" height="50" class="d-inline-block align-text-middle">
                   Mine Ditse
                 </a>
               </div>

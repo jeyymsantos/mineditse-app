@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Payment for Invoice | {{ $order->first_name." ".$order->last_name }} </title>
+    <title> Payment for Invoice | {{ $order->first_name . ' ' . $order->last_name }} </title>
 @endsection
 
 @section('custom_css')
@@ -59,7 +59,9 @@
                             <p class="m-0 col-md-6"> Transaction ID:
                                 <b>ORD-0{{ $order->order_id }}-0{{ $order->cust_id }}</b>
                             </p>
-                            <p class="m-0 col-md-6"> Customer Name: <b>{{ $order->first_name." ".$order->last_name }}</b></p>
+                            <p class="m-0 col-md-6"> Customer Name:
+                                <b>{{ $order->first_name . ' ' . $order->last_name }}</b>
+                            </p>
                             <p class="m-0 col-md-6"> Customer Email: <b>{{ $order->email }}</b></p>
                             <p class="m-0 col-md-6"> Customer Phone: <b>{{ $order->phone_number }}</b></p>
 
@@ -69,11 +71,15 @@
                             <p class="m-0 col-md-6"> Invoice Date: <b>
                                     {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $order->order_date)->format('F d, Y, h:ia') }}
                                 </b></p>
-                            <p class="m-0 col-md-6"> Processed by: <b>{{ $staff->first_name." ".$staff->last_name }}</b></p>
+                            <p class="m-0 col-md-6"> Processed by:
+                                <b>{{ $staff->first_name . ' ' . $staff->last_name }}</b>
+                            </p>
                             <p class="m-0 col-md-6"> Address:
                                 <b>{{ $order->cust_street . ', ' . $order->cust_barangay . ', ' . $order->cust_city . ', ' . $order->cust_province }}</b>
                             </p>
                             <p class="m-0 col-md-6"> Payment Method: <b> {{ $order->payment_method }}</b></p>
+                            <p class="m-0 col-md-6"> Order Method: <b> {{ $order->order_method }}</b></p>
+                            <p class="m-0 col-md-6"> Order Status: <b> {{ $order->order_status }}</b></p>
                         </div>
 
                         <div class="table-responsive">
@@ -144,9 +150,16 @@
                                 <h3 class="m-0 font-weight-bold text-primary">Settle Payment</h6>
                             </div>
                             <div class="col-md-6 col-sm-12 d-flex justify-content-md-end">
-                                <button type="submit" class="btn btn-primary me-2">
-                                    <i class="bi bi-cash me-2"></i> Pay
-                                </button>
+
+                                @if ($order->order_method != 'Pick-Up' && $order->order_shipping_fee == '0.00')
+                                    <h5 class="mt-2"> Kindly add a delivery/shipping fee first! </h5>
+                                @else
+                                    <button type="submit" class="btn btn-primary me-2">
+                                        <i class="bi bi-cash me-2"></i> Pay
+                                    </button>
+                                @endif
+
+
                             </div>
                         </div>
                     </div>

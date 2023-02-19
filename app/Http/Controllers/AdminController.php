@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Bale;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Supplier;
 use App\Models\User;
@@ -49,8 +50,16 @@ class AdminController extends Controller
         ->where('order_status', '<>', 'Cancelled')
         ->get();
 
+        $total_sales = Order::where('payment_status', "=", "Received", 'and')->where('order_status', "<>", "Cancelled")->sum('order_total');
+        $pending_payments = Order::where('payment_status', "<>", "Received", 'and')->where('order_status', "<>", "Cancelled")->sum('order_total');
+        $products_sold = Product::where('prod_status', '=', 'Sold')->get();
+        $orders = Order::where('order_status', '=', 'Completed');
 
         return view('admin.landing_page', [
+            'products_sold' => $products_sold,
+            'orders' => $orders,
+            'total_sales' => $total_sales,
+            'pending_payments' => $pending_payments,
             'suppliers' => $suppliers,
             'customers' => $customers,
             'bales' => $bales,

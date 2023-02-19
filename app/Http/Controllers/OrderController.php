@@ -130,6 +130,44 @@ class OrderController extends Controller
         ]);
     }
 
+    public function AdminAddToCart($id)
+    {
+        $product = Product::find($id);
+        $cart = DB::table('carts')
+            ->where('prod_id', '=', $id, 'and')
+            ->where('user_id', '=', Auth::id());
+
+        $cart_check = $cart->first();
+
+        try {
+            $x = $cart_check->prod_id;
+            return redirect()->back()
+                ->with([
+                    'error_title' => 'Product already exist',
+                    'error_msg' => 'Sorry! You cannot add a product that already exist on the cart.'
+                ]);
+        } catch (Exception $e) {
+            $cart = new Cart();
+
+            if ($product->prod_status == 'Available') {
+                $cart->user_id = Auth::id();
+                $cart->prod_id = $id;
+                $cart->save();
+
+                return redirect()->back()
+                    ->with('successfull', $product->prod_name . ' has been successfully added to cart!');
+            } else {
+                return redirect()->back()
+                    ->with([
+                        'error_title' => 'Product Unavailable',
+                        'error_msg' => 'Sorry! You cannot add a product that is not available.'
+                    ]);
+            }
+        }
+
+        return response()->json(['cart' => $cart], 200, [], JSON_PRETTY_PRINT);
+    }
+
     public function AddToCart($id)
     {
         $product = Product::find($id);
