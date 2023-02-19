@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    <title> Customers </title>
+    <title> Deactivated Customers </title>
 @endsection
 
 @section('custom_css')
@@ -39,11 +39,10 @@
             <div class="card-header py-3">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
-                        <h3 class="m-0 font-weight-bold text-primary">View Active Customers</h3>
+                        <h3 class="m-0 font-weight-bold text-primary">View Deactivated Customers</h3>
                     </div>
                     <div class="col-md-6 col-sm-12 d-flex justify-content-md-end mb-3">
-                        <a href="/admin/customers/archive"><button class="btn btn-primary me-2">Deactivated
-                                Accounts</button></a>
+                        <a href="/admin/customers"><button class="btn btn-primary me-2">Back</button></a>
                     </div>
                 </div>
             </div>
@@ -52,17 +51,17 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th scope="col" style="text-align: center">#</th>
+                                <th scope="col">#</th>
                                 <th scope="col">Name (Email)</th>
                                 <th scope="col">Registered Date</th>
-                                <th scope="col" style="text-align: center">Status</th>
+                                <th scope="col">Status</th>
                                 <th scope="col" style="text-align: center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($customers as $customer)
                                 <tr>
-                                    <td class="align-middle" scope="row" style="text-align: center">
+                                    <td class="align-middle" scope="row">
                                         {{ $i++ }}
                                     </td>
 
@@ -72,31 +71,12 @@
                                     <td class="align-middle">
                                         {{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $customer->created_at)->format('F d, Y, h:i A') }}
                                     </td>
-
-                                    @if ($customer->cust_type == 'NEW')
-                                        <td class="align-middle text-primary fw-bold" style="text-align: center">
-                                            {{ $customer->cust_type }}</td>
-                                    @elseif ($customer->cust_type == 'SUKI')
-                                        <td class="align-middle text-secondary fw-bold" style="text-align: center">
-                                            {{ $customer->cust_type }}</td>
-                                    @else
-                                        <td class="align-middle text-warning fw-bold" style="text-align: center">
-                                            {{ $customer->cust_type }}</td>
-                                    @endif
-
-
-                                    <td class="align-middle" style="text-align: center">
-                                        <a href="/admin/customers/view/{{ $customer->cust_id }}"><button
-                                                class="btn btn-success"><i class="bi-search"
-                                                    title="View Customer"></i></button></a>
-                                        <a href="/admin/customers/edit/{{ $customer->cust_id }}"><button
-                                                class="btn btn-warning text-dark"><i class="bi-pencil"
-                                                    title="Edit Customer"></i></button></a>
-
+                                    <td class="align-middle text-danger fw-bold">{{ $customer->cust_type }}</td>
+                                    <td class="align-middle"  style="text-align: center">
                                         <!-- Button trigger modal -->
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                                            data-bs-target="#deleteModal{{ $customer->cust_id }}" title="Deactivate Customer">
-                                            <i class="bi-trash"></i>
+                                        <button type="button" class="btn btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#deleteModal{{ $customer->cust_id }}" title="Restore Product">
+                                            <i class="bi-arrow-clockwise text-dark"></i>
                                         </button>
 
                                         <!-- Modal -->
@@ -107,22 +87,20 @@
                                                     <div class="modal-header">
                                                         <h1 class="modal-title fs-5" id="exampleModalLabel">Are you sure you
                                                             want to
-                                                            deactivate customer?</h1>
+                                                            reactivate customer?</h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
-                                                    <div class="modal-body" style="text-align: justify">
-                                                        You are about to deactivate "{{ $customer->first_name." ".$customer->last_name }}". Are you sure
-                                                        you
-                                                        wish
-                                                        to
+                                                    <div class="modal-body"  style="text-align: justify">
+                                                        You are about to reactivate "{{ $customer->first_name." ".$customer->last_name }}". Are you sure
+                                                        you wish to
                                                         proceed?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Cancel</button>
-                                                        <a href="/admin/customers/deactivate/{{ $customer->cust_id }}"><button
-                                                                class="btn btn-danger">Deactivate</button></a>
+                                                        <a href="/admin/customers/reactivate/{{ $customer->cust_id }}"><button
+                                                                class="btn btn-warning text-dark">Restore</button></a>
                                                     </div>
                                                 </div>
                                             </div>

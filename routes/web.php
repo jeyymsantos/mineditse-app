@@ -106,7 +106,13 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/customer/address/{id}', [OrderController::class, 'GetAddress']);
 
     // Customers
-    Route::get('/customers', [CustomerController::class, 'admin_index']);
+    Route::get('/customers', [CustomerController::class, 'admin_index'])->name('admin_customers');
+    Route::get('/customers/archive', [CustomerController::class, 'admin_archive'])->name('archive');
+    Route::get('/customers/reactivate/{id}', [CustomerController::class, 'admin_reactivate']);
+    Route::get('/customers/deactivate/{id}', [CustomerController::class, 'admin_deactivate']);
+    Route::get('/customers/view/{id}', [CustomerController::class, 'admin_view_customer']);
+    Route::get('/customers/edit/{id}', [CustomerController::class, 'admin_edit_customer']);
+    Route::post('/customers/edit/{id}', [CustomerController::class, 'admin_save_customer']);
 
 });
 

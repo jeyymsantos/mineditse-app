@@ -23,11 +23,104 @@ class CustomerController extends Controller
         $customers = DB::table('customers')
             ->select('*')
             ->join('users', 'users.id', '=', 'customers.cust_id')
+            ->orderBy('first_name')
+            ->where('cust_type', '<>', 'DEACTIVATED')
             ->get();
 
         return view('admin.customers.view', [
-            'customers' => $customers
+            'customers' => $customers,
+            'i' => 1
         ]);
+    }
+
+    public function admin_archive()
+    {
+
+        $customers = DB::table('customers')
+            ->select('*')
+            ->join('users', 'users.id', '=', 'customers.cust_id')
+            ->orderBy('first_name')
+            ->where('cust_type', '=', 'DEACTIVATED')
+            ->get();
+
+        return view('admin.customers.archive', [
+            'customers' => $customers,
+            'i' => 1
+        ]);
+    }
+
+    public function admin_reactivate($id)
+    {
+
+        $customer = Customer::find($id);
+        $customer->cust_type = "NEW";
+        $customer->save();
+
+        return redirect()->route('archive')
+            ->with('successfull', 'Customer has been successfully reactivated!');
+    }
+
+    public function admin_view_customer($id)
+    {
+        $user = DB::table('customers')
+            ->select('*')
+            ->join('users', 'customers.cust_id', '=', 'users.id')
+            ->where('customers.cust_id', '=', $id)
+            ->get()->first();
+
+        $orders = DB::table('orders')
+            ->select('*')
+            ->join('customers', 'customers.cust_id', '=', 'orders.cust_id')
+            ->join('users', 'customers.cust_id', '=', 'users.id')
+            ->orderBy('order_date', 'desc')
+            ->where('orders.cust_id', '=', $id)->get();
+
+        return view('admin.customers.view_specific', [
+            'user' => $user,
+            'orders' => $orders,
+        ]);
+    }
+
+    public function admin_edit_customer($id)
+    {
+        $user = DB::table('customers')
+            ->select('*')
+            ->join('users', 'customers.cust_id', '=', 'users.id')
+            ->where('customers.cust_id', '=', $id)
+            ->get()->first();
+
+        return view('admin.customers.edit', [
+            'user' => $user,
+        ]);
+    }
+
+    public function admin_save_customer(Request $req, $id)
+    {
+        $user = User::find($id);
+        $user->first_name = $req->first_name;
+        $user->last_name = $req->last_name;
+        $user->phone_number = $req->phone_number;
+        $user->save();
+
+        $customer = Customer::find($id);
+        $customer->cust_street = $req->street;
+        $customer->cust_barangay = $req->barangay;
+        $customer->cust_city = $req->city;
+        $customer->cust_province = $req->province;
+        $customer->save();
+
+        return redirect()->route('admin_customers')
+            ->with('successfull', 'Customer edited successfully!');
+    }
+
+    public function admin_deactivate($id)
+    {
+        $customer = Customer::find($id);
+        $customer->cust_type = "DEACTIVATED";
+        $customer->save();
+
+        return redirect()->route('admin_customers')
+            ->with('successfull', 'Customer has been successfully deactivated!');
     }
 
     public function index(Request $req)
@@ -39,7 +132,7 @@ class CustomerController extends Controller
 
             return redirect()->route('main')->with([
                 "error_title" => "Account is deactivated",
-                "error_msg" => "Sorry, you account is deactivated. Please contact Mine Ditse to reactivate your account. Thank you."
+                "error_msg" => "Sorry, your account is deactivated. Please contact Mine Ditse to reactivate your account. Thank you."
             ]);
         }
 
@@ -52,9 +145,9 @@ class CustomerController extends Controller
             ->orderBy('prod_id')
             ->where('prod_status', '<>', 'Sold', 'and')
             ->where(function ($query) use ($search) {
-                $query->where('prod_name', 'LIKE', '%'.$search.'%')
-                ->orWhere('category_name', 'LIKE', '%'.$search.'%')
-                ->orWhere('prod_qr_code', 'LIKE', '%'.$search.'%');
+                $query->where('prod_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('category_name', 'LIKE', '%' . $search . '%')
+                    ->orWhere('prod_qr_code', 'LIKE', '%' . $search . '%');
             })
             ->paginate('18')->withQueryString();
 
@@ -192,7 +285,7 @@ class CustomerController extends Controller
             return back()->with([
                 "error_title" => "Old Password Doesn't match!",
                 "error_msg" => "Kindly input your correct old password in order to proceed."
-        ]);
+            ]);
         }
 
         #Update the new Password
@@ -239,11 +332,13 @@ class CustomerController extends Controller
         }
 
         return redirect('/customer/orders/checkout')->with(
-            'successfull', 'Your order has been placed! Visit your profile to check invoice.'
+            'successfull',
+            'Your order has been placed! Visit your profile to check invoice.'
         );
     }
 
-    public function ViewTransactions(){
+    public function ViewTransactions()
+    {
         $carts = DB::table('carts')
             ->select('*')
             ->join('products', 'products.prod_id', '=', 'carts.prod_id')
@@ -269,7 +364,5 @@ class CustomerController extends Controller
             'orders' => $orders,
             'user' => $user
         ]);
-
     }
-
 }

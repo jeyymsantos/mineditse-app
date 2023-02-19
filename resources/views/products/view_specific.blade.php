@@ -89,7 +89,6 @@
 
                         <div class="col-lg-3 col-md-12">
                             {!! DNS2D::getBarcodeHTML($product->prod_qr_code, 'QRCODE', 8, 8) !!}
-                            <button class="btn btn-primary mt-2"> Print QR </button>
                         </div>
 
                     </div>

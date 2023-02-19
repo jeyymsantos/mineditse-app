@@ -16,7 +16,7 @@ class ProductController extends Controller
             ->leftJoin('categories', 'bales.category_id', '=', 'categories.category_id')
             ->leftJoin('suppliers', 'bales.supplier_id', '=', 'suppliers.supplier_id')
 
-            ->orderBy('prod_id')
+            ->orderBy('prod_id', 'desc')
             ->where('prod_deleted', '=', '0', 'and')->get();
 
         return view('products.view', [
@@ -50,7 +50,7 @@ class ProductController extends Controller
                 $query->where('prod_status', 'LIKE', '%' . $search . '%', 'or');
             })
             ->where('prod_deleted', '=', '1', 'and')
-            ->paginate(10)->withQueryString();
+            ->get();
 
         return view('products.archieve', [
             'products' => $products,
