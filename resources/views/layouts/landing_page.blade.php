@@ -40,7 +40,7 @@
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
             <a href="index.html" class="logo d-flex align-items-center">
-                <img src="{{ asset('img/logo.png') }}" alt="">
+                <img src="{{ asset('img/Logo.png') }}" alt="">
                 <span>Mine Ditse</span>
             </a>
 
@@ -48,7 +48,9 @@
                 <ul>
                     <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
                     <li><a class="nav-link scrollto" href="#about">About</a></li>
-                    <li><a class="nav-link" href="https://we.tl/t-FMaIg7K6Rs" target="_blank">Download APK </a></li>
+                    <li><a class="nav-link scrollto" href="#values">Services</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    <li><a class="nav-link" href="https://we.tl/t-FMaIg7K6Rs" target="_blank">Download </a></li>
                     {{-- <li><a class="nav-link scrollto" href="#portfolio">Products</a></li> --}}
 
 

@@ -94,7 +94,7 @@
             <div class="container" data-aos="fade-up">
 
                 <header class="section-header">
-                    <h2>Our Values</h2>
+                    <h2>Our Services</h2>
                     <p>We want YOU to explore YOUR TRUE STYLE!</p>
                 </header>
 
