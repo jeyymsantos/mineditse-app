@@ -20,12 +20,14 @@ class CustomerController extends Controller
 
     public function admin_index()
     {
+
         $customers = DB::table('customers')
             ->select('*')
             ->join('users', 'users.id', '=', 'customers.cust_id')
             ->orderBy('first_name')
             ->where('cust_type', '<>', 'DEACTIVATED')
-            ->get();
+            ->get()
+            ;
 
         return view('admin.customers.view', [
             'customers' => $customers,
