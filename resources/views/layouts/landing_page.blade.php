@@ -39,7 +39,7 @@
     <header id="header" class="header fixed-top">
         <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="/" class="logo d-flex align-items-center">
                 <img src="{{ asset('img/Logo.png') }}" alt="">
                 <span>Mine Ditse</span>
             </a>
