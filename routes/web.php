@@ -8,11 +8,11 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\Mail\FeedbackController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PrintController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -169,4 +169,5 @@ Route::get('/storage/link', function () {
 // Inquiry
 Route::post('/inquiry/submit', [InquiryController::class, 'SubmitInquiry']);
 
-
+// Email
+Route::post('/send-mail', [FeedbackController::class, 'SendFeedback']);
