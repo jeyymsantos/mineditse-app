@@ -45,7 +45,7 @@ if (isset($_POST['submit'])) {
     </html>
 
     ';
-
+    // This is comment
     $mail = new PHPMailer(true);
     $mail->isSMTP();
     $mail->Host = 'smtp.hostinger.com';
