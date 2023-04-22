@@ -45,27 +45,22 @@ if (isset($_POST['submit'])) {
     </html>
 
     ';
-    // This is comment
-    $mail = new PHPMailer;
+
+    $mail = new PHPMailer(true);
     $mail->isSMTP();
-    $mail->SMTPDebug = 2;
     $mail->Host = 'smtp.hostinger.com';
-    $mail->Port = '587';
     $mail->SMTPAuth = 'true';
-    $mail->Username = 'contact@mineditse.tech';
+    $mail->Username = 'inquiry@mineditse.tech';
     $mail->Password = 'MineDitse@15';
     $mail->SMTPSecure = 'tls';
-    
-    $mail->setFrom('contact@mineditse.tech', 'Mine Ditse');
-    $mail->addReplyTo('contact@mineditse.tech', 'Mine Ditse');
+    $mail->Port = '587';
+
+    $mail->setFrom('inquiry@mineditse.tech', 'Mine Ditse');
     $mail->addAddress($user);
     $mail->isHTML(true);
     $mail->Subject = $subject;
     $mail->Body = $message;
-    if($mail->send()){
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
-        return;
-    }
+    $mail->send();
 
     header('Location: index.html');
 
