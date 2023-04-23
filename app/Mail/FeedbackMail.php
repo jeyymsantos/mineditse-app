@@ -26,7 +26,7 @@ class FeedbackMail extends Mailable
     public function envelope()
     {
         return new Envelope(
-            from: new Address('contact@mineditse.tech', 'Mine Ditse'),
+            from: new Address('inquiry@mineditse.tech', 'Mine Ditse Shop'),
             subject: $this->subject,
         );
     }
