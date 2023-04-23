@@ -10,11 +10,10 @@ require 'phpmailer/src/SMTP.php';
 if (isset($_POST['submit'])) {
     $user = $_POST['email'];
     $name = $_POST['name'];
-    $subject = $_POST['subject'];
+    $subject = 'Mine Ditse Shop | Feedback: ' . $_POST['subject'];
     // $message = $_POST['message'];
 
-    $message = '
-   
+    $message = ' 
     <!DOCTYPE html>
     <html lang="en">
     
@@ -43,7 +42,6 @@ if (isset($_POST['submit'])) {
     </body>
     
     </html>
-
     ';
 
     $mail = new PHPMailer(true);
@@ -55,7 +53,7 @@ if (isset($_POST['submit'])) {
     $mail->SMTPSecure = 'tls';
     $mail->Port = '587';
 
-    $mail->setFrom('inquiry@mineditse.tech', 'Mine Ditse');
+    $mail->setFrom('inquiry@mineditse.tech', 'Mine Ditse Shop');
     $mail->addAddress($user);
     $mail->isHTML(true);
     $mail->Subject = $subject;
@@ -63,8 +61,6 @@ if (isset($_POST['submit'])) {
     $mail->send();
 
     header('Location: index.html');
-
-
     // $mailto = "contact@mineditse.tech"; // our
     // $from = $_POST['email']; // sender's emai
     // $name = $_POST['name']; 
