@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InfoController;
 use App\Http\Controllers\InquiryController;
 use App\Http\Controllers\Mail\FeedbackController;
 use App\Http\Controllers\OrderController;
@@ -28,9 +29,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('main');
+Route::get('/', [InfoController::class, 'index'])->name('main');
 
 Auth::routes();
 
