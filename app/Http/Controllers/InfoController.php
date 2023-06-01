@@ -12,9 +12,6 @@ class InfoController extends Controller
     {
 
         $info = Info::all()->first();
-
-        // return response()->json($info, 200, [], JSON_PRETTY_PRINT);
-
         return view('welcome', [
             'info' => $info,
         ]);
