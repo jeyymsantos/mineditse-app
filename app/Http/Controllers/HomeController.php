@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Info;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -24,10 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role == 'admin' || Auth::user()->role == "staff"){
-            return redirect('/admin');
-        }else{
-            return redirect('/customer');
+        $info = Info::all()->first();
+        if (Auth::user()->role == 'admin' || Auth::user()->role == "staff") {
+
+            return redirect('/admin')->with(['info' => $info,]);
+        } else {
+            return redirect('/customer')->with(['info' => $info,]);
         }
     }
 }

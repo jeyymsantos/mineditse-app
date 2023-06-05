@@ -10,7 +10,7 @@
 
     @yield('title')
 
-    <link rel="shortcut icon" href="{{ asset('img/Logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ Session::get('logo'); }}" type="image/x-icon">
 
     {{-- CSS for Select 2 --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\Bale;
 use App\Models\Customer;
+use App\Models\Info;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Staff;
@@ -20,7 +21,7 @@ class AdminController extends Controller
     public function index()
     {
         $find = Admin::where('admin_id', '=', Auth::user()->id)->first();
-        if($find == null){
+        if ($find == null) {
             $admin = new Admin();
             $admin->admin_id = Auth::user()->id;
             $admin->save();
@@ -32,31 +33,34 @@ class AdminController extends Controller
         $products = Product::all();
 
         $pending = DB::table('orders')->select('*')
-        ->where('payment_status', '=', 'Pending')
-        ->where('order_status', '<>', 'Cancelled')
-        ->get();
+            ->where('payment_status', '=', 'Pending')
+            ->where('order_status', '<>', 'Cancelled')
+            ->get();
 
         $pickup = DB::table('orders')->select('*')
-        ->where('order_method', '=', 'Pick-Up')
-        ->where('order_status', '<>', 'Cancelled')
-        ->get();
+            ->where('order_method', '=', 'Pick-Up')
+            ->where('order_status', '<>', 'Cancelled')
+            ->get();
 
         $delivery = DB::table('orders')->select('*')
-        ->where('order_method', '=', 'Delivery')
-        ->where('order_status', '<>', 'Cancelled')
-        ->get();
+            ->where('order_method', '=', 'Delivery')
+            ->where('order_status', '<>', 'Cancelled')
+            ->get();
 
         $meetup = DB::table('orders')->select('*')
-        ->where('order_method', '=', 'Meet-Up')
-        ->where('order_status', '<>', 'Cancelled')
-        ->get();
+            ->where('order_method', '=', 'Meet-Up')
+            ->where('order_status', '<>', 'Cancelled')
+            ->get();
 
         $total_sales = Order::where('payment_status', "=", "Received", 'and')->where('order_status', "<>", "Cancelled")->sum('order_total');
         $pending_payments = Order::where('payment_status', "<>", "Received", 'and')->where('order_status', "<>", "Cancelled")->sum('order_total');
         $products_sold = Product::where('prod_status', '=', 'Sold')->get();
         $orders = Order::where('order_status', '=', 'Completed');
 
+        $info = Info::all()->first();
+
         return view('admin.landing_page', [
+            'info' => $info,
             'products_sold' => $products_sold,
             'orders' => $orders,
             'total_sales' => $total_sales,
@@ -72,10 +76,14 @@ class AdminController extends Controller
         ]);
     }
 
-    public function ViewProfile(){
+    public function ViewProfile()
+    {
         $user = User::find(Auth::user()->id);
+        $info = Info::all()->first();
+
         return view('admin.profile', [
-            'user' => $user
+            'user' => $user,
+            'info' => $info,
         ]);
     }
 
@@ -100,38 +108,53 @@ class AdminController extends Controller
             'password' => Hash::make($request->new_password)
         ]);
 
-        return back()->with("successfull", "Password changed successfully!");
+        $info = Info::all()->first();
+        return back()->with(
+            [
+                "successfull", "Password changed successfully!",
+                'info' => $info,
+            ]
+        );
     }
 
-    public function ViewStaffs(){
+    public function ViewStaffs()
+    {
 
         $staffs = DB::table('staff')
-        ->select('*')
-        ->join('users', 'users.id', '=', 'staff.staff_id')
-        ->where('staff_status', '=', 'ACTIVE')
-        ->get();
+            ->select('*')
+            ->join('users', 'users.id', '=', 'staff.staff_id')
+            ->where('staff_status', '=', 'ACTIVE')
+            ->get();
+
+        $info = Info::all()->first();
 
         return view('admin.staffs.view')
-        ->with([
-            'staffs' => $staffs,
-            'i' => 1
-        ]);
+            ->with([
+                'staffs' => $staffs,
+                'i' => 1,
+                'info' => $info,
+            ]);
     }
 
-    public function EditStaff($id){
+    public function EditStaff($id)
+    {
         $staff = DB::table('staff')
-        ->select('*')
-        ->join('users', 'users.id', '=', 'staff.staff_id')
-        ->where('staff_id', '=', $id)
-        ->get()->first();
+            ->select('*')
+            ->join('users', 'users.id', '=', 'staff.staff_id')
+            ->where('staff_id', '=', $id)
+            ->get()->first();
+
+        $info = Info::all()->first();
 
         return view('admin.staffs.edit')
-        ->with([
-            'user' => $staff,
-        ]);
+            ->with([
+                'user' => $staff,
+                'info' => $info,
+            ]);
     }
 
-    public function SaveEdit(Request $req, $id){
+    public function SaveEdit(Request $req, $id)
+    {
 
         $user = User::find($id);
         $user->first_name = $req->first_name;
@@ -143,17 +166,25 @@ class AdminController extends Controller
         $staff->staff_hired_date = $req->date;
         $staff->save();
 
+        $info = Info::all()->first();
+
         return redirect()->route('ViewStaffs')
-        ->with([
-            'successfull' => 'Staff edited successfully!',
+            ->with([
+                'successfull' => 'Staff edited successfully!',
+                'info' => $info,
+            ]);
+    }
+
+    public function AddStaff()
+    {
+        $info = Info::all()->first();
+        return view('admin.staffs.add')->with([
+            'info' => $info,
         ]);
     }
 
-    public function AddStaff(){
-        return view('admin.staffs.add');
-    }
-
-    public function SaveStaff(Request $req){
+    public function SaveStaff(Request $req)
+    {
 
         $user = new User();
         $user->first_name = $req->first_name;
@@ -169,10 +200,13 @@ class AdminController extends Controller
         $staff->staff_hired_date = $req->date;
         $staff->save();
 
+        $info = Info::all()->first();
+
         return redirect()->route('ViewStaffs')
-        ->with([
-            'successfull' => 'Staff saved successfully!',
-        ]);
+            ->with([
+                'successfull' => 'Staff saved successfully!',
+                'info' => $info,
+            ]);
     }
 
     public function DeactivateStaff($id)
@@ -181,23 +215,32 @@ class AdminController extends Controller
         $staff->staff_status = "DEACTIVATED";
         $staff->save();
 
+        $info = Info::all()->first();
+
         return redirect()->route('ViewStaffs')
-        ->with('successfull', 'Staff is now deactivated!');
+            ->with([
+                'successfull' => 'Staff is now deactivated!',
+                'info' => $info,
+            ]);
     }
-    
-    public function ArchiveStaffs(){
+
+    public function ArchiveStaffs()
+    {
 
         $staffs = DB::table('staff')
-        ->select('*')
-        ->join('users', 'users.id', '=', 'staff.staff_id')
-        ->where('staff_status', '=', 'DEACTIVATED')
-        ->get();
+            ->select('*')
+            ->join('users', 'users.id', '=', 'staff.staff_id')
+            ->where('staff_status', '=', 'DEACTIVATED')
+            ->get();
+
+        $info = Info::all()->first();
 
         return view('admin.staffs.archive')
-        ->with([
-            'staffs' => $staffs,
-            'i' => 1
-        ]);
+            ->with([
+                'staffs' => $staffs,
+                'i' => 1,
+                'info' => $info,
+            ]);
     }
 
     public function RestoreStaff($id)
@@ -206,7 +249,13 @@ class AdminController extends Controller
         $staff->staff_status = "ACTIVE";
         $staff->save();
 
+        $info = Info::all()->first();
         return redirect()->route('ArchiveStaffs')
-            ->with('successfull', 'Staff has been successfully reactivated!');
+            ->with(
+                [
+                    'successfull' => 'Staff has been successfully reactivated!',
+                    'info' => $info,
+                ]
+            );
     }
 }

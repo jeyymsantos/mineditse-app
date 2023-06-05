@@ -4,13 +4,13 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/admin">
         <div class="sidebar-brand-icon">
-            <img class="img-profile rounded-circle" src="{{ asset('assets/img/logo.png') }}" width="50px">
+            <img class="img-profile rounded-circle" src="{{ Session::get('logo'); }}" width="50px">
             {{-- <img class="img-profile rounded-circle" src="/assets/img/logo.png" width="50px"> --}}
             {{-- <img class="img-profile rounded-circle" src="{{ asset('/storage/images/products/Jeyym Santos_sandals.png') }}" width="50px"> --}}
 
 
         </div>
-        <div class="sidebar-brand-text mx-3">Mine Ditse</div>
+        <div class="sidebar-brand-text mx-3">{{ Session::get('name'); }}</div>
     </a>
 
     <!-- Divider -->
@@ -171,6 +171,28 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading">
+        SETTINGS
+    </div>
+
+    <!-- Nav Item - Orders Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/admin/settings">
+            <i class="fa-fw fa-solid fa-cog"></i>
+            <span>Site Info</span>
+        </a>
+    </li>
+
+    <!-- Nav Item - Orders Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/admin/feedbacks">
+            <i class="fa-fw fa-solid fa-message"></i>
+            <span>Feedbacks</span>
+        </a>
+    </li>
+
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">

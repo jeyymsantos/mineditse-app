@@ -126,6 +126,11 @@ Route::prefix('/admin')->middleware(['auth', 'isAdmin'])->group(function () {
     Route::get('/staffs/deactivate/{id}', [AdminController::class, 'DeactivateStaff'])->name('DeactivateStaff');
     Route::get('/staffs/archive', [AdminController::class, 'ArchiveStaffs'])->name('ArchiveStaffs');
     Route::get('/staffs/restore/{id}', [AdminController::class, 'RestoreStaff'])->name('RestoreStaff');
+
+    Route::get('/settings', [InfoController::class, 'ViewSettings'])->name('ViewSettings');
+    Route::post('/settings/save', [InfoController::class, 'SaveSettings'])->name('SaveSettings');
+    Route::get('/feedbacks', [InfoController::class, 'ViewFeedbacks'])->name('ViewFeebacks');
+    
 });
 
 // Customer Authentication
